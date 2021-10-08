@@ -1,0 +1,21 @@
+{
+  "arrowParens": "always",
+  "printWidth": 120,
+  "singleQuote": true,
+  "semi": false,
+  "trailingComma": "es5",
+  "tabWidth": 2,
+  "importOrder": [
+    "^react$",
+    "^next(.*)$",
+    "^@core/(.*)$",
+    "^@server/(.*)$",
+    "^@ui/(.*)$",
+    "^@(.*)/(.*)$",
+    "^((?!./).)*$",
+    "^[./]",
+    "^[../]*$"
+  ],
+  "importOrderSeparation": true,
+  "bracketSpacing": true
+}

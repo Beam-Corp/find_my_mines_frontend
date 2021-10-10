@@ -2,8 +2,8 @@ import React, { FC } from 'react'
 
 import styled from 'styled-components'
 
-import { mainTheme } from '../../utils/themeConst'
-import { Row } from '../Container'
+import { mainTheme } from '../../../utils/themeConst'
+import { Row } from '../../Container'
 import Block from './Block'
 
 const GridContainer = styled.div`

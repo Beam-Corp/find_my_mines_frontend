@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 import styled from 'styled-components'
 
-import { mainTheme } from '../../utils/themeConst'
+import { mainTheme } from '../../../utils/themeConst'
 
 interface GameBlockProps {
   isOpen: boolean
@@ -15,15 +15,16 @@ const GameBlock = styled.div<GameBlockProps>`
   justify-content: center;
   align-items: center;
   border: ${mainTheme.spacing(0.4)} ${mainTheme.secondary} solid;
-  min-height: ${mainTheme.spacing(12)};
-  min-width: ${mainTheme.spacing(12)};
+  min-height: ${mainTheme.spacing(10)};
+  min-width: ${mainTheme.spacing(10)};
   color: ${mainTheme.secondary};
 
   background: ${({ isOpen }) => (!isOpen ? mainTheme.secondary : 'none')};
 
   :hover {
-    border-color: ${mainTheme.highlight};
-    cursor: pointer;
+    border-color: ${({ isOpen }) => (!isOpen ? mainTheme.highlight : mainTheme.secondary)};
+    background: ${({ isOpen }) => (!isOpen ? mainTheme.highlight : 'none')};
+    cursor: ${({ isOpen }) => (!isOpen ? 'pointer' : 'default')};
   }
 `
 
@@ -36,7 +37,7 @@ const Block: FC<BlockProps> = ({ isBomb }) => {
 
   return (
     <GameBlock onClick={() => setOpen(true)} isOpen={isOpen}>
-      {isBomb && isOpen && <Image src="/game/bomb.svg" width={80} height={80} />}
+      {isBomb && isOpen && <Image src="/game/bomb.svg" width={60} height={60} />}
     </GameBlock>
   )
 }

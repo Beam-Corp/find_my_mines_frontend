@@ -3,7 +3,6 @@ export const mainTheme = {
   secondary: '#00CFEE',
   highlight: '#C5E268',
   background: '#110358',
-  spacing: 8,
+  spacingSize: 8,
+  spacing: (level: number) => level * mainTheme.spacingSize,
 }
-
-export const calculateSpacing = (level: number) => mainTheme.spacing * level

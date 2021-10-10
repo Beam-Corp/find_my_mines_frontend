@@ -4,5 +4,5 @@ export const mainTheme = {
   highlight: '#C5E268',
   background: '#110358',
   spacingSize: 8,
-  spacing: (level: number) => level * mainTheme.spacingSize,
+  spacing: (level: number) => `${level * mainTheme.spacingSize}px`,
 }

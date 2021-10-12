@@ -2,11 +2,11 @@ import router from 'next/dist/client/router';
 import * as React from 'react';
 import { useState,useEffect,useCallback } from 'react';
 import { Socket } from 'socket.io-client';
-import { RoomEvents } from '../pages/room/room.event';
+import { RoomEvents } from './room.event';
 
 export const useRoomManager = (currentPlayer: string,roomId:string,socket: Socket) => {
     const [players, setPlayers] = useState<string[]>([currentPlayer])
-    const updatePlayers = useCallback(
+    const addPlayer = useCallback(
         (name: string) => {
           setPlayers((prev) => prev.concat([name]))
         },
@@ -26,11 +26,11 @@ export const useRoomManager = (currentPlayer: string,roomId:string,socket: Socke
         }
       }, [socket, players,removePlayer])
       useEffect(() => {
-        if (players.length < 2) socket.on(RoomEvents.INTRODUCE, updatePlayers)
+        if (players.length < 2) socket.on(RoomEvents.INTRODUCE, addPlayer)
         return () => {
-          socket.off(RoomEvents.INTRODUCE, updatePlayers)
+          socket.off(RoomEvents.INTRODUCE, addPlayer)
         }
-      }, [updatePlayers, socket, players.length])
+      }, [addPlayer, socket, players.length])
       useEffect(() => {
         socket.emit(RoomEvents.INTRODUCE, { roomId, username: currentPlayer })
       }, [players, socket, roomId, currentPlayer])

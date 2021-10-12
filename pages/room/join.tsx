@@ -6,8 +6,8 @@ import { useRouter } from 'next/dist/client/router'
 import { Socket } from 'socket.io-client'
 import styled from 'styled-components'
 
+import { RoomEvents } from '../../utils/room/room.event'
 import { SocketContext } from '../../utils/socketUtils'
-import { RoomEvents } from './room.event'
 
 const Wrapper = styled.div`
   flex-direction: column;
@@ -25,13 +25,13 @@ const JoinRoom: NextPage = () => {
   const onJoin = useCallback(() => {
     try {
       socket.emit(RoomEvents.ON_JOIN, roomId)
-      router.push(`/game/${roomId}`)
+      // router.push(`/game/${roomId}`)
     } catch (err) {
       //TODO: handle error
       alert('Cannot join this room')
       console.log(err)
     }
-  }, [roomId, socket, router])
+  }, [roomId, socket])
   return (
     <Wrapper>
       <h1>Join Room</h1>

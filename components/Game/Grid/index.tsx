@@ -23,7 +23,7 @@ const Grid: FC<GridProps> = ({ gridData, clickGrid }) => {
       {gridData.map((gridRow, row) => (
         <Row key={`GridRow-${row}`}>
           {gridRow.map((block, column) => {
-            const isBomb: boolean = block >= 2
+            const isBomb: boolean = block > 0
             return (
               <Block
                 key={`Block-${row}-${column}`}

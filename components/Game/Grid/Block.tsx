@@ -41,12 +41,12 @@ const Block: FC<BlockProps> = ({ isBomb, clickGrid, coordinate }) => {
   const handleClick = useCallback(() => {
     setOpen(true)
     clickGrid(...coordinate)
-  }, [])
+  }, [clickGrid, coordinate])
 
   return (
     <GameBlock onClick={() => handleClick()} isOpen={isOpen}>
       {isBomb && isOpen && (
-        <Image src="/game/bomb.svg" width={60} height={60} />
+        <Image alt="bomb" src="/game/bomb.svg" width={60} height={60} />
       )}
     </GameBlock>
   )

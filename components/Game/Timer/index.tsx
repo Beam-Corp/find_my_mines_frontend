@@ -7,11 +7,13 @@ import { Column } from '../../Container'
 
 const TimerContainer = styled(Column)`
   color: ${mainTheme.secondary};
-  margin-bottom: ${mainTheme.spacing(3)};
+  margin-bottom: ${mainTheme.spacing(4)};
 `
 
-const TimerText = styled.div`
-  font-size: ${mainTheme.spacing(7)};
+const TimerText = styled.div<{ size?: number }>`
+  font-size: ${({ size }) => mainTheme.spacing(size || 8)};
+  line-height: 85px;
+  font-weight: 900;
   text-align: center;
 `
 
@@ -24,7 +26,11 @@ const Timer: FC<TimerProps> = ({ time, isYourTurn }) => {
   return (
     <TimerContainer>
       <TimerText>TIMER</TimerText>
-      {isYourTurn ? <TimerText>{time}</TimerText> : <TimerText>Wait for your turn</TimerText>}
+      {isYourTurn ? (
+        <TimerText size={12}>{time}</TimerText>
+      ) : (
+        <TimerText>-</TimerText>
+      )}
     </TimerContainer>
   )
 }

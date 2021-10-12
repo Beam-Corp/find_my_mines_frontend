@@ -14,16 +14,24 @@ const GridContainer = styled.div`
 
 interface GridProps {
   gridData: number[][]
+  clickGrid: (row: number, column: number) => void
 }
 
-const Grid: FC<GridProps> = ({ gridData }) => {
+const Grid: FC<GridProps> = ({ gridData, clickGrid }) => {
   return (
     <GridContainer>
       {gridData.map((gridRow, row) => (
         <Row key={`GridRow-${row}`}>
           {gridRow.map((block, column) => {
             const isBomb: boolean = block >= 2
-            return <Block key={`Block-${row}-${column}`} isBomb={isBomb} />
+            return (
+              <Block
+                key={`Block-${row}-${column}`}
+                coordinate={[row, column]}
+                isBomb={isBomb}
+                clickGrid={clickGrid}
+              />
+            )
           })}
         </Row>
       ))}

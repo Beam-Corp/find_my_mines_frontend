@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useCallback, useState } from 'react'
 
 import Image from 'next/image'
 
@@ -22,7 +22,8 @@ const GameBlock = styled.div<GameBlockProps>`
   background: ${({ isOpen }) => (!isOpen ? mainTheme.secondary : 'none')};
 
   :hover {
-    border-color: ${({ isOpen }) => (!isOpen ? mainTheme.highlight : mainTheme.secondary)};
+    border-color: ${({ isOpen }) =>
+      !isOpen ? mainTheme.highlight : mainTheme.secondary};
     background: ${({ isOpen }) => (!isOpen ? mainTheme.highlight : 'none')};
     cursor: ${({ isOpen }) => (!isOpen ? 'pointer' : 'default')};
   }
@@ -30,14 +31,23 @@ const GameBlock = styled.div<GameBlockProps>`
 
 interface BlockProps {
   isBomb: boolean
+  coordinate: [number, number]
+  clickGrid: (row: number, column: number) => void
 }
 
-const Block: FC<BlockProps> = ({ isBomb }) => {
+const Block: FC<BlockProps> = ({ isBomb, clickGrid, coordinate }) => {
   const [isOpen, setOpen] = useState<boolean>(false)
 
+  const handleClick = useCallback(() => {
+    setOpen(true)
+    clickGrid(...coordinate)
+  }, [])
+
   return (
-    <GameBlock onClick={() => setOpen(true)} isOpen={isOpen}>
-      {isBomb && isOpen && <Image src="/game/bomb.svg" width={60} height={60} />}
+    <GameBlock onClick={() => handleClick()} isOpen={isOpen}>
+      {isBomb && isOpen && (
+        <Image src="/game/bomb.svg" width={60} height={60} />
+      )}
     </GameBlock>
   )
 }

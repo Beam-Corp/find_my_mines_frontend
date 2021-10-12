@@ -17,6 +17,11 @@ export const Container = styled.div`
   align-items: center;
 `
 
+export const TextContainer = styled.div<{ size?: number }>`
+  font-size: ${({ size }) => mainTheme.spacing(size || 8)};
+  text-align: center;
+`
+
 export const Row = styled.div`
   display: flex;
   flex-direction: row;

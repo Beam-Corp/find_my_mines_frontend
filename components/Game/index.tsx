@@ -24,7 +24,6 @@ const Game: FC<GameProps> = ({}) => {
   const [playerTurn, setPlayerTurn] = useState<number>(1)
 
   const resetTimer = () => {
-    console.log('reset timoutID', timeoutRef.current)
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
 
     setTime(5)
@@ -32,7 +31,6 @@ const Game: FC<GameProps> = ({}) => {
 
   const clickGrid = useCallback(
     (row: number, column: number) => {
-      console.log(row, column)
       resetTimer()
     },
     [resetTimer]
@@ -44,7 +42,7 @@ const Game: FC<GameProps> = ({}) => {
         setTime(time - 1)
       }, 1000)
       timeoutRef.current = timeout
-      console.log(timeoutRef.current)
+
       return () => clearTimeout(timeout)
     }
   }, [time])

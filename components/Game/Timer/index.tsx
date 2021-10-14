@@ -25,11 +25,16 @@ interface TimerProps {
 const Timer: FC<TimerProps> = ({ time, isYourTurn }) => {
   return (
     <TimerContainer>
-      <TimerText>TIMER</TimerText>
       {isYourTurn ? (
-        <TimerText size={12}>{time}</TimerText>
+        <>
+          <TimerText>TIMER</TimerText>
+          <TimerText size={12}>{time}</TimerText>
+        </>
       ) : (
-        <TimerText>-</TimerText>
+        <>
+          <TimerText>Wait for</TimerText>
+          <TimerText> your opponent</TimerText>
+        </>
       )}
     </TimerContainer>
   )

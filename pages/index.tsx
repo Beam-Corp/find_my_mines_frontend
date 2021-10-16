@@ -6,6 +6,8 @@ import Head from 'next/head'
 import TitlePage from '../components/Game/TitlePage'
 import GameStatDisplay from '../components/GameStatDisplay'
 
+import { SocketContext } from '../utils/socketUtils'
+
 const Home: NextPage = () => {
   return (
     <>

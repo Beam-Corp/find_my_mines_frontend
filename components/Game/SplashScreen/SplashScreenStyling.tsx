@@ -1,45 +1,34 @@
-import styled, { keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 
 import { mainTheme } from '../../../utils/themeConst'
 
-const fadeOut = keyframes`
-  0% {
-    opacity: 100%;
-  }
-  100% {
-    opacity: 0%;
-  }
+const fadeIn = keyframes`
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 `
-
 const rotate = keyframes`
   0% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
   4.3% { transform: matrix3d(-0.045, 0.999, 0, 0, -0.999, -0.045, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
   8.61% { transform: matrix3d(-0.928, 0.372, 0, 0, -0.372, -0.928, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
   12.91% { transform: matrix3d(-0.987, -0.163, 0, 0, 0.163, -0.987, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-  17.22% { transform: matrix3d(-0.957, -0.289, 0, 0, 0.289, -0.957, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }    28.33% { transform: matrix3d(-0.998, -0.065, 0, 0, 0.065, -0.998, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  17.22% { transform: matrix3d(-0.957, -0.289, 0, 0, 0.289, -0.957, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }    
+  28.33% { transform: matrix3d(-0.998, -0.065, 0, 0, 0.065, -0.998, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
   39.44% { transform: matrix3d(-1, 0.02, 0, 0, -0.02, -1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-  61.66% { transform: matrix3d(-1, -0.001, 0, 0, 0.001, -1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }    83.98% { transform: matrix3d(-1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  61.66% { transform: matrix3d(-1, -0.001, 0, 0, 0.001, -1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }    
+  83.98% { transform: matrix3d(-1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
   100% { transform: matrix3d(-1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
 `
 
-export const Overlay = styled.div`
+export const Splash = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   background-color: ${mainTheme.background};
   width: 100%;
   height: 100%;
-`
-
-export const NoOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: ${mainTheme.background};
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  animation: ${fadeOut} 0.5s linear forwards;
+  opacity: ${({ show }: { show: boolean }) => (show ? '1' : '0')};
+  pointer-events: ${({ show }: { show: boolean }) => (show ? 'auto' : 'none')};
+  transition: opacity 500ms linear;
 `
 
 export const Border = styled.div`
@@ -55,6 +44,7 @@ export const Border = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: ${fadeIn} 500ms linear;
 `
 
 export const Container = styled.div`
@@ -69,7 +59,7 @@ export const Top = styled.div`
     height: 20px;
     border-radius: 50%;
     position: absolute;
-    top: 4%;
+    top: 3%;
     left: 2%;
   }
 
@@ -80,7 +70,7 @@ export const Top = styled.div`
     height: 20px;
     border-radius: 50%;
     position: absolute;
-    top: 4%;
+    top: 3%;
     right: 2%;
 `
 
@@ -93,7 +83,7 @@ export const Logo = styled.img`
   height: 25vh;
   width: auto;
   min-height: 75px;
-  animation: ${rotate} 2000ms linear 10 both;
+  ${({ show }: { show: boolean }) => (show ? css`animation: ${rotate} 2000ms linear 500ms 20 both;` : '')}
 `
 
 export const Bottom = styled.div`
@@ -104,7 +94,7 @@ export const Bottom = styled.div`
     height: 20px;
     border-radius: 50%;
     position: absolute;
-    bottom: 4%;
+    bottom: 3%;
     left: 2%;
   }
 
@@ -115,7 +105,7 @@ export const Bottom = styled.div`
     height: 20px;
     border-radius: 50%;
     position: absolute;
-    bottom: 4%;
+    bottom: 3%;
     right: 2%;
   }
 `

@@ -1,24 +1,22 @@
 import { FC } from 'react'
 
-import { Overlay, NoOverlay, Top, Border, Container, Title, Logo, Bottom  } from './SplashScreenStyling'
+import { Splash, Top, Border, Container, Title, Logo, Bottom } from './SplashScreenStyling'
 
 interface SplashScreenProps {
-  shown: boolean
+  show: boolean
 }
 
-const SplashScreen: FC<SplashScreenProps> = ({ shown }) => {
-  const Splash = shown ? Overlay : NoOverlay
-
+const SplashScreen: FC<SplashScreenProps> = ({ show }) => {
   return (
-    <Splash>
-      <Top />
+    <Splash show={show}>
       <Border>
+        <Top />
         <Container>
-          <Title>FIND MY MINE</Title>
-          <Logo alt="logo" src="/game/bomb.svg" />
+          <Title>FIND MY MINES</Title>
+          <Logo alt="logo" src="/game/bomb.svg" show={show} />
         </Container>
+        <Bottom />
       </Border>
-      <Bottom />
     </Splash>
   )
 }

@@ -13,6 +13,7 @@ import { Row, Column } from '../Container'
 import Grid from './Grid'
 import PlayerPanel from './PlayerPanel'
 import Timer from './Timer'
+import { ThemeColorProps } from '../../dto/themeColor.dto'
 
 const GameContainer = styled(Column)`
   width: 100%;
@@ -22,7 +23,9 @@ const GameRow = styled(Row)`
   justify-content: space-evenly;
 `
 
-interface GameProps {}
+interface GameProps {
+  themeColor: ThemeColorProps
+}
 
 const mockGrid = [
   [0, 1, 0, 0, 0, 1],
@@ -33,7 +36,7 @@ const mockGrid = [
   [0, 1, 0, 0, 0, 0],
 ]
 
-const Game: FC<GameProps> = ({}) => {
+const Game: FC<GameProps> = ({themeColor}) => {
   const [time, setTime] = useState<number>(5)
 
   const timeoutRef = useRef<NodeJS.Timeout>()
@@ -85,20 +88,22 @@ const Game: FC<GameProps> = ({}) => {
 
   return (
     <GameContainer>
-      <Timer time={time} isYourTurn={playerTurn === playerNumber} />
+      <Timer time={time} isYourTurn={playerTurn === playerNumber} themeColor={themeColor} />
       <GameRow>
         <PlayerPanel
           name={'PLAYER 1'}
           id={1}
           score={playerScore[0]}
           isYourTurn={playerTurn === 1}
+          themeColor={themeColor}
         />
-        <Grid gridData={mockGrid} clickGrid={clickGrid} />
+        <Grid gridData={mockGrid} clickGrid={clickGrid} themeColor={themeColor} />
         <PlayerPanel
           name={'PLAYER 2'}
           id={2}
           score={playerScore[1]}
           isYourTurn={playerTurn === 2}
+          themeColor={themeColor}
         />
       </GameRow>
     </GameContainer>

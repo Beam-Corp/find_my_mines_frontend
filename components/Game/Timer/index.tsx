@@ -4,9 +4,10 @@ import styled from 'styled-components'
 
 import { mainTheme } from '../../../utils/themeConst'
 import { Column } from '../../Container'
+import { ThemeColorProps } from '../../../dto/themeColor.dto' 
 
-const TimerContainer = styled(Column)`
-  color: ${mainTheme.secondary};
+const TimerContainer = styled(Column)<{themeColor: ThemeColorProps}>`
+  color: ${({themeColor}) => themeColor.secondary};
   margin-bottom: ${mainTheme.spacing(4)};
 `
 
@@ -20,11 +21,12 @@ const TimerText = styled.div<{ size?: number }>`
 interface TimerProps {
   time: number
   isYourTurn: boolean
+  themeColor: ThemeColorProps
 }
 
-const Timer: FC<TimerProps> = ({ time, isYourTurn }) => {
+const Timer: FC<TimerProps> = ({ time, isYourTurn, themeColor }) => {
   return (
-    <TimerContainer>
+    <TimerContainer themeColor={themeColor}>
       {isYourTurn ? (
         <>
           <TimerText>TIMER</TimerText>

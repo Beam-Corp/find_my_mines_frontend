@@ -2,12 +2,14 @@ import { FC } from 'react'
 
 import styled from 'styled-components'
 
+import { ThemeColorProps } from '../../../dto/themeColor.dto'
 import { mainTheme } from '../../../utils/themeConst'
 import { Column, TextContainer } from '../../Container'
 
 interface PanelTextProps {
   playerID: number
   isYourTurn?: boolean
+  themeColor: ThemeColorProps
 }
 
 interface PlayerPanelProps {
@@ -15,21 +17,24 @@ interface PlayerPanelProps {
   id: number
   score: number
   isYourTurn: boolean
+  themeColor: ThemeColorProps
 }
 
 const PanelContainer = styled(Column)``
 
-const PanelText = styled(TextContainer)<PanelTextProps & { size?: number }>`
-  color: ${({ playerID }) =>
-    playerID === 1 ? mainTheme.primary : mainTheme.secondary};
+const PanelText = styled(TextContainer)<
+  PanelTextProps & { size?: number; themeColor: ThemeColorProps }
+>`
+  color: ${({ playerID, themeColor }) =>
+    playerID === 1 ? themeColor.primary : themeColor.secondary};
   font-size: ${({ size }) => mainTheme.spacing(size || 6)};
   line-height: 90px;
   font-weight: 900;
 
-  border: ${({ playerID, isYourTurn }) => {
-      if (!isYourTurn) return mainTheme.background
-      if (playerID === 1) return mainTheme.primary
-      else return mainTheme.secondary
+  border: ${({ playerID, isYourTurn, themeColor }) => {
+      if (!isYourTurn) return themeColor.background
+      if (playerID === 1) return themeColor.primary
+      else return themeColor.secondary
     }}
     ${mainTheme.spacing(1)} solid;
 
@@ -37,13 +42,19 @@ const PanelText = styled(TextContainer)<PanelTextProps & { size?: number }>`
   border-radius: ${mainTheme.spacing(4)};
 `
 
-const PlayerPanel: FC<PlayerPanelProps> = ({ name, id, score, isYourTurn }) => {
+const PlayerPanel: FC<PlayerPanelProps> = ({
+  name,
+  id,
+  score,
+  isYourTurn,
+  themeColor,
+}) => {
   return (
     <PanelContainer>
-      <PanelText isYourTurn={isYourTurn} playerID={id}>
+      <PanelText isYourTurn={isYourTurn} playerID={id} themeColor={themeColor}>
         {name}
       </PanelText>
-      <PanelText playerID={id} size={12}>
+      <PanelText playerID={id} size={12} themeColor={themeColor}>
         {score}
       </PanelText>
     </PanelContainer>

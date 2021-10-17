@@ -5,9 +5,10 @@ import styled from 'styled-components'
 import { mainTheme } from '../../../utils/themeConst'
 import { Row } from '../../Container'
 import Block from './Block'
+import { ThemeColorProps } from '../../../dto/themeColor.dto'
 
-const GridContainer = styled.div`
-  border: ${mainTheme.spacing(0.2)} ${mainTheme.secondary} solid;
+const GridContainer = styled.div<{themeColor: ThemeColorProps}>`
+  border: ${mainTheme.spacing(0.2)} ${({themeColor}) => themeColor.secondary} solid;
   min-height: ${mainTheme.spacing(12)};
   min-width: ${mainTheme.spacing(12)};
 `
@@ -15,11 +16,12 @@ const GridContainer = styled.div`
 interface GridProps {
   gridData: number[][]
   clickGrid: (row: number, column: number) => void
+  themeColor: ThemeColorProps
 }
 
-const Grid: FC<GridProps> = ({ gridData, clickGrid }) => {
+const Grid: FC<GridProps> = ({ gridData, clickGrid, themeColor }) => {
   return (
-    <GridContainer>
+    <GridContainer themeColor={themeColor}>
       {gridData.map((gridRow, row) => (
         <Row key={`GridRow-${row}`}>
           {gridRow.map((block, column) => {
@@ -30,6 +32,7 @@ const Grid: FC<GridProps> = ({ gridData, clickGrid }) => {
                 coordinate={[row, column]}
                 isBomb={isBomb}
                 clickGrid={clickGrid}
+                themeColor={themeColor}
               />
             )
           })}

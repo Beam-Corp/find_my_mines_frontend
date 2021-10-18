@@ -13,6 +13,7 @@ import { Row, Column } from '../Container'
 import Grid from './Grid'
 import PlayerPanel from './PlayerPanel'
 import Timer from './Timer'
+import WinLoseScreen from './WinLoseScreen'
 
 const GameContainer = styled(Column)`
   width: 100%;
@@ -43,6 +44,8 @@ const Game: FC<GameProps> = ({}) => {
   const [playerTurn, setPlayerTurn] = useState<number>(1)
 
   const [playerScore, setPlayerScore] = useState<number[]>([0, 0])
+
+  const [gameOver, setGameOver] = useState<boolean>(false)
 
   const startTimer = useCallback(() => {
     const timeout = setTimeout(() => {
@@ -83,8 +86,18 @@ const Game: FC<GameProps> = ({}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [time])
 
+  useEffect(() => {
+    setTimeout(() => {
+      setGameOver(true)
+    }, 4000)
+    setTimeout(() => {
+      setGameOver(false)
+    }, 8000)
+  }, [])
+
   return (
     <GameContainer>
+      <WinLoseScreen show={gameOver} win={true} />
       <Timer time={time} isYourTurn={playerTurn === playerNumber} />
       <GameRow>
         <PlayerPanel

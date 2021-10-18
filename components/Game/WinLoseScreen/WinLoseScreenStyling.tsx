@@ -3,24 +3,24 @@ import styled, { css, keyframes } from 'styled-components'
 import { mainTheme } from '../../../utils/themeConst'
 
 const enlarge = keyframes`
-  0% { 
-    transform: translateX(-50%) translateY(-50%) scale(0.3); 
+  0% {
+    transform: translateX(-50%) translateY(-50%) scale(0.3);
     opacity: 0;
   }
-  100% { 
+  100% {
     transform: translateX(-50%) translateY(-50%) scale(1);
     opacity: 1;
   }
 `
 
 const minimize = keyframes`
-  0% { 
+  0% {
     transform: translateX(-50%) translateY(-50%) scale(1);
     opacity: 1;
   }
-  100% { 
+  100% {
     transform: translateX(-50%) translateY(-50%) scale(0.3);
-    opacity: 0; 
+    opacity: 0;
   }
 `
 
@@ -65,7 +65,7 @@ export const WinLose = styled.h1`
   color: ${mainTheme.highlight};
   margin: 0;
   font-size: 15vw;
-  padding-bottom: 3vh;  
+  padding-bottom: 3.5vh;
 
   ::before {
     content: '';

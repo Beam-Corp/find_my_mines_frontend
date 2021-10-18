@@ -6,7 +6,6 @@ import Head from 'next/head'
 import Game from '../components/Game'
 import styles from '../styles/Home.module.css'
 import { SocketContext } from '../utils/socketUtils'
-import WinLoseScreen from '../components/Game/WinLoseScreen'
 
 const Home: NextPage = () => {
   const socket = useContext(SocketContext)
@@ -15,7 +14,6 @@ const Home: NextPage = () => {
 
   const [message, setMessage] = useState<string>('')
   const [chat, setChat] = useState<string[]>([])
-  const [gameOver, setGameOver] = useState(false)
 
   const updateChat = useCallback(
     (message: string) => {
@@ -37,15 +35,6 @@ const Home: NextPage = () => {
     }
   }, [updateChat])
 
-  useEffect(() => {
-    setTimeout(() => {
-      setGameOver(true)
-    }, 4000)
-    setTimeout(() => {
-      setGameOver(false)
-    }, 8000)
-  }, [])
-
   return (
     <>
       <Head>
@@ -54,7 +43,6 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <WinLoseScreen show={gameOver} win={false}/>
       <Game />
 
       {/* <main className={styles.main}>

@@ -31,6 +31,8 @@ import PlayerPanel from './PlayerPanel'
 import Timer from './Timer'
 import WinLoseScreen from './WinLoseScreen'
 
+import SplashScreen from './SplashScreen'
+
 const GameContainer = styled(Column)`
   width: 100%;
 `
@@ -90,12 +92,18 @@ const Game: FC<GameProps> = ({
 
   const [playerScore, setPlayerScore] = useState<number[]>([0, 0])
 
+
   const [mounted, setMounted] = useState<boolean>(false)
   const [clickNumber, setClickNumber] = useState<number>(0)
+
+  // const [gameOver, setGameOver] = useState<boolean>(false)
+  // const [mounted, setMounted] = useState<boolean>(false)
 
   const [gridStatus, setGridStatus] = useState<number[][]>(
     generateBlankGrid(initialGrid.length)
   )
+
+  const [splash, setSplash] = useState(true)
 
   const [gameResult, setGameResult] = useState<number[]>()
 
@@ -334,8 +342,17 @@ const Game: FC<GameProps> = ({
     setMounted(true)
   }, [])
 
+  useEffect(() => {
+    setTimeout(() => {
+      setSplash(false)
+    }, 4000)
+  }, [])
+
   return (
     <GameContainer>
+
+      {/* <WinLoseScreen show={gameOver} win={true} mounted={mounted} restartGame={() => {}} toTitle={() => {}}/> */}
+      <SplashScreen show={splash} mounted={mounted}/>
       <Timer time={time} isYourTurn={playerTurn === playerNumber} />
       <GameRow>
         {isMobile ? (

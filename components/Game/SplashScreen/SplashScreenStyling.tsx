@@ -29,6 +29,7 @@ export const Splash = styled.div`
   opacity: ${({ show }: { show: boolean }) => (show ? '1' : '0')};
   pointer-events: ${({ show }: { show: boolean }) => (show ? 'auto' : 'none')};
   transition: opacity 500ms linear;
+  z-index: 100;
 `
 
 export const Border = styled.div`

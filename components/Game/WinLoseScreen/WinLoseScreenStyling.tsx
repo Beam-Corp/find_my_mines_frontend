@@ -24,6 +24,11 @@ const minimize = keyframes`
   }
 `
 
+const showBtn = keyframes`
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+`
+
 export const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -44,7 +49,7 @@ export const Container = styled.div`
 
 export const Window = styled.div`
   position: fixed;
-  top: 50%;
+  top: 35%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
   border-style: solid;
@@ -89,4 +94,50 @@ export const WinLose = styled.h1`
     right: 4%;
   }
 `
+
+export const RestartBtn = styled.button`
+  position: fixed;
+  top: 70%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 20%;
+  height: 10%;
+  border-style: solid;
+  border-width: 5px;
+  border-radius: 30px;
+  border-color: ${mainTheme.primary};
+  background-color: ${mainTheme.background};
+  color: ${mainTheme.secondary};
+  font-size: 5vh;
+  animation: ${showBtn} 250ms linear forwards;
+
+  :hover {
+    border-color: ${mainTheme.highlight};
+    transform: translateX(-50%) translateY(-50%) scale(1.1);
+  }
+`
+
+export const TitleBtn = styled.button`
+  position: fixed;
+  top: 82%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 20%;
+  height: 10%;
+  border-style: solid;
+  border-width: 5px;
+  border-radius: 30px;
+  border-color: ${mainTheme.primary};
+  background-color: ${mainTheme.background};
+  color: ${mainTheme.secondary};
+  font-size: 5vh;
+  animation: ${showBtn} 250ms linear forwards;
+
+  :hover {
+    border-color: ${mainTheme.highlight};
+    transform: translateX(-50%) translateY(-50%) scale(1.1);
+  }
+`
+
+
 

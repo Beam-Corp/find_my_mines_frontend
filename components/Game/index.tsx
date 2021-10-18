@@ -89,15 +89,15 @@ const Game: FC<GameProps> = ({}) => {
   useEffect(() => {
     setTimeout(() => {
       setGameOver(true)
-    }, 4000)
+    }, 2000)
     setTimeout(() => {
       setGameOver(false)
-    }, 8000)
+    }, 6000)
   }, [])
 
   return (
     <GameContainer>
-      <WinLoseScreen show={gameOver} win={true} />
+      <WinLoseScreen show={gameOver} win={true} restartGame={() => {}} toTitle={() => {}}/>
       <Timer time={time} isYourTurn={playerTurn === playerNumber} />
       <GameRow>
         <PlayerPanel

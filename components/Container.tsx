@@ -16,10 +16,42 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
 `
-
-export const TextContainer = styled.div<{ size?: number }>`
+export const Box = styled.div`
+  padding: 27px 21px;
+  border: 5px solid ${mainTheme.primary};
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  border-radius: 30px;
+  background-color: transparent;
+`
+export const Dot = styled.div<{ selfAlign?: 'start' | 'end' }>`
+  height: 36px;
+  width: 36px;
+  background-color: ${mainTheme.secondary};
+  border-radius: 50%;
+  align-self: ${(props) => props.selfAlign || 'start'};
+`
+export const DecoratedBox: React.FunctionComponent = ({ children }) => {
+  return (
+    <Box>
+      <div style={{ width: '100%', display: 'flex' }}>
+        <Dot />
+      </div>
+      {children}
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'end' }}>
+        <Dot selfAlign="end" />
+      </div>
+    </Box>
+  )
+}
+export const TextContainer = styled.div<{
+  size?: number
+  weight?: number
+}>`
   font-size: ${({ size }) => mainTheme.spacing(size || 8)};
   text-align: center;
+  font-weight: ${({ weight }) => weight};
 `
 
 export const Row = styled.div`

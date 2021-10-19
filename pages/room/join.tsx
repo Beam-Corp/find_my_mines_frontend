@@ -3,21 +3,16 @@ import React, { useCallback, useContext, useState } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/dist/client/router'
 
-import { Socket } from 'socket.io-client'
 import styled from 'styled-components'
 
+import { Button } from '../../components/Button'
+import { DecoratedBox } from '../../components/Container'
+import { InlineInput } from '../../components/Inputs'
 import { RoomEvents } from '../../utils/room/room.event'
 import { SocketContext } from '../../utils/socketUtils'
+import { mainTheme } from '../../utils/themeConst'
+import { HeadText, RoomButtonContainer, RoomWrapper } from './create'
 
-const Wrapper = styled.div`
-  flex-direction: column;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 71px 63px;
-  border: 5px solid #b537f2;
-  border-radius: 4px;
-`
 const JoinRoom: NextPage = () => {
   const router = useRouter()
   const socket = useContext(SocketContext)
@@ -33,18 +28,28 @@ const JoinRoom: NextPage = () => {
     }
   }, [roomId, socket])
   return (
-    <Wrapper>
-      <h1>Join Room</h1>
-      <div>
-        <label>ROOM ID: </label>
-        <span>
-          <input value={roomId} onChange={(e) => setRoomId(e.target.value)} type="text"></input>
-        </span>
-        <div>
-          <button onClick={onJoin}>JOIN GAME ROOM</button>
-        </div>
-      </div>
-    </Wrapper>
+    <>
+      <HeadText size={9} weight={900}>
+        Join Room
+      </HeadText>
+      <DecoratedBox>
+        <RoomWrapper>
+          <div>
+            <InlineInput
+              name={'id'}
+              value={roomId}
+              onChange={(e) => setRoomId(e.target.value)}
+              label="ROOM ID"
+            />
+          </div>
+        </RoomWrapper>
+        <RoomButtonContainer>
+          <Button size="s" onClick={onJoin}>
+            CREATE GAME ROOM
+          </Button>
+        </RoomButtonContainer>
+      </DecoratedBox>
+    </>
   )
 }
 export default JoinRoom

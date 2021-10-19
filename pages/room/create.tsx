@@ -5,23 +5,20 @@ import { useRouter } from 'next/dist/client/router'
 
 import styled from 'styled-components'
 
+import { Button } from '../../components/Button'
+import { DecoratedBox } from '../../components/Container'
 import { RoomEvents } from '../../utils/room/room.event'
 import { SocketContext } from '../../utils/socketUtils'
+import { mainTheme } from '../../utils/themeConst'
 
-const Wrapper = styled.div`
-  flex-direction: column;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 71px 63px;
-  border: 5px solid #b537f2;
-  border-radius: 4px;
-`
 const CreateRoom: NextPage = () => {
   const router = useRouter()
   const socket = useContext(SocketContext)
   const [hostName, setHostName] = useState('')
-  const onGetRoomId = useCallback((id: string) => router.push(`/game/${id}`), [router])
+  const onGetRoomId = useCallback(
+    (id: string) => router.push(`/game/${id}`),
+    [router]
+  )
   const onCreate = useCallback(() => {
     try {
       socket.emit(RoomEvents.ON_CREATE)
@@ -38,18 +35,26 @@ const CreateRoom: NextPage = () => {
     }
   }, [socket, router, onGetRoomId])
   return (
-    <Wrapper>
-      <h1>Create Room</h1>
-      <div>
-        <label>HOST NAME: </label>
-        <span>
-          <input value={hostName} onChange={(e) => setHostName(e.target.value)} type="text"></input>
-        </span>
+    <DecoratedBox>
+      <div style={{ minHeight: '500px', minWidth: '300px' }}>
+        <h1>Create Room</h1>
         <div>
-          <button onClick={onCreate}>CREATE GAME ROOM</button>
+          <label>HOST NAME: </label>
+          <span>
+            <input
+              value={hostName}
+              onChange={(e) => setHostName(e.target.value)}
+              type="text"
+            ></input>
+          </span>
+          <div>
+            <Button size="s" color={mainTheme.primary} onClick={onCreate}>
+              CREATE GAME ROOM
+            </Button>
+          </div>
         </div>
       </div>
-    </Wrapper>
+    </DecoratedBox>
   )
 }
 export default CreateRoom

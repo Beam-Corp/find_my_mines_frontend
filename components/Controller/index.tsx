@@ -7,10 +7,7 @@ import { Row } from '../Container'
 import MusicButton from './MusicButton'
 import ThemeColorButton from './ThemeColorButton'
 
-interface ControllerProps {
-  themeColor: ThemeColorProps
-  previousThemeColor: ThemeColorProps
-}
+interface ControllerProps {}
 
 const ControllerContainer = styled(Row)`
   position: absolute;
@@ -20,13 +17,10 @@ const ControllerContainer = styled(Row)`
   width: 10%
 `
 
-const Controller: FC<ControllerProps> = ({
-  themeColor,
-  previousThemeColor,
-}) => {
+const Controller: FC<ControllerProps> = ({}) => {
   return (
     <ControllerContainer>
-      <MusicButton themeColor={themeColor} />
+      <MusicButton />
       <ThemeColorButton />
     </ControllerContainer>
   )

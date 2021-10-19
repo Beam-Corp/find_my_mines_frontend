@@ -2,12 +2,13 @@ import React, { FC } from 'react'
 
 import styled from 'styled-components'
 
+import { ThemeColorProps } from '../../../dto/themeColor.dto'
+import { useThemeContext } from '../../../useContext/useThemeContext'
 import { mainTheme } from '../../../utils/themeConst'
 import { Column } from '../../Container'
-import { ThemeColorProps } from '../../../dto/themeColor.dto' 
 
-const TimerContainer = styled(Column)<{themeColor: ThemeColorProps}>`
-  color: ${({themeColor}) => themeColor.secondary};
+const TimerContainer = styled(Column)<{ themeColor: ThemeColorProps }>`
+  color: ${({ themeColor }) => themeColor.secondary};
   margin-bottom: ${mainTheme.spacing(4)};
 `
 
@@ -21,10 +22,10 @@ const TimerText = styled.div<{ size?: number }>`
 interface TimerProps {
   time: number
   isYourTurn: boolean
-  themeColor: ThemeColorProps
 }
 
-const Timer: FC<TimerProps> = ({ time, isYourTurn, themeColor }) => {
+const Timer: FC<TimerProps> = ({ time, isYourTurn }) => {
+  const { themeColor } = useThemeContext()
   return (
     <TimerContainer themeColor={themeColor}>
       {isYourTurn ? (

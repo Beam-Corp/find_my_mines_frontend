@@ -3,13 +3,13 @@ import { FC } from 'react'
 import styled from 'styled-components'
 
 import { ThemeColorProps } from '../../../dto/themeColor.dto'
+import { useThemeContext } from '../../../useContext/useThemeContext'
 import { mainTheme } from '../../../utils/themeConst'
 import { Column, TextContainer } from '../../Container'
 
 interface PanelTextProps {
   playerID: number
   isYourTurn?: boolean
-  themeColor: ThemeColorProps
 }
 
 interface PlayerPanelProps {
@@ -17,7 +17,6 @@ interface PlayerPanelProps {
   id: number
   score: number
   isYourTurn: boolean
-  themeColor: ThemeColorProps
 }
 
 const PanelContainer = styled(Column)``
@@ -47,8 +46,8 @@ const PlayerPanel: FC<PlayerPanelProps> = ({
   id,
   score,
   isYourTurn,
-  themeColor,
 }) => {
+  const {themeColor} = useThemeContext()
   return (
     <PanelContainer>
       <PanelText isYourTurn={isYourTurn} playerID={id} themeColor={themeColor}>

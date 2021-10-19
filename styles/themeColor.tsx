@@ -6,10 +6,10 @@ const ThemeColorList = {
         highlight: "#C5E268",
     },
     alternative_color: {
-        primary: "#ed1b76",
-        secondary: "#249f9c",
+        primary: "#249f9c",
+        secondary: "#ed1b76",
         background: "#110358",
-        highlight: "#037a76",
+        highlight: "#ff889A",
     }
 }
 

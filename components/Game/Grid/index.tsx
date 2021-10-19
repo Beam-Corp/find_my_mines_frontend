@@ -2,13 +2,15 @@ import React, { FC } from 'react'
 
 import styled from 'styled-components'
 
+import { ThemeColorProps } from '../../../dto/themeColor.dto'
+import { useThemeContext } from '../../../useContext/useThemeContext'
 import { mainTheme } from '../../../utils/themeConst'
 import { Row } from '../../Container'
 import Block from './Block'
-import { ThemeColorProps } from '../../../dto/themeColor.dto'
 
-const GridContainer = styled.div<{themeColor: ThemeColorProps}>`
-  border: ${mainTheme.spacing(0.2)} ${({themeColor}) => themeColor.secondary} solid;
+const GridContainer = styled.div<{ themeColor: ThemeColorProps }>`
+  border: ${mainTheme.spacing(0.2)} ${({ themeColor }) => themeColor.secondary}
+    solid;
   min-height: ${mainTheme.spacing(12)};
   min-width: ${mainTheme.spacing(12)};
 `
@@ -16,10 +18,10 @@ const GridContainer = styled.div<{themeColor: ThemeColorProps}>`
 interface GridProps {
   gridData: number[][]
   clickGrid: (row: number, column: number) => void
-  themeColor: ThemeColorProps
 }
 
-const Grid: FC<GridProps> = ({ gridData, clickGrid, themeColor }) => {
+const Grid: FC<GridProps> = ({ gridData, clickGrid }) => {
+  const { themeColor } = useThemeContext()
   return (
     <GridContainer themeColor={themeColor}>
       {gridData.map((gridRow, row) => (

@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 
 import { mainTheme } from '../utils/themeConst'
 
@@ -25,14 +25,14 @@ export const Box = styled.div`
   border-radius: 30px;
   background-color: transparent;
 `
-export const Dot = styled.div<{ selfAlign?: 'start' | 'end' }>`
+export const Dot = styled.div`
   height: 36px;
   width: 36px;
   background-color: ${mainTheme.secondary};
   border-radius: 50%;
-  align-self: ${(props) => props.selfAlign || 'start'};
 `
 export const DecoratedBox: React.FunctionComponent = ({ children }) => {
+  const theme = useTheme()
   return (
     <Box>
       <div style={{ width: '100%', display: 'flex' }}>
@@ -40,7 +40,7 @@ export const DecoratedBox: React.FunctionComponent = ({ children }) => {
       </div>
       {children}
       <div style={{ width: '100%', display: 'flex', justifyContent: 'end' }}>
-        <Dot selfAlign="end" />
+        <Dot />
       </div>
     </Box>
   )

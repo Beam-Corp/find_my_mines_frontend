@@ -4,11 +4,12 @@ import { Splash, Top, Border, Container, Title, Logo, Bottom } from './SplashScr
 
 interface SplashScreenProps {
   show: boolean
+  mounted: boolean
 }
 
-const SplashScreen: FC<SplashScreenProps> = ({ show }) => {
+const SplashScreen: FC<SplashScreenProps> = ({ show, mounted }) => {
   return (
-    <Splash show={show}>
+    <Splash show={show} mounted={mounted}>
       <Border>
         <Top />
         <Container>

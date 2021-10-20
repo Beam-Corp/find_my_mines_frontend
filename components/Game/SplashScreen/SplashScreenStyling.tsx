@@ -26,8 +26,9 @@ export const Splash = styled.div`
   background-color: ${mainTheme.background};
   width: 100%;
   height: 100%;
-  opacity: ${({ show }: { show: boolean }) => (show ? '1' : '0')};
-  pointer-events: ${({ show }: { show: boolean }) => (show ? 'auto' : 'none')};
+  display: ${( props: { show: boolean, mounted: boolean }) => (props.mounted ? 'initial' : 'none')};
+  opacity: ${( props: { show: boolean, mounted: boolean }) => (props.show ? '1' : '0')};
+  pointer-events: ${( props: { show: boolean, mounted: boolean }) => (props.show ? 'auto' : 'none')};
   transition: opacity 500ms linear;
   z-index: 100;
 `

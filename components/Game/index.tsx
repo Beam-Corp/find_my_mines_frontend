@@ -47,6 +47,8 @@ const Game: FC<GameProps> = ({}) => {
 
   const [gameOver, setGameOver] = useState<boolean>(false)
 
+  const [mounted, setMounted] = useState<boolean>(false)
+
   const startTimer = useCallback(() => {
     const timeout = setTimeout(() => {
       setTime(time - 1)
@@ -95,9 +97,13 @@ const Game: FC<GameProps> = ({}) => {
     }, 6000)
   }, [])
 
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   return (
     <GameContainer>
-      <WinLoseScreen show={gameOver} win={true} restartGame={() => {}} toTitle={() => {}}/>
+      <WinLoseScreen show={gameOver} win={true} mounted={mounted} restartGame={() => {}} toTitle={() => {}}/>
       <Timer time={time} isYourTurn={playerTurn === playerNumber} />
       <GameRow>
         <PlayerPanel

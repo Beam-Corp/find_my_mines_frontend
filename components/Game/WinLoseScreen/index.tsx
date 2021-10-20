@@ -5,15 +5,16 @@ import { Overlay, Container, Window, WinLose, RestartBtn, TitleBtn } from './Win
 interface WinLoseScreenProps {
     show: boolean
     win: boolean
+    mounted: boolean
     restartGame: () => void
     toTitle: () => void
 }
 
-const WinLoseScreen: FC<WinLoseScreenProps> = ({ show, win, restartGame, toTitle }) => {
+const WinLoseScreen: FC<WinLoseScreenProps> = ({ show, win, mounted, restartGame, toTitle }) => {
     return (
         <>
-            <Overlay show={show} />
-            <Container show={show}>
+            <Overlay show={show} mounted={mounted}/>
+            <Container show={show} mounted={mounted}>
                 <Window show={show}>
                     <WinLose>{win ? 'WIN' : 'LOSE'}</WinLose>
                 </Window>

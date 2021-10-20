@@ -36,15 +36,17 @@ export const Overlay = styled.div`
   width: 100%;
   height: 100%;
   background-color: #000000;
-  pointer-events: ${({ show }: { show: boolean }) => (show ? 'auto' : 'none')};
-  opacity: ${({ show }: { show: boolean }) => (show ? '0.5' : '0')};
+  display: ${(props: {show: boolean, mounted: boolean}) => (props.mounted ? 'initial' : 'none')};
+  opacity: ${(props: {show: boolean, mounted: boolean}) => (props.show ? '0.5' : '0')};
+  pointer-events: ${(props: {show: boolean, mounted: boolean}) => (props.show ? 'auto' : 'none')};
   transition: opacity 300ms linear;
 `
 
 export const Container = styled.div`
-  opacity: ${({ show }: { show: boolean }) => (show ? '1' : '0')};
+  display: ${(props: {show: boolean, mounted: boolean}) => (props.mounted ? 'initial' : 'none')};
+  opacity: ${(props: {show: boolean, mounted: boolean}) => (props.show ? '1' : '0')};
+  pointer-events: ${(props: {show: boolean, mounted: boolean}) => (props.show ? 'auto' : 'none')};
   transition: opacity 250ms linear;
-  pointer-events: ${({ show }: { show: boolean }) => (show ? 'auto' : 'none')};
 `
 
 export const Window = styled.div`

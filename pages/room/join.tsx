@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import { Button } from '../../components/Button'
 import { DecoratedBox } from '../../components/Container'
 import { InlineInput } from '../../components/Inputs'
+import { PlayerContext } from '../../utils/playerUtils'
 import { RoomEvents } from '../../utils/room/room.event'
 import { SocketContext } from '../../utils/socketUtils'
 import { mainTheme } from '../../utils/themeConst'
@@ -16,6 +17,7 @@ import { HeadText, RoomButtonContainer, RoomWrapper } from './create'
 const JoinRoom: NextPage = () => {
   const router = useRouter()
   const socket = useContext(SocketContext)
+  const { name, setName } = useContext(PlayerContext)
   const [roomId, setRoomId] = useState('')
   const onGetRoomId = useCallback(
     (id: string) => router.push(`/game/${id}`),
@@ -49,6 +51,12 @@ const JoinRoom: NextPage = () => {
               value={roomId}
               onChange={(e) => setRoomId(e.target.value)}
               label="ROOM ID"
+            />
+            <InlineInput
+              name={'name'}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              label="PLAYER NAME"
             />
           </div>
         </RoomWrapper>

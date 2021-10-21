@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import { Button } from '../../components/Button'
 import { DecoratedBox, TextContainer } from '../../components/Container'
 import { InlineInput, Input } from '../../components/Inputs'
+import { PlayerContext } from '../../utils/playerUtils'
 import { RoomEvents } from '../../utils/room/room.event'
 import { SocketContext } from '../../utils/socketUtils'
 import { mainTheme } from '../../utils/themeConst'
@@ -33,6 +34,8 @@ export const RoomButtonContainer = styled.div`
 const CreateRoom: NextPage = () => {
   const router = useRouter()
   const socket = useContext(SocketContext)
+  const { setName } = useContext(PlayerContext)
+
   const [hostName, setHostName] = useState('')
   const onGetRoomId = useCallback(
     (id: string) => router.push(`/game/${id}`),
@@ -47,12 +50,18 @@ const CreateRoom: NextPage = () => {
       console.log(err)
     }
   }, [socket])
+
+  useEffect(() => {
+    setName(hostName)
+  }, [hostName, setName])
+
   useEffect(() => {
     socket.on(RoomEvents.CREATE, onGetRoomId)
     return () => {
       socket.off(RoomEvents.CREATE, onGetRoomId)
     }
   }, [socket, router, onGetRoomId])
+
   return (
     <>
       <HeadText size={9} weight={900}>

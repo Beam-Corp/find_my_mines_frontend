@@ -52,7 +52,7 @@ const CreateRoom: NextPage = () => {
   }, [socket])
 
   useEffect(() => {
-    setName(hostName)
+    setName(`1-${hostName}`)
   }, [hostName, setName])
 
   useEffect(() => {

@@ -18,6 +18,7 @@ const JoinRoom: NextPage = () => {
   const router = useRouter()
   const socket = useContext(SocketContext)
   const { name, setName } = useContext(PlayerContext)
+  const [playerName, setPlayerName] = useState<string>('')
   const [roomId, setRoomId] = useState('')
   const onGetRoomId = useCallback(
     (id: string) => router.push(`/game/${id}`),
@@ -26,7 +27,6 @@ const JoinRoom: NextPage = () => {
   const onJoin = useCallback(() => {
     try {
       socket.emit(RoomEvents.ON_JOIN, roomId)
-      // router.push(`/game/${roomId}`)
     } catch (err) {
       //TODO: handle error
       alert('Cannot join this room')
@@ -35,8 +35,15 @@ const JoinRoom: NextPage = () => {
   }, [roomId, socket])
 
   useEffect(() => {
+    setName(`2-${playerName}`)
+  }, [playerName, setName])
+
+  useEffect(() => {
     socket.on(RoomEvents.JOIN, onGetRoomId)
-  })
+    return () => {
+      socket.off(RoomEvents.JOIN, onGetRoomId)
+    }
+  }, [onGetRoomId, socket])
 
   return (
     <>
@@ -55,7 +62,7 @@ const JoinRoom: NextPage = () => {
             <InlineInput
               name={'name'}
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setPlayerName(e.target.value)}
               label="PLAYER NAME"
             />
           </div>

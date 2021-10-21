@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 
 import { NextPage } from 'next'
 import { useRouter } from 'next/dist/client/router'
@@ -17,6 +17,10 @@ const JoinRoom: NextPage = () => {
   const router = useRouter()
   const socket = useContext(SocketContext)
   const [roomId, setRoomId] = useState('')
+  const onGetRoomId = useCallback(
+    (id: string) => router.push(`/game/${id}`),
+    [router]
+  )
   const onJoin = useCallback(() => {
     try {
       socket.emit(RoomEvents.ON_JOIN, roomId)
@@ -27,6 +31,11 @@ const JoinRoom: NextPage = () => {
       console.log(err)
     }
   }, [roomId, socket])
+
+  useEffect(() => {
+    socket.on(RoomEvents.JOIN, onGetRoomId)
+  })
+
   return (
     <>
       <HeadText size={9} weight={900}>
@@ -45,7 +54,7 @@ const JoinRoom: NextPage = () => {
         </RoomWrapper>
         <RoomButtonContainer>
           <Button size="s" onClick={onJoin}>
-            CREATE GAME ROOM
+            JOIN GAME ROOM
           </Button>
         </RoomButtonContainer>
       </DecoratedBox>

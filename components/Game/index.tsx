@@ -5,15 +5,19 @@ import React, {
   useState,
   useRef,
   useMemo,
+  useContext,
 } from 'react'
 
 import styled from 'styled-components'
 
+import { ThemeColorProps } from '../../dto/themeColor.dto'
+import { PlayerContext } from '../../utils/playerUtils'
+import { mainTheme } from '../../utils/themeConst'
+import useWindowDimensions from '../../utils/useDimensions'
 import { Row, Column } from '../Container'
 import Grid from './Grid'
 import PlayerPanel from './PlayerPanel'
 import Timer from './Timer'
-import { ThemeColorProps } from '../../dto/themeColor.dto'
 
 const GameContainer = styled(Column)`
   width: 100%;
@@ -23,7 +27,9 @@ const GameRow = styled(Row)`
   justify-content: space-evenly;
 `
 
-interface GameProps {}
+interface GameProps {
+  roomID: string
+}
 
 const mockGrid = [
   [0, 1, 0, 0, 0, 1],
@@ -34,7 +40,14 @@ const mockGrid = [
   [0, 1, 0, 0, 0, 0],
 ]
 
-const Game: FC<GameProps> = ({}) => {
+const Game: FC<GameProps> = ({ roomID }) => {
+  const { width } = useWindowDimensions()
+  const isMobile = useMemo<boolean>(() => {
+    return width <= mainTheme.breakpoint['md']
+  }, [width])
+
+  const { name } = useContext(PlayerContext)
+
   const [time, setTime] = useState<number>(5)
 
   const timeoutRef = useRef<NodeJS.Timeout>()
@@ -86,21 +99,40 @@ const Game: FC<GameProps> = ({}) => {
 
   return (
     <GameContainer>
-      <Timer time={time} isYourTurn={playerTurn === playerNumber}/>
+      <Timer time={time} isYourTurn={playerTurn === playerNumber} />
       <GameRow>
-        <PlayerPanel
-          name={'PLAYER 1'}
-          id={1}
-          score={playerScore[0]}
-          isYourTurn={playerTurn === 1}
-        />
-        <Grid gridData={mockGrid} clickGrid={clickGrid}/>
-        <PlayerPanel
-          name={'PLAYER 2'}
-          id={2}
-          score={playerScore[1]}
-          isYourTurn={playerTurn === 2}
-        />
+        {isMobile ? (
+          <div>
+            <PlayerPanel
+              name={name}
+              id={1}
+              score={playerScore[0]}
+              isYourTurn={playerTurn === 1}
+            />
+            <PlayerPanel
+              name={'PLAYER 2'}
+              id={2}
+              score={playerScore[1]}
+              isYourTurn={playerTurn === 2}
+            />
+          </div>
+        ) : (
+          <PlayerPanel
+            name={name}
+            id={1}
+            score={playerScore[0]}
+            isYourTurn={playerTurn === 1}
+          />
+        )}
+        <Grid gridData={mockGrid} clickGrid={clickGrid} />
+        {!isMobile && (
+          <PlayerPanel
+            name={'PLAYER 2'}
+            id={2}
+            score={playerScore[1]}
+            isYourTurn={playerTurn === 2}
+          />
+        )}
       </GameRow>
     </GameContainer>
   )

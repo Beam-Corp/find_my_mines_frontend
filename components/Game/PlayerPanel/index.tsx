@@ -26,7 +26,7 @@ const PanelText = styled(TextContainer)<
 >`
   color: ${({ playerID, themeColor }) =>
     playerID === 1 ? themeColor.primary : themeColor.secondary};
-  font-size: ${({ size }) => mainTheme.spacing(size || 6)};
+  font-size: ${({ size }) => mainTheme.spacing(size || 4)};
   line-height: 90px;
   font-weight: 900;
 
@@ -41,19 +41,14 @@ const PanelText = styled(TextContainer)<
   border-radius: ${mainTheme.spacing(4)};
 `
 
-const PlayerPanel: FC<PlayerPanelProps> = ({
-  name,
-  id,
-  score,
-  isYourTurn,
-}) => {
-  const {themeColor} = useThemeContext()
+const PlayerPanel: FC<PlayerPanelProps> = ({ name, id, score, isYourTurn }) => {
+  const { themeColor } = useThemeContext()
   return (
     <PanelContainer>
       <PanelText isYourTurn={isYourTurn} playerID={id} themeColor={themeColor}>
         {name}
       </PanelText>
-      <PanelText playerID={id} size={12} themeColor={themeColor}>
+      <PanelText playerID={id} size={10} themeColor={themeColor}>
         {score}
       </PanelText>
     </PanelContainer>

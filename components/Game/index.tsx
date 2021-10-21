@@ -28,7 +28,7 @@ const GameRow = styled(Row)`
 `
 
 interface GameProps {
-  roomID: string
+  players: string[]
 }
 
 const mockGrid = [
@@ -40,7 +40,7 @@ const mockGrid = [
   [0, 1, 0, 0, 0, 0],
 ]
 
-const Game: FC<GameProps> = ({ roomID }) => {
+const Game: FC<GameProps> = ({ players }) => {
   const { width } = useWindowDimensions()
   const isMobile = useMemo<boolean>(() => {
     return width <= mainTheme.breakpoint['md']
@@ -52,7 +52,7 @@ const Game: FC<GameProps> = ({ roomID }) => {
 
   const timeoutRef = useRef<NodeJS.Timeout>()
 
-  const [playerNumber, setPlayerNumber] = useState<number>(1)
+  const playerNumber = useMemo(() => parseInt(name.substring(0, 1)), [name])
 
   const [playerTurn, setPlayerTurn] = useState<number>(1)
 
@@ -104,13 +104,13 @@ const Game: FC<GameProps> = ({ roomID }) => {
         {isMobile ? (
           <div>
             <PlayerPanel
-              name={name}
+              name={players[0]}
               id={1}
               score={playerScore[0]}
               isYourTurn={playerTurn === 1}
             />
             <PlayerPanel
-              name={'PLAYER 2'}
+              name={players[1]}
               id={2}
               score={playerScore[1]}
               isYourTurn={playerTurn === 2}
@@ -118,7 +118,7 @@ const Game: FC<GameProps> = ({ roomID }) => {
           </div>
         ) : (
           <PlayerPanel
-            name={name}
+            name={players[0]}
             id={1}
             score={playerScore[0]}
             isYourTurn={playerTurn === 1}
@@ -127,7 +127,7 @@ const Game: FC<GameProps> = ({ roomID }) => {
         <Grid gridData={mockGrid} clickGrid={clickGrid} />
         {!isMobile && (
           <PlayerPanel
-            name={'PLAYER 2'}
+            name={players[0]}
             id={2}
             score={playerScore[1]}
             isYourTurn={playerTurn === 2}

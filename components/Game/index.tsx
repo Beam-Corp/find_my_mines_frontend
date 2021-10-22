@@ -8,10 +8,14 @@ import React, {
   useContext,
 } from 'react'
 
+import { useRouter } from 'next/router'
+
 import styled from 'styled-components'
 
 import { ThemeColorProps } from '../../dto/themeColor.dto'
+import { GameEvents, GameState } from '../../utils/game/game.event'
 import { PlayerContext } from '../../utils/playerUtils'
+import { SocketContext } from '../../utils/socketUtils'
 import { mainTheme } from '../../utils/themeConst'
 import useWindowDimensions from '../../utils/useDimensions'
 import { Row, Column } from '../Container'
@@ -40,7 +44,20 @@ const mockGrid = [
   [0, 1, 0, 0, 0, 0],
 ]
 
+const blankGrid = [
+  [0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0],
+]
+
 const Game: FC<GameProps> = ({ players }) => {
+  const socket = useContext(SocketContext)
+  const { query } = useRouter()
+  const id = useMemo(() => query.id, [query])
+
   const { width } = useWindowDimensions()
   const isMobile = useMemo<boolean>(() => {
     return width <= mainTheme.breakpoint['md']
@@ -50,7 +67,7 @@ const Game: FC<GameProps> = ({ players }) => {
 
   const [time, setTime] = useState<number>(5)
 
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const playerNumber = useMemo(() => parseInt(name.substring(0, 1)), [name])
 
@@ -58,44 +75,96 @@ const Game: FC<GameProps> = ({ players }) => {
 
   const [playerScore, setPlayerScore] = useState<number[]>([0, 0])
 
+  const [gridStatus, setGridStatus] = useState<number[][]>(blankGrid)
+
   const startTimer = useCallback(() => {
-    const timeout = setTimeout(() => {
-      setTime(time - 1)
+    const timeout = setInterval(() => {
+      setTime((prev) => prev - 1)
     }, 1000)
     timeoutRef.current = timeout
     return timeout
-  }, [time])
+  }, [])
 
   const resetTimer = useCallback(() => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    if (time === 5) startTimer()
+    if (timeoutRef.current) {
+      clearInterval(timeoutRef.current)
+    }
+
     setTime(5)
-  }, [startTimer, time])
+    return startTimer()
+  }, [startTimer])
 
   const clickGrid = useCallback(
     (row: number, column: number) => {
-      resetTimer()
+      const newPlayerScore =
+        playerTurn === 1
+          ? [playerScore[0] + mockGrid[row][column], playerScore[1]]
+          : [playerScore[0], playerScore[1] + mockGrid[row][column]]
 
-      if (playerTurn === 1) {
-        setPlayerScore([playerScore[0] + mockGrid[row][column], playerScore[1]])
-      } else {
-        setPlayerScore([playerScore[0], playerScore[1] + mockGrid[row][column]])
-      }
-      setPlayerTurn(playerTurn === 1 ? 2 : 1)
+      let newGridStatus = gridStatus
+      newGridStatus[row][column] = 1
+
+      const newPlayerTurn = playerTurn === 1 ? 2 : 1
+
+      setPlayerScore(newPlayerScore)
+      setGridStatus(newGridStatus)
+      setPlayerTurn(newPlayerTurn)
+
+      socket.emit(GameEvents.SELECT_BLOCK, {
+        roomId: id,
+        gridState: newGridStatus,
+        scoreState: newPlayerScore,
+        playerTurn: newPlayerTurn,
+      })
     },
-    [resetTimer, playerTurn, playerScore]
+    [playerTurn, socket, id, gridStatus, playerScore]
   )
 
+  const onTimeUp = useCallback(() => {
+    const newPlayerTurn = playerTurn === 1 ? 2 : 1
+    setPlayerTurn((prev) => (prev === 1 ? 2 : 1))
+
+    socket.emit(GameEvents.TIME_UP, {
+      roomId: id,
+      gridState: gridStatus,
+      scoreState: playerScore,
+      playerTurn: newPlayerTurn,
+    })
+  }, [gridStatus, id, playerScore, playerTurn, socket])
+
+  const onUpdateFromServer = useCallback((update: GameState) => {
+    console.log('got update')
+    setPlayerScore(update.scoreState)
+    setPlayerTurn(update.playerTurn)
+    setGridStatus(update.gridState)
+  }, [])
+
   useEffect(() => {
-    if (time > 0) {
-      const timeout = startTimer()
-      return () => clearTimeout(timeout)
-    } else {
-      setPlayerTurn(playerTurn === 1 ? 2 : 1)
-      resetTimer()
+    if (time === 0 && playerTurn === playerNumber) {
+      if (timeoutRef.current) clearInterval(timeoutRef.current)
+      onTimeUp()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [time])
+  }, [time, onTimeUp, playerTurn, playerNumber])
+
+  useEffect(() => {
+    if (playerTurn === playerNumber) {
+      const timeout = resetTimer()
+      return () => {
+        clearInterval(timeout)
+      }
+    } else {
+      if (timeoutRef.current) clearInterval(timeoutRef.current)
+    }
+  }, [playerNumber, playerTurn, resetTimer])
+
+  useEffect(() => {
+    socket.on(GameEvents.ON_SELECTED, onUpdateFromServer)
+    socket.on(GameEvents.ON_TIME_UP, onUpdateFromServer)
+    return () => {
+      socket.off(GameEvents.ON_SELECTED, onUpdateFromServer)
+      socket.off(GameEvents.ON_TIME_UP, onUpdateFromServer)
+    }
+  }, [onUpdateFromServer, socket])
 
   return (
     <GameContainer>
@@ -124,10 +193,14 @@ const Game: FC<GameProps> = ({ players }) => {
             isYourTurn={playerTurn === 1}
           />
         )}
-        <Grid gridData={mockGrid} clickGrid={clickGrid} />
+        <Grid
+          gridData={mockGrid}
+          clickGrid={clickGrid}
+          gridStatus={gridStatus}
+        />
         {!isMobile && (
           <PlayerPanel
-            name={players[0]}
+            name={players[1]}
             id={2}
             score={playerScore[1]}
             isYourTurn={playerTurn === 2}

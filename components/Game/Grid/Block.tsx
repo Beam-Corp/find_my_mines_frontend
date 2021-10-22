@@ -1,11 +1,14 @@
+import { useContext } from 'hoist-non-react-statics/node_modules/@types/react'
+
 import { FC, useCallback, useState } from 'react'
 
 import Image from 'next/image'
 
 import styled from 'styled-components'
 
+import { ThemeColorProps } from '../../../dto/themeColor.dto'
+import { ThemeContext } from '../../../useContext/useThemeContext'
 import { mainTheme } from '../../../utils/themeConst'
-import {ThemeColorProps} from '../../../dto/themeColor.dto'
 
 interface GameBlockProps {
   isOpen: boolean
@@ -20,7 +23,7 @@ const GameBlock = styled.div<GameBlockProps>`
     solid;
   min-height: ${mainTheme.spacing(10)};
   min-width: ${mainTheme.spacing(10)};
-  color: ${({themeColor}) => themeColor.secondary};
+  color: ${({ themeColor }) => themeColor.secondary};
 
   background: ${({ isOpen, themeColor }) =>
     !isOpen ? themeColor.secondary : 'none'};
@@ -36,22 +39,22 @@ const GameBlock = styled.div<GameBlockProps>`
 
 interface BlockProps {
   isBomb: boolean
+  isOpen: boolean
   coordinate: [number, number]
   clickGrid: (row: number, column: number) => void
   themeColor: ThemeColorProps
 }
 
-const Block: FC<BlockProps> = ({ isBomb, clickGrid, coordinate, themeColor }) => {
-  const [isOpen, setOpen] = useState<boolean>(false)
-
+const Block: FC<BlockProps> = ({ isBomb, isOpen, clickGrid, coordinate }) => {
   const handleClick = useCallback(() => {
-    setOpen(true)
     clickGrid(...coordinate)
   }, [clickGrid, coordinate])
 
+  const themeColor = useContext(ThemeContext)
+
   return (
     <GameBlock
-      onClick={() => handleClick()}
+      onClick={() => (!isOpen ? handleClick() : {})}
       isOpen={isOpen}
       themeColor={themeColor}
     >

@@ -17,6 +17,7 @@ const GridContainer = styled.div<{ themeColor: ThemeColorProps }>`
 
 interface GridProps {
   gridData: number[][]
+  gridStatus: number[][]
   clickGrid: (row: number, column: number) => void
 }
 
@@ -32,6 +33,7 @@ const Grid: FC<GridProps> = ({ gridData, clickGrid }) => {
               <Block
                 key={`Block-${row}-${column}`}
                 coordinate={[row, column]}
+                isOpen={gridStatus[row][column] === 1}
                 isBomb={isBomb}
                 clickGrid={clickGrid}
                 themeColor={themeColor}

@@ -1,7 +1,8 @@
 import React, { FC } from 'react'
 
+import dynamic from 'next/dynamic'
+
 import styled from 'styled-components'
-import dynamic from "next/dynamic"
 
 import { ThemeColorProps } from '../../dto/themeColor.dto'
 import { Row } from '../Container'
@@ -12,25 +13,27 @@ interface ControllerProps {}
 
 const Player = dynamic(
   () => {
-    return import("./player")
+    return import('./player')
   },
-  {ssr: false}
+  { ssr: false }
 )
-
 
 const ControllerContainer = styled(Row)`
   position: absolute;
   bottom: 50px;
   left: 50px;
-  width: 30%
+  width: 30%;
 `
 
-const Controller: FC<ControllerProps> = ({}) => {
+const Controller: FC<ControllerProps> = ({ children }) => {
   return (
-    <ControllerContainer>
-      <ThemeColorButton />
-      <Player url='https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'/>
-    </ControllerContainer>
+    <>
+      {children}
+      <ControllerContainer>
+        <ThemeColorButton />
+        <Player url="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" />
+      </ControllerContainer>
+    </>
   )
 }
 

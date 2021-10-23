@@ -24,7 +24,7 @@ const useAudio = url => {
         audio.play();
       } else audio.pause();
     },
-    [playing]
+    [playing,audio]
   );
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const useAudio = url => {
         console.log('looping');
       });
     };
-  }, []);
+  }, [audio]);
 
   return [playing, toggle, changeVolume];
 

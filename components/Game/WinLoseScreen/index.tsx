@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { Overlay, Container, Window, WinLose, RestartBtn, TitleBtn } from './WinLoseScreenStyling'
+import { Overlay, Container, Window, WinLose, Button } from './WinLoseScreenStyling'
 
 interface WinLoseScreenProps {
     show: boolean
@@ -18,8 +18,8 @@ const WinLoseScreen: FC<WinLoseScreenProps> = ({ show, win, mounted, restartGame
                 <Window show={show}>
                     <WinLose>{win ? 'WIN' : 'LOSE'}</WinLose>
                 </Window>
-                <RestartBtn onClick={restartGame}>Restart</RestartBtn>
-                <TitleBtn onClick={toTitle}>Title</TitleBtn>
+                <Button onClick={restartGame} top={'70%'}>Restart</Button>
+                <Button onClick={toTitle} top={'82%'}>Title</Button>
             </Container>
         </>
     )

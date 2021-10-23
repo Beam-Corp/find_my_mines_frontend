@@ -1,10 +1,11 @@
 import type { AppProps } from 'next/app'
 
 import { Container } from '../components/Container'
+import Controller from '../components/Controller'
 import '../styles/globals.css'
 import ThemeProvider from '../useContext/useThemeContext'
-import { SocketContext, socketInstance } from '../utils/socketUtils'
 import { useThemeContext } from '../useContext/useThemeContext'
+import { SocketContext, socketInstance } from '../utils/socketUtils'
 
 function MyApp({ Component, pageProps }: AppProps) {
   // const {themeColor} = useThemeContext()
@@ -12,7 +13,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <SocketContext.Provider value={socketInstance}>
       <ThemeProvider>
         <Container>
-          <Component {...pageProps} />
+          <Controller>
+            <Component {...pageProps} />
+          </Controller>
         </Container>
       </ThemeProvider>
     </SocketContext.Provider>

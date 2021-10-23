@@ -13,6 +13,7 @@ import { Row, Column } from '../Container'
 import Grid from './Grid'
 import PlayerPanel from './PlayerPanel'
 import Timer from './Timer'
+import { ThemeColorProps } from '../../dto/themeColor.dto'
 
 const GameContainer = styled(Column)`
   width: 100%;
@@ -85,7 +86,7 @@ const Game: FC<GameProps> = ({}) => {
 
   return (
     <GameContainer>
-      <Timer time={time} isYourTurn={playerTurn === playerNumber} />
+      <Timer time={time} isYourTurn={playerTurn === playerNumber}/>
       <GameRow>
         <PlayerPanel
           name={'PLAYER 1'}
@@ -93,7 +94,7 @@ const Game: FC<GameProps> = ({}) => {
           score={playerScore[0]}
           isYourTurn={playerTurn === 1}
         />
-        <Grid gridData={mockGrid} clickGrid={clickGrid} />
+        <Grid gridData={mockGrid} clickGrid={clickGrid}/>
         <PlayerPanel
           name={'PLAYER 2'}
           id={2}

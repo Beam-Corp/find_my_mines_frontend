@@ -346,8 +346,11 @@ const Game: FC<GameProps> = ({
   useEffect(() => {
     setMounted(true)
     setTimeout(() => {
-      setSplash(false)
+      setSplash(true)
     }, 4000)
+    setTimeout(() => {
+      setSplash(false)
+    }, 8000)
   }, [])
 
   return (

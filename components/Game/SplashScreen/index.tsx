@@ -1,6 +1,7 @@
 import { FC } from 'react'
 
 import { Splash, Top, Border, Container, Title, Logo, Bottom } from './SplashScreenStyling'
+import { useThemeContext } from '../../../useContext/useThemeContext'
 
 interface SplashScreenProps {
   show: boolean
@@ -8,15 +9,16 @@ interface SplashScreenProps {
 }
 
 const SplashScreen: FC<SplashScreenProps> = ({ show, mounted }) => {
+  const { themeColor } = useThemeContext()
   return (
-    <Splash show={show} mounted={mounted}>
-      <Border>
-        <Top />
+    <Splash show={show} mounted={mounted} background={themeColor.background}>
+      <Border highlight={themeColor.highlight}>
+        <Top secondary={themeColor.secondary}/>
         <Container>
-          <Title>FIND MY MINES</Title>
+          <Title primary={themeColor.primary}>FIND MY MINES</Title>
           <Logo alt="logo" src="/game/bomb.svg" show={show} />
         </Container>
-        <Bottom />
+        <Bottom secondary={themeColor.secondary}/>
       </Border>
     </Splash>
   )

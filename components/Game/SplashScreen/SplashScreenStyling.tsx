@@ -1,7 +1,5 @@
 import styled, { css, keyframes } from 'styled-components'
 
-import { mainTheme } from '../../../utils/themeConst'
-
 const fadeIn = keyframes`
   0% { opacity: 0; }
   100% { opacity: 1; }
@@ -23,7 +21,7 @@ export const Splash = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  background-color: ${mainTheme.background};
+  background-color: ${( props: { show: boolean, mounted: boolean, background: string }) => (props.background)};
   width: 100%;
   height: 100%;
   display: ${( props: { show: boolean, mounted: boolean }) => (props.mounted ? 'initial' : 'none')};
@@ -42,7 +40,7 @@ export const Border = styled.div`
   border-style: solid;
   border-width: 2px;
   border-radius: 30px;
-  border-color: ${mainTheme.highlight};
+  border-color: ${(props: { highlight: string }) => (props.highlight)};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,7 +54,7 @@ export const Container = styled.div`
 export const Top = styled.div`
   ::before {
     content: '';
-    background-color: ${mainTheme.secondary};
+    background-color: ${(props: { secondary: string }) => (props.secondary)};
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -67,7 +65,7 @@ export const Top = styled.div`
 
   ::after {
     content: '';
-    background-color: ${mainTheme.secondary};
+    background-color: ${(props: { secondary: string }) => (props.secondary)};
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -78,7 +76,7 @@ export const Top = styled.div`
 
 export const Title = styled.h1`
   margin: 0;
-  color: ${mainTheme.primary};
+  color: ${(props: { primary: string }) => (props.primary)};
   font-size: 8vh;
 `
 export const Logo = styled.img`
@@ -91,7 +89,7 @@ export const Logo = styled.img`
 export const Bottom = styled.div`
   ::before {
     content: '';
-    background-color: ${mainTheme.secondary};
+    background-color: ${(props: { secondary: string }) => (props.secondary)};
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -102,7 +100,7 @@ export const Bottom = styled.div`
 
   ::after {
     content: '';
-    background-color: ${mainTheme.secondary};
+    background-color: ${(props: { secondary: string }) => (props.secondary)};
     width: 20px;
     height: 20px;
     border-radius: 50%;

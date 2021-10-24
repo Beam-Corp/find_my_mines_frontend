@@ -3,11 +3,12 @@ import { FC } from 'react'
 interface LinesProps {
     centerColor: string
     sideColor: string
+    className?: string
 }
 
-const Lines: FC<LinesProps> = ({ centerColor, sideColor }) => {
+const Lines: FC<LinesProps> = ({ className, centerColor, sideColor }) => {
     return (
-        <svg width="170" height="938" viewBox="0 0 170 938" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className={className} width="170" height="938" viewBox="0 0 170 938" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="85" cy="171" r="18" fill={centerColor}/>
             <rect x="67" width="36" height="130" rx="18" fill={centerColor}/>
             <circle cx="85" cy="617" r="18" fill={centerColor}/>

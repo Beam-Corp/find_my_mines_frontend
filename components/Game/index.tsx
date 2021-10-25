@@ -132,12 +132,17 @@ const Game: FC<GameProps> = ({ players }) => {
     })
   }, [gridStatus, id, playerScore, playerTurn, socket])
 
-  const onUpdateFromServer = useCallback((update: GameState) => {
-    console.log('got update')
-    setPlayerScore(update.scoreState)
-    setPlayerTurn(update.playerTurn)
-    setGridStatus(update.gridState)
-  }, [])
+  const onUpdateFromServer = useCallback(
+    (update: GameState) => {
+      if (playerNumber === update.playerTurn) {
+        console.log('got update')
+        setPlayerScore(update.scoreState)
+        setPlayerTurn(update.playerTurn)
+        setGridStatus(update.gridState)
+      }
+    },
+    [playerNumber]
+  )
 
   useEffect(() => {
     if (time === 0 && playerTurn === playerNumber) {

@@ -197,6 +197,7 @@ const Game: FC<GameProps> = ({ players }) => {
           gridData={mockGrid}
           clickGrid={clickGrid}
           gridStatus={gridStatus}
+          isYourTurn={playerTurn === playerNumber}
         />
         {!isMobile && (
           <PlayerPanel

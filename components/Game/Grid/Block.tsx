@@ -13,6 +13,7 @@ import { mainTheme } from '../../../utils/themeConst'
 interface GameBlockProps {
   isOpen: boolean
   themeColor: ThemeColorProps
+  isYourTurn: boolean
 }
 
 const GameBlock = styled.div<GameBlockProps>`
@@ -29,23 +30,35 @@ const GameBlock = styled.div<GameBlockProps>`
     !isOpen ? themeColor.secondary : 'none'};
 
   :hover {
-    border-color: ${({ isOpen, themeColor }) =>
-      !isOpen ? themeColor.highlight : themeColor.secondary};
-    background: ${({ isOpen, themeColor }) =>
-      !isOpen ? themeColor.highlight : 'none'};
-    cursor: ${({ isOpen }) => (!isOpen ? 'pointer' : 'default')};
+    border-color: ${({ isOpen, isYourTurn, themeColor }) =>
+      !isOpen && isYourTurn ? themeColor.highlight : themeColor.secondary};
+    background: ${({ isOpen, isYourTurn, themeColor }) =>
+      !isOpen
+        ? isYourTurn
+          ? themeColor.highlight
+          : themeColor.secondary
+        : 'none'};
+    cursor: ${({ isOpen, isYourTurn }) =>
+      !isOpen && isYourTurn ? 'pointer' : 'default'};
   }
 `
 
 interface BlockProps {
   isBomb: boolean
   isOpen: boolean
+  isYourTurn: boolean
   coordinate: [number, number]
   clickGrid: (row: number, column: number) => void
   themeColor: ThemeColorProps
 }
 
-const Block: FC<BlockProps> = ({ isBomb, isOpen, clickGrid, coordinate }) => {
+const Block: FC<BlockProps> = ({
+  isBomb,
+  isOpen,
+  isYourTurn,
+  clickGrid,
+  coordinate,
+}) => {
   const handleClick = useCallback(() => {
     clickGrid(...coordinate)
   }, [clickGrid, coordinate])
@@ -54,8 +67,9 @@ const Block: FC<BlockProps> = ({ isBomb, isOpen, clickGrid, coordinate }) => {
 
   return (
     <GameBlock
-      onClick={() => (!isOpen ? handleClick() : {})}
+      onClick={() => (!isOpen && isYourTurn ? handleClick() : {})}
       isOpen={isOpen}
+      isYourTurn={isYourTurn}
       themeColor={themeColor}
     >
       {isBomb && isOpen && (

@@ -19,9 +19,15 @@ interface GridProps {
   gridData: number[][]
   gridStatus: number[][]
   clickGrid: (row: number, column: number) => void
+  isYourTurn: boolean
 }
 
-const Grid: FC<GridProps> = ({ gridData, clickGrid }) => {
+const Grid: FC<GridProps> = ({
+  gridData,
+  gridStatus,
+  clickGrid,
+  isYourTurn,
+}) => {
   const { themeColor } = useThemeContext()
   return (
     <GridContainer themeColor={themeColor}>
@@ -37,6 +43,7 @@ const Grid: FC<GridProps> = ({ gridData, clickGrid }) => {
                 isBomb={isBomb}
                 clickGrid={clickGrid}
                 themeColor={themeColor}
+                isYourTurn={isYourTurn}
               />
             )
           })}

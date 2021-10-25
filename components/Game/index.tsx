@@ -102,8 +102,6 @@ const Game: FC<GameProps> = ({
     generateBlankGrid(initialGrid.length)
   )
 
-  const [splash, setSplash] = useState(true)
-
   const [gameResult, setGameResult] = useState<number[]>()
 
   const [surrenderer, setSurrenderer] = useState<number>()
@@ -343,20 +341,9 @@ const Game: FC<GameProps> = ({
     setMounted(true)
   }, [])
 
-  useEffect(() => {
-    setMounted(true)
-    setTimeout(() => {
-      setSplash(true)
-    }, 4000)
-    setTimeout(() => {
-      setSplash(false)
-    }, 8000)
-  }, [])
-
   return (
     <GameContainer>
       {/* <WinLoseScreen show={gameOver} win={true} mounted={mounted} restartGame={() => {}} toTitle={() => {}}/> */}
-      <SplashScreen show={splash} mounted={mounted}/>
       <Timer time={time} isYourTurn={playerTurn === playerNumber} />
       <GameRow>
         {isMobile ? (

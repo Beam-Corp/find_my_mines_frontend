@@ -7,6 +7,7 @@ import TitlePage from '../components/Game/TitlePage'
 import GameStatDisplay from '../components/GameStatDisplay'
 
 import { SocketContext } from '../utils/socketUtils'
+import SplashScreen from '../components/Game/SplashScreen'
 
 const Home: NextPage = () => {
   return (

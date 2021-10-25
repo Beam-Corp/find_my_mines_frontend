@@ -11,14 +11,14 @@ interface SplashScreenProps {
 const SplashScreen: FC<SplashScreenProps> = ({ show, mounted }) => {
   const { themeColor } = useThemeContext()
   return (
-    <Splash show={show} mounted={mounted} background={themeColor.background}>
-      <Border highlight={themeColor.highlight}>
-        <Top secondary={themeColor.secondary}/>
+    <Splash show={show} mounted={mounted} theme={themeColor}>
+      <Border theme={themeColor}>
+        <Top theme={themeColor}/>
         <Container>
-          <Title primary={themeColor.primary}>FIND MY MINES</Title>
+          <Title theme={themeColor}>FIND MY MINES</Title>
           <Logo alt="logo" src="/game/bomb.svg" show={show} />
         </Container>
-        <Bottom secondary={themeColor.secondary}/>
+        <Bottom theme={themeColor}/>
       </Border>
     </Splash>
   )

@@ -1,5 +1,7 @@
 import styled, { css, keyframes } from 'styled-components'
 
+import { ThemeColorProps } from '../../../dto/themeColor.dto'
+
 const fadeIn = keyframes`
   0% { opacity: 0; }
   100% { opacity: 1; }
@@ -17,21 +19,21 @@ const rotate = keyframes`
   100% { transform: matrix3d(-1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
 `
 
-export const Splash = styled.div`
+export const Splash = styled.div<{ show: boolean, mounted: boolean, theme: ThemeColorProps }>`
   position: fixed;
   top: 0;
   left: 0;
-  background-color: ${( props: { show: boolean, mounted: boolean, background: string }) => (props.background)};
+  background-color: ${(props) => (props.theme.background)};
   width: 100%;
   height: 100%;
-  display: ${( props: { show: boolean, mounted: boolean }) => (props.mounted ? 'initial' : 'none')};
-  opacity: ${( props: { show: boolean, mounted: boolean }) => (props.show ? '1' : '0')};
-  pointer-events: ${( props: { show: boolean, mounted: boolean }) => (props.show ? 'auto' : 'none')};
+  display: ${(props) => (props.mounted ? 'initial' : 'none')};
+  opacity: ${(props) => (props.show ? '1' : '0')};
+  pointer-events: ${(props) => (props.show ? 'auto' : 'none')};
   transition: opacity 500ms linear;
   z-index: 100;
 `
 
-export const Border = styled.div`
+export const Border = styled.div<{ theme: ThemeColorProps }>`
   position: absolute;
   top: 2%;
   left: 1%;
@@ -40,7 +42,7 @@ export const Border = styled.div`
   border-style: solid;
   border-width: 2px;
   border-radius: 30px;
-  border-color: ${(props: { highlight: string }) => (props.highlight)};
+  border-color: ${(props) => (props.theme.highlight)};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,10 +53,10 @@ export const Container = styled.div`
   text-align: center;
 `
 
-export const Top = styled.div`
+export const Top = styled.div<{ theme: ThemeColorProps }>`
   ::before {
     content: '';
-    background-color: ${(props: { secondary: string }) => (props.secondary)};
+    background-color: ${(props) => (props.theme.secondary)};
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -65,7 +67,7 @@ export const Top = styled.div`
 
   ::after {
     content: '';
-    background-color: ${(props: { secondary: string }) => (props.secondary)};
+    background-color: ${(props) => (props.theme.secondary)};
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -74,22 +76,22 @@ export const Top = styled.div`
     right: 2%;
 `
 
-export const Title = styled.h1`
+export const Title = styled.h1<{ theme: ThemeColorProps }>`
   margin: 0;
-  color: ${(props: { primary: string }) => (props.primary)};
+  color: ${(props) => (props.theme.primary)};
   font-size: 8vh;
 `
-export const Logo = styled.img`
+export const Logo = styled.img<{ show: boolean }>`
   height: 25vh;
   width: auto;
   min-height: 75px;
-  ${({ show }: { show: boolean }) => (show ? css`animation: ${rotate} 2000ms linear 500ms 20 both;` : '')}
+  ${(props) => (props.show ? css`animation: ${rotate} 2000ms linear 500ms 20 both;` : '')}
 `
 
-export const Bottom = styled.div`
+export const Bottom = styled.div<{ theme: ThemeColorProps }>`
   ::before {
     content: '';
-    background-color: ${(props: { secondary: string }) => (props.secondary)};
+    background-color: ${(props) => (props.theme.secondary)};
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -100,7 +102,7 @@ export const Bottom = styled.div`
 
   ::after {
     content: '';
-    background-color: ${(props: { secondary: string }) => (props.secondary)};
+    background-color: ${(props) => (props.theme.secondary)};
     width: 20px;
     height: 20px;
     border-radius: 50%;

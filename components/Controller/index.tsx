@@ -6,7 +6,6 @@ import styled from 'styled-components'
 
 import { ThemeColorProps } from '../../dto/themeColor.dto'
 import { Row } from '../Container'
-import MusicButton from './MusicButton'
 import ThemeColorButton from './ThemeColorButton'
 
 interface ControllerProps {}

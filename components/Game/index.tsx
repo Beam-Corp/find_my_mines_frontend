@@ -24,6 +24,7 @@ import Grid from './Grid'
 import PlayerPanel from './PlayerPanel'
 import Timer from './Timer'
 import WinLoseScreen from './WinLoseScreen'
+import ActionButtons from './ActionButtons'
 
 const GameContainer = styled(Column)`
   width: 100%;
@@ -183,7 +184,7 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
   return (
     <GameContainer>
       {/* <WinLoseScreen show={gameOver} win={true} mounted={mounted} restartGame={() => {}} toTitle={() => {}}/> */}
-      <Timer time={time} isYourTurn={playerTurn === playerNumber} />
+      <Timer time={time} isYourTurn={playerTurn === playerNumber} gameResult={''}/>
       <GameRow>
         {isMobile ? (
           <div>

@@ -29,27 +29,27 @@ const showBtn = keyframes`
   100% { opacity: 1; }
 `
 
-export const Overlay = styled.div`
+export const Overlay = styled.div<{ show: boolean, mounted: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: #000000;
-  display: ${(props: {show: boolean, mounted: boolean}) => (props.mounted ? 'initial' : 'none')};
-  opacity: ${(props: {show: boolean, mounted: boolean}) => (props.show ? '0.5' : '0')};
-  pointer-events: ${(props: {show: boolean, mounted: boolean}) => (props.show ? 'auto' : 'none')};
+  display: ${(props) => (props.mounted ? 'initial' : 'none')};
+  opacity: ${(props) => (props.show ? '0.5' : '0')};
+  pointer-events: ${(props) => (props.show ? 'auto' : 'none')};
   transition: opacity 300ms linear;
 `
 
-export const Container = styled.div`
-  display: ${(props: {show: boolean, mounted: boolean}) => (props.mounted ? 'initial' : 'none')};
-  opacity: ${(props: {show: boolean, mounted: boolean}) => (props.show ? '1' : '0')};
-  pointer-events: ${(props: {show: boolean, mounted: boolean}) => (props.show ? 'auto' : 'none')};
+export const Container = styled.div<{ show: boolean, mounted: boolean }>`
+  display: ${(props) => (props.mounted ? 'initial' : 'none')};
+  opacity: ${(props) => (props.show ? '1' : '0')};
+  pointer-events: ${(props) => (props.show ? 'auto' : 'none')};
   transition: opacity 250ms linear;
 `
 
-export const Window = styled.div`
+export const Window = styled.div<{ show: boolean }>`
   position: fixed;
   top: 35%;
   left: 50%;
@@ -65,7 +65,7 @@ export const Window = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  ${({ show }: { show: boolean }) => (show ? css`animation: ${enlarge} 250ms ease-out forwards;` : css`animation: ${minimize} 250ms ease-out forwards;`)}
+  ${(props) => (props.show ? css`animation: ${enlarge} 250ms ease-out forwards;` : css`animation: ${minimize} 250ms ease-out forwards;`)}
 `
 
 export const WinLose = styled.h1`
@@ -97,9 +97,9 @@ export const WinLose = styled.h1`
   }
 `
 
-export const Button = styled.button`
+export const Button = styled.button<{ top: string }>`
   position: fixed;
-  top: ${({top}: {top: string}) => (top)};
+  top: ${(props) => (props.top)};
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
   width: 20%;

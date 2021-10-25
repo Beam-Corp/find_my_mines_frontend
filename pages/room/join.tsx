@@ -61,7 +61,7 @@ const JoinRoom: NextPage = () => {
             />
             <InlineInput
               name={'name'}
-              value={name}
+              value={playerName}
               onChange={(e) => setPlayerName(e.target.value)}
               label="PLAYER NAME"
             />

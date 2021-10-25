@@ -6,7 +6,6 @@ import { Container } from '../components/Container'
 import Controller from '../components/Controller'
 import '../styles/globals.css'
 import ThemeProvider from '../useContext/useThemeContext'
-import { useThemeContext } from '../useContext/useThemeContext'
 import { PlayerContext } from '../utils/playerUtils'
 import { SocketContext, socketInstance } from '../utils/socketUtils'
 

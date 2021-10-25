@@ -1,6 +1,4 @@
-import { useContext } from 'hoist-non-react-statics/node_modules/@types/react'
-
-import { FC, useCallback, useState } from 'react'
+import { FC, useCallback, useContext, useState } from 'react'
 
 import Image from 'next/image'
 
@@ -63,7 +61,7 @@ const Block: FC<BlockProps> = ({
     clickGrid(...coordinate)
   }, [clickGrid, coordinate])
 
-  const themeColor = useContext(ThemeContext)
+  const { themeColor } = useContext(ThemeContext)
 
   return (
     <GameBlock

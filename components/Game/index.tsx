@@ -125,7 +125,7 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
 
   const onTimeUp = useCallback(() => {
     const newPlayerTurn = playerNumber === 1 ? 2 : 1
-    setPlayerTurn((prev) => (prev === 1 ? 2 : 1))
+    setPlayerTurn(newPlayerTurn)
 
     socket.emit(GameEvents.TIME_UP, {
       roomId: id,

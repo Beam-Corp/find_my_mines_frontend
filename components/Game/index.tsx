@@ -32,6 +32,8 @@ const GameRow = styled(Row)`
 `
 
 interface GameProps {
+  initialGrid: number[][]
+  initialTurn: number
   players: string[]
 }
 
@@ -53,7 +55,7 @@ const blankGrid = [
   [0, 0, 0, 0, 0, 0],
 ]
 
-const Game: FC<GameProps> = ({ players }) => {
+const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
   const socket = useContext(SocketContext)
   const { query } = useRouter()
   const id = useMemo(() => query.id, [query])
@@ -71,10 +73,11 @@ const Game: FC<GameProps> = ({ players }) => {
 
   const playerNumber = useMemo(() => parseInt(name.substring(0, 1)), [name])
 
-  const [playerTurn, setPlayerTurn] = useState<number>(1)
+  const [playerTurn, setPlayerTurn] = useState<number>(initialTurn)
 
   const [playerScore, setPlayerScore] = useState<number[]>([0, 0])
 
+  const gridData = useMemo(() => initialGrid, [initialGrid])
   const [gridStatus, setGridStatus] = useState<number[][]>(blankGrid)
 
   const startTimer = useCallback(() => {
@@ -98,8 +101,8 @@ const Game: FC<GameProps> = ({ players }) => {
     (row: number, column: number) => {
       const newPlayerScore =
         playerTurn === 1
-          ? [playerScore[0] + mockGrid[row][column], playerScore[1]]
-          : [playerScore[0], playerScore[1] + mockGrid[row][column]]
+          ? [playerScore[0] + gridData[row][column], playerScore[1]]
+          : [playerScore[0], playerScore[1] + gridData[row][column]]
 
       let newGridStatus = gridStatus
       newGridStatus[row][column] = 1
@@ -117,7 +120,7 @@ const Game: FC<GameProps> = ({ players }) => {
         playerTurn: newPlayerTurn,
       })
     },
-    [playerTurn, playerScore, gridStatus, playerNumber, socket, id]
+    [playerTurn, playerScore, gridData, gridStatus, playerNumber, socket, id]
   )
 
   const onTimeUp = useCallback(() => {
@@ -198,7 +201,7 @@ const Game: FC<GameProps> = ({ players }) => {
           />
         )}
         <Grid
-          gridData={mockGrid}
+          gridData={gridData}
           clickGrid={clickGrid}
           gridStatus={gridStatus}
           isYourTurn={playerTurn === playerNumber}

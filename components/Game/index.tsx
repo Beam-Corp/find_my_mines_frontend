@@ -104,7 +104,7 @@ const Game: FC<GameProps> = ({ players }) => {
       let newGridStatus = gridStatus
       newGridStatus[row][column] = 1
 
-      const newPlayerTurn = playerTurn === 1 ? 2 : 1
+      const newPlayerTurn = playerNumber === 1 ? 2 : 1
 
       setPlayerScore(newPlayerScore)
       setGridStatus(newGridStatus)
@@ -117,11 +117,11 @@ const Game: FC<GameProps> = ({ players }) => {
         playerTurn: newPlayerTurn,
       })
     },
-    [playerTurn, socket, id, gridStatus, playerScore]
+    [playerTurn, playerScore, gridStatus, playerNumber, socket, id]
   )
 
   const onTimeUp = useCallback(() => {
-    const newPlayerTurn = playerTurn === 1 ? 2 : 1
+    const newPlayerTurn = playerNumber === 1 ? 2 : 1
     setPlayerTurn((prev) => (prev === 1 ? 2 : 1))
 
     socket.emit(GameEvents.TIME_UP, {
@@ -130,12 +130,11 @@ const Game: FC<GameProps> = ({ players }) => {
       scoreState: playerScore,
       playerTurn: newPlayerTurn,
     })
-  }, [gridStatus, id, playerScore, playerTurn, socket])
+  }, [gridStatus, id, playerNumber, playerScore, socket])
 
   const onUpdateFromServer = useCallback(
     (update: GameState) => {
       if (playerNumber === update.playerTurn) {
-        console.log('got update')
         setPlayerScore(update.scoreState)
         setPlayerTurn(update.playerTurn)
         setGridStatus(update.gridState)

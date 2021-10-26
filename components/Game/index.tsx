@@ -14,6 +14,7 @@ import styled from 'styled-components'
 
 import { ThemeColorProps } from '../../dto/themeColor.dto'
 import { GameEvents, GameState } from '../../utils/game/game.event'
+import { genearateBlankGrid } from '../../utils/game/gameUtils'
 import { PlayerContext } from '../../utils/playerUtils'
 import { SocketContext } from '../../utils/socketUtils'
 import { mainTheme } from '../../utils/themeConst'
@@ -46,15 +47,6 @@ const mockGrid = [
   [0, 1, 0, 0, 0, 0],
 ]
 
-const blankGrid = [
-  [0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0],
-]
-
 const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
   const socket = useContext(SocketContext)
   const { query } = useRouter()
@@ -77,8 +69,9 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
 
   const [playerScore, setPlayerScore] = useState<number[]>([0, 0])
 
-  const gridData = useMemo(() => initialGrid, [initialGrid])
-  const [gridStatus, setGridStatus] = useState<number[][]>(blankGrid)
+  const [gridStatus, setGridStatus] = useState<number[][]>(
+    genearateBlankGrid(6)
+  )
 
   const startTimer = useCallback(() => {
     const timeout = setInterval(() => {
@@ -101,8 +94,8 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
     (row: number, column: number) => {
       const newPlayerScore =
         playerTurn === 1
-          ? [playerScore[0] + gridData[row][column], playerScore[1]]
-          : [playerScore[0], playerScore[1] + gridData[row][column]]
+          ? [playerScore[0] + initialGrid[row][column], playerScore[1]]
+          : [playerScore[0], playerScore[1] + initialGrid[row][column]]
 
       let newGridStatus = gridStatus
       newGridStatus[row][column] = 1
@@ -120,7 +113,7 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
         playerTurn: newPlayerTurn,
       })
     },
-    [playerTurn, playerScore, gridData, gridStatus, playerNumber, socket, id]
+    [playerTurn, playerScore, initialGrid, gridStatus, playerNumber, socket, id]
   )
 
   const onTimeUp = useCallback(() => {
@@ -137,14 +130,23 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
 
   const onUpdateFromServer = useCallback(
     (update: GameState) => {
-      if (playerNumber === update.playerTurn) {
+      if (playerNumber !== playerTurn) {
         setPlayerScore(update.scoreState)
         setPlayerTurn(update.playerTurn)
         setGridStatus(update.gridState)
       }
     },
-    [playerNumber]
+    [playerNumber, playerTurn]
   )
+
+  useEffect(() => {
+    socket.on(GameEvents.ON_SELECTED, onUpdateFromServer)
+    socket.on(GameEvents.ON_TIME_UP, onUpdateFromServer)
+    return () => {
+      socket.off(GameEvents.ON_SELECTED, onUpdateFromServer)
+      socket.off(GameEvents.ON_TIME_UP, onUpdateFromServer)
+    }
+  }, [onUpdateFromServer, socket])
 
   useEffect(() => {
     if (time === 0 && playerTurn === playerNumber) {
@@ -163,15 +165,6 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
       if (timeoutRef.current) clearInterval(timeoutRef.current)
     }
   }, [playerNumber, playerTurn, resetTimer])
-
-  useEffect(() => {
-    socket.on(GameEvents.ON_SELECTED, onUpdateFromServer)
-    socket.on(GameEvents.ON_TIME_UP, onUpdateFromServer)
-    return () => {
-      socket.off(GameEvents.ON_SELECTED, onUpdateFromServer)
-      socket.off(GameEvents.ON_TIME_UP, onUpdateFromServer)
-    }
-  }, [onUpdateFromServer, socket])
 
   return (
     <GameContainer>
@@ -201,7 +194,7 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
           />
         )}
         <Grid
-          gridData={gridData}
+          gridData={initialGrid}
           clickGrid={clickGrid}
           gridStatus={gridStatus}
           isYourTurn={playerTurn === playerNumber}

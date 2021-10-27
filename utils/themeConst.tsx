@@ -5,4 +5,5 @@ export const mainTheme = {
   background: '#110358',
   spacingSize: 8,
   spacing: (level: number) => `${level * mainTheme.spacingSize}px`,
+  breakpoint: { sm: 576, md: 1200 },
 }

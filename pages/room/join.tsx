@@ -8,16 +8,16 @@ import styled from 'styled-components'
 import { Button } from '../../components/Button'
 import { DecoratedBox } from '../../components/Container'
 import { InlineInput } from '../../components/Inputs'
-import { PlayerContext } from '../../utils/playerUtils'
 import { RoomEvents } from '../../utils/room/room.event'
 import { SocketContext } from '../../utils/socketUtils'
 import { mainTheme } from '../../utils/themeConst'
+import { usePlayerContext } from '../../utils/usePlayerContext'
 import { HeadText, RoomButtonContainer } from './create'
 
 const JoinRoom: NextPage = () => {
   const router = useRouter()
   const socket = useContext(SocketContext)
-  const { name, setName } = useContext(PlayerContext)
+  const { setPlayerInfo } = usePlayerContext()
   const [playerName, setPlayerName] = useState<string>('')
   const [roomId, setRoomId] = useState('')
   const onGetRoomId = useCallback(
@@ -35,8 +35,8 @@ const JoinRoom: NextPage = () => {
   }, [roomId, socket])
 
   useEffect(() => {
-    setName(`2-${playerName}`)
-  }, [playerName, setName])
+    setPlayerInfo({ userId: `2-${playerName}` })
+  }, [playerName, setPlayerInfo])
 
   useEffect(() => {
     socket.on(RoomEvents.JOIN, onGetRoomId)

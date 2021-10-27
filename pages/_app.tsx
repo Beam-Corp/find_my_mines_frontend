@@ -6,15 +6,13 @@ import { Container } from '../components/Container'
 import Controller from '../components/Controller'
 import '../styles/globals.css'
 import ThemeProvider from '../useContext/useThemeContext'
-import { PlayerContext } from '../utils/playerUtils'
 import { SocketContext, socketInstance } from '../utils/socketUtils'
+import { PlayerProvider } from '../utils/usePlayerContext'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [name, setName] = useState<string>('')
-
   return (
     <SocketContext.Provider value={socketInstance}>
-      <PlayerContext.Provider value={{ name, setName }}>
+      <PlayerProvider>
         <ThemeProvider>
           <Container>
             <Controller>
@@ -22,7 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             </Controller>
           </Container>
         </ThemeProvider>
-      </PlayerContext.Provider>
+      </PlayerProvider>
     </SocketContext.Provider>
   )
 }

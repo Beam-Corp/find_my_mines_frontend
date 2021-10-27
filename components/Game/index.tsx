@@ -15,10 +15,10 @@ import styled from 'styled-components'
 import { ThemeColorProps } from '../../dto/themeColor.dto'
 import { GameEvents, GameState } from '../../utils/game/game.event'
 import { genearateBlankGrid } from '../../utils/game/gameUtils'
-import { PlayerContext } from '../../utils/playerUtils'
 import { SocketContext } from '../../utils/socketUtils'
 import { mainTheme } from '../../utils/themeConst'
 import useWindowDimensions from '../../utils/useDimensions'
+import { usePlayerContext } from '../../utils/usePlayerContext'
 import { Row, Column } from '../Container'
 import Grid from './Grid'
 import PlayerPanel from './PlayerPanel'
@@ -57,13 +57,16 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
     return width <= mainTheme.breakpoint['md']
   }, [width])
 
-  const { name } = useContext(PlayerContext)
+  const { playerInfo } = usePlayerContext()
 
   const [time, setTime] = useState<number>(5)
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  const playerNumber = useMemo(() => parseInt(name.substring(0, 1)), [name])
+  const playerNumber = useMemo(
+    () => parseInt(playerInfo.userId.substring(0, 1)),
+    [playerInfo.userId]
+  )
 
   const [playerTurn, setPlayerTurn] = useState<number>(initialTurn)
 

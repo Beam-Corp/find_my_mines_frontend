@@ -8,10 +8,10 @@ import styled from 'styled-components'
 import { Button } from '../../components/Button'
 import { DecoratedBox, TextContainer } from '../../components/Container'
 import { InlineInput, Input } from '../../components/Inputs'
-import { PlayerContext } from '../../utils/playerUtils'
 import { RoomEvents } from '../../utils/room/room.event'
 import { SocketContext } from '../../utils/socketUtils'
 import { mainTheme } from '../../utils/themeConst'
+import { usePlayerContext } from '../../utils/usePlayerContext'
 
 export const HeadText = styled(TextContainer)`
   padding-bottom: 20px;
@@ -26,7 +26,7 @@ export const RoomButtonContainer = styled.div`
 const CreateRoom: NextPage = () => {
   const router = useRouter()
   const socket = useContext(SocketContext)
-  const { setName } = useContext(PlayerContext)
+  const { setPlayerInfo } = usePlayerContext()
 
   const [hostName, setHostName] = useState('')
   const onGetRoomId = useCallback(
@@ -44,8 +44,8 @@ const CreateRoom: NextPage = () => {
   }, [socket])
 
   useEffect(() => {
-    setName(`1-${hostName}`)
-  }, [hostName, setName])
+    setPlayerInfo({ userId: `1-${hostName}` })
+  }, [hostName, setPlayerInfo])
 
   useEffect(() => {
     socket.on(RoomEvents.CREATE, onGetRoomId)

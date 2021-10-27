@@ -5,9 +5,9 @@ import { useRouter } from 'next/dist/client/router'
 
 import Game from '../../components/Game'
 import { GameEvents } from '../../utils/game/game.event'
-import { PlayerContext } from '../../utils/playerUtils'
 import { useRoomManager } from '../../utils/room/useRoomManager'
 import { SocketContext } from '../../utils/socketUtils'
+import { usePlayerContext } from '../../utils/usePlayerContext'
 
 export interface GameStartPayload {
   gridState: number[][]
@@ -16,14 +16,14 @@ export interface GameStartPayload {
 
 const GamePage: NextPage = () => {
   const socket = useContext(SocketContext)
-  const { name } = useContext(PlayerContext)
+  const { playerInfo } = usePlayerContext()
   const { query } = useRouter()
   const id: string = query.id as string
   const [isRunning, setRunning] = useState<boolean>(false)
   const [initialGrid, setInitialGrid] = useState<number[][]>([])
   const [initialTurn, setInitialTurn] = useState<number>(0)
 
-  const { players } = useRoomManager(name, id, socket)
+  const { players } = useRoomManager(playerInfo.userId, id, socket)
 
   const onGameStart = useCallback((payload: GameStartPayload) => {
     console.log('start game')

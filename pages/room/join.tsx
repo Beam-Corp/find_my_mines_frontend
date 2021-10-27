@@ -12,7 +12,7 @@ import { PlayerContext } from '../../utils/playerUtils'
 import { RoomEvents } from '../../utils/room/room.event'
 import { SocketContext } from '../../utils/socketUtils'
 import { mainTheme } from '../../utils/themeConst'
-import { HeadText, RoomButtonContainer, RoomWrapper } from './create'
+import { HeadText, RoomButtonContainer } from './create'
 
 const JoinRoom: NextPage = () => {
   const router = useRouter()
@@ -51,7 +51,7 @@ const JoinRoom: NextPage = () => {
         Join Room
       </HeadText>
       <DecoratedBox>
-        <RoomWrapper>
+        <>
           <div>
             <InlineInput
               name={'id'}
@@ -66,7 +66,7 @@ const JoinRoom: NextPage = () => {
               label="PLAYER NAME"
             />
           </div>
-        </RoomWrapper>
+        </>
         <RoomButtonContainer>
           <Button size="s" onClick={onJoin}>
             JOIN GAME ROOM

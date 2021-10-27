@@ -1,7 +1,7 @@
 import styled, { useTheme } from 'styled-components'
 
-import { mainTheme } from '../utils/themeConst'
 import { ThemeColorProps } from '../dto/themeColor.dto'
+import { mainTheme } from '../utils/themeConst'
 
 export const Container = styled.div<{}>`
   min-height: 100vh;
@@ -32,6 +32,14 @@ export const Dot = styled.div`
   background-color: ${mainTheme.secondary};
   border-radius: 50%;
 `
+export const BoxWrapper = styled.div`
+  margin: 20px 0 0 0;
+  min-width: 594px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
 export const DecoratedBox: React.FunctionComponent = ({ children }) => {
   const theme = useTheme()
   return (
@@ -39,13 +47,14 @@ export const DecoratedBox: React.FunctionComponent = ({ children }) => {
       <div style={{ width: '100%', display: 'flex' }}>
         <Dot />
       </div>
-      {children}
+      <BoxWrapper>{children}</BoxWrapper>
       <div style={{ width: '100%', display: 'flex', justifyContent: 'end' }}>
         <Dot />
       </div>
     </Box>
   )
 }
+
 export const TextContainer = styled.div<{
   size?: number
   weight?: number
@@ -67,4 +76,3 @@ export const Column = styled.div`
 
 // background-color: ${({themeColor}) => themeColor.background};
 // background-color: ${mainTheme.background};
-

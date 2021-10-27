@@ -13,14 +13,6 @@ import { RoomEvents } from '../../utils/room/room.event'
 import { SocketContext } from '../../utils/socketUtils'
 import { mainTheme } from '../../utils/themeConst'
 
-export const RoomWrapper = styled.div`
-  margin: 20px 0 0 0;
-  min-width: 594px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
 export const HeadText = styled(TextContainer)`
   padding-bottom: 20px;
   color: ${mainTheme.primary};
@@ -68,16 +60,14 @@ const CreateRoom: NextPage = () => {
         Create Room
       </HeadText>
       <DecoratedBox>
-        <RoomWrapper>
-          <div>
-            <InlineInput
-              name={'host'}
-              value={hostName}
-              onChange={(e) => setHostName(e.target.value)}
-              label="ROOM HOST"
-            />
-          </div>
-        </RoomWrapper>
+        <div>
+          <InlineInput
+            name={'host'}
+            value={hostName}
+            onChange={(e) => setHostName(e.target.value)}
+            label="ROOM HOST"
+          />
+        </div>
         <RoomButtonContainer>
           <Button size="s" color={mainTheme.primary} onClick={onCreate}>
             CREATE GAME ROOM

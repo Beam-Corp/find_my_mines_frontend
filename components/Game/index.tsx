@@ -23,6 +23,7 @@ import { Row, Column } from '../Container'
 import Grid from './Grid'
 import PlayerPanel from './PlayerPanel'
 import Timer from './Timer'
+import WinLoseScreen from './WinLoseScreen'
 
 const GameContainer = styled(Column)`
   width: 100%;
@@ -68,6 +69,9 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
   const [playerTurn, setPlayerTurn] = useState<number>(initialTurn)
 
   const [playerScore, setPlayerScore] = useState<number[]>([0, 0])
+
+  // const [gameOver, setGameOver] = useState<boolean>(false)
+  // const [mounted, setMounted] = useState<boolean>(false)
 
   const [gridStatus, setGridStatus] = useState<number[][]>(
     genearateBlankGrid(6)
@@ -166,8 +170,19 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
     }
   }, [playerNumber, playerTurn, resetTimer])
 
+  // useEffect(() => {
+  //   setMounted(true)
+  //   setTimeout(() => {
+  //     setGameOver(true)
+  //   }, 2000)
+  //   setTimeout(() => {
+  //     setGameOver(false)
+  //   }, 6000)
+  // }, [])
+
   return (
     <GameContainer>
+      {/* <WinLoseScreen show={gameOver} win={true} mounted={mounted} restartGame={() => {}} toTitle={() => {}}/> */}
       <Timer time={time} isYourTurn={playerTurn === playerNumber} />
       <GameRow>
         {isMobile ? (

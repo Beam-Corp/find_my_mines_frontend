@@ -18,12 +18,20 @@ export const LeftLine = styled(Lines)`
     top: -17%;
     left: 5%;
     transform: rotate(180deg);
+
+    @media (max-width: 1200px) {
+        display: none;
+    }
 `
 
 export const RightLine = styled(Lines)`
     position: fixed;
     bottom: -17%;
     right: 5%;
+    
+    @media (max-width: 1200px) {
+        display: none;
+    }
 `
 
 export const TitleText = styled(TextContainer)<{ color: string }>`

@@ -28,7 +28,7 @@ export const RightLine = styled(Lines)`
     position: fixed;
     bottom: -17%;
     right: 5%;
-    
+
     @media (max-width: 1200px) {
         display: none;
     }

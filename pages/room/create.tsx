@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useState, useEffect } from 'react'
 
 import { NextPage } from 'next'
 import { useRouter } from 'next/dist/client/router'
+import Link from 'next/link'
 
 import styled from 'styled-components'
 
@@ -30,6 +31,12 @@ export const RoomButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`
+
+export const ReturnButtonContainer = styled.div`
+  position: absolute;
+  top: 40px;
+  left: 40px;
 `
 
 const CreateRoom: NextPage = () => {
@@ -82,6 +89,14 @@ const CreateRoom: NextPage = () => {
 
   return (
     <>
+      
+      <ReturnButtonContainer>
+        <Link href='/' passHref>
+          <Button size="s" color={mainTheme.primary}>
+            RETURN TO TITLE
+          </Button>
+        </Link>
+      </ReturnButtonContainer>
       <HeadText size={9} weight={900} themeColor={themeColor}>
         Create Room
       </HeadText>

@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react'
 
 import { NextPage } from 'next'
 import { useRouter } from 'next/dist/client/router'
+import Link from 'next/link'
 
 import styled from 'styled-components'
 
@@ -12,7 +13,7 @@ import { useThemeContext } from '../../useContext/useThemeContext'
 import { RoomEvents } from '../../utils/room/room.event'
 import { SocketContext } from '../../utils/socketUtils'
 import { usePlayerContext } from '../../utils/usePlayerContext'
-import { HeadText, RoomButtonContainer, RoomWrapper } from './create'
+import { HeadText, RoomButtonContainer, ReturnButtonContainer } from './create'
 
 const JoinRoom: NextPage = () => {
   const router = useRouter()
@@ -63,6 +64,13 @@ const JoinRoom: NextPage = () => {
 
   return (
     <>
+      <ReturnButtonContainer>
+        <Link href="/" passHref>
+          <Button size="s" themeColor={theme.themeColor}>
+            RETURN TO TITLE
+          </Button>
+        </Link>
+      </ReturnButtonContainer>
       <HeadText size={9} weight={900} themeColor={themeColor}>
         Join Room
       </HeadText>

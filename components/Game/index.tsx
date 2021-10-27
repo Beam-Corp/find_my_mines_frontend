@@ -45,9 +45,8 @@ const Game: FC<GameProps> = ({}) => {
 
   const [playerScore, setPlayerScore] = useState<number[]>([0, 0])
 
-  const [gameOver, setGameOver] = useState<boolean>(false)
-
-  const [mounted, setMounted] = useState<boolean>(false)
+  // const [gameOver, setGameOver] = useState<boolean>(false)
+  // const [mounted, setMounted] = useState<boolean>(false)
 
   const startTimer = useCallback(() => {
     const timeout = setTimeout(() => {
@@ -88,22 +87,19 @@ const Game: FC<GameProps> = ({}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [time])
 
-  useEffect(() => {
-    setTimeout(() => {
-      setGameOver(true)
-    }, 2000)
-    setTimeout(() => {
-      setGameOver(false)
-    }, 6000)
-  }, [])
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  // useEffect(() => {
+  //   setMounted(true)
+  //   setTimeout(() => {
+  //     setGameOver(true)
+  //   }, 2000)
+  //   setTimeout(() => {
+  //     setGameOver(false)
+  //   }, 6000)
+  // }, [])
 
   return (
     <GameContainer>
-      <WinLoseScreen show={gameOver} win={true} mounted={mounted} restartGame={() => {}} toTitle={() => {}}/>
+      {/* <WinLoseScreen show={gameOver} win={true} mounted={mounted} restartGame={() => {}} toTitle={() => {}}/> */}
       <Timer time={time} isYourTurn={playerTurn === playerNumber} />
       <GameRow>
         <PlayerPanel

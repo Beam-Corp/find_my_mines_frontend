@@ -13,7 +13,7 @@ import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
 import { ThemeColorProps } from '../../dto/themeColor.dto'
-import { GameEvents, GameState } from '../../utils/game/game.event'
+import { GameEvents, GameState, SurrenderState } from '../../utils/game/game.event'
 import { genearateBlankGrid } from '../../utils/game/gameUtils'
 import { PlayerContext } from '../../utils/playerUtils'
 import { SocketContext } from '../../utils/socketUtils'
@@ -73,10 +73,18 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
 
   // const [gameOver, setGameOver] = useState<boolean>(false)
   // const [mounted, setMounted] = useState<boolean>(false)
+  const [clickNumber, setClickNumber] = useState<number>(0)
 
   const [gridStatus, setGridStatus] = useState<number[][]>(
     genearateBlankGrid(6)
   )
+
+  const [gameResult, setGameResult] = useState<number[]>()
+
+  const [surrenderer, setSurrenderer] = useState<number>()
+
+  const gridNumber = gridStatus.length * gridStatus[0].length
+
 
   const startTimer = useCallback(() => {
     const timeout = setInterval(() => {
@@ -92,8 +100,10 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
     }
 
     setTime(5)
+    if (surrenderer && gameResult && gameResult.length) return 
     return startTimer()
-  }, [startTimer])
+
+  }, [startTimer, gameResult, surrenderer])
 
   const clickGrid = useCallback(
     (row: number, column: number) => {
@@ -106,20 +116,32 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
       newGridStatus[row][column] = 1
 
       const newPlayerTurn = playerNumber === 1 ? 2 : 1
+      const newClickNumber = clickNumber + 1
 
       setPlayerScore(newPlayerScore)
       setGridStatus(newGridStatus)
       setPlayerTurn(newPlayerTurn)
+      setClickNumber(newClickNumber)
 
       socket.emit(GameEvents.SELECT_BLOCK, {
         roomId: id,
         gridState: newGridStatus,
         scoreState: newPlayerScore,
         playerTurn: newPlayerTurn,
+        clickNumber: newClickNumber,
       })
     },
-    [playerTurn, playerScore, initialGrid, gridStatus, playerNumber, socket, id]
+    [playerTurn, playerScore, initialGrid, gridStatus, playerNumber, socket, id, clickNumber]
   )
+
+  const surrender = useCallback(() => {
+    setSurrenderer(playerNumber)
+
+    socket.emit(GameEvents.SURRENDER, {
+      roomId: id,
+      surrenderer: playerNumber
+    })
+  }, [playerNumber, id, socket])
 
   const onTimeUp = useCallback(() => {
     const newPlayerTurn = playerNumber === 1 ? 2 : 1
@@ -130,8 +152,17 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
       gridState: gridStatus,
       scoreState: playerScore,
       playerTurn: newPlayerTurn,
+      clickNumber: clickNumber
     })
-  }, [gridStatus, id, playerNumber, playerScore, socket])
+  }, [gridStatus, id, playerNumber, playerScore, socket, clickNumber])
+
+  const onGameEnd = useCallback(() => {
+    if (playerScore[0] !== playerScore[1]) {
+      setGameResult(playerScore[0] > playerScore[1] ? [1,0] : [0,1])
+      return
+    }
+    setGameResult([2,2])
+  }, [playerScore])
 
   const onUpdateFromServer = useCallback(
     (update: GameState) => {
@@ -139,19 +170,38 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
         setPlayerScore(update.scoreState)
         setPlayerTurn(update.playerTurn)
         setGridStatus(update.gridState)
+        setClickNumber(update.clickNumber)
       }
     },
     [playerNumber, playerTurn]
   )
 
+  const onSurrenderFromServer = useCallback(
+    (surrender: SurrenderState) => {
+      if (surrender.surrenderer) {
+        setSurrenderer(surrender.surrenderer)
+        console.log(`surrender: ${playerNumber}`)
+      }
+    }, [playerNumber]
+  )
+
+  useEffect(() => {
+    if (clickNumber === gridNumber) {
+      onGameEnd()
+      console.log(gameResult)
+    }
+  }, [clickNumber, gameResult, gridNumber, onGameEnd])
+
   useEffect(() => {
     socket.on(GameEvents.ON_SELECTED, onUpdateFromServer)
     socket.on(GameEvents.ON_TIME_UP, onUpdateFromServer)
+    socket.on(GameEvents.ON_SURRENDER, onSurrenderFromServer)
     return () => {
       socket.off(GameEvents.ON_SELECTED, onUpdateFromServer)
       socket.off(GameEvents.ON_TIME_UP, onUpdateFromServer)
+      socket.off(GameEvents.ON_SURRENDER, onSurrenderFromServer)
     }
-  }, [onUpdateFromServer, socket])
+  }, [onUpdateFromServer, socket, onSurrenderFromServer])
 
   useEffect(() => {
     if (time === 0 && playerTurn === playerNumber) {
@@ -164,7 +214,7 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
     if (playerTurn === playerNumber) {
       const timeout = resetTimer()
       return () => {
-        clearInterval(timeout)
+        timeout ? clearInterval(timeout) : null
       }
     } else {
       if (timeoutRef.current) clearInterval(timeoutRef.current)
@@ -184,6 +234,7 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
   return (
     <GameContainer>
       {/* <WinLoseScreen show={gameOver} win={true} mounted={mounted} restartGame={() => {}} toTitle={() => {}}/> */}
+      <ActionButtons onSurrender={surrender} />
       <Timer time={time} isYourTurn={playerTurn === playerNumber} gameResult={''}/>
       <GameRow>
         {isMobile ? (

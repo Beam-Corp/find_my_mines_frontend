@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from 'styled-components'
 
-import { mainTheme } from '../../../utils/themeConst'
+import { ThemeColorProps } from '../../../dto/themeColor.dto'
 
 const enlarge = keyframes`
   0% {
@@ -49,7 +49,7 @@ export const Container = styled.div<{ show: boolean, mounted: boolean }>`
   transition: opacity 250ms linear;
 `
 
-export const Window = styled.div<{ show: boolean }>`
+export const Window = styled.div<{ show: boolean, theme: ThemeColorProps }>`
   position: fixed;
   top: 35%;
   left: 50%;
@@ -57,8 +57,8 @@ export const Window = styled.div<{ show: boolean }>`
   border-style: solid;
   border-width: 5px;
   border-radius: 30px;
-  border-color: ${mainTheme.primary};
-  background-color: ${mainTheme.background};
+  border-color: ${({theme}) => theme.primary};
+  background-color: ${({theme}) => theme.background};
   width: 45%;
   height: 45%;
   opacity: 0;
@@ -68,15 +68,15 @@ export const Window = styled.div<{ show: boolean }>`
   ${(props) => (props.show ? css`animation: ${enlarge} 250ms ease-out forwards;` : css`animation: ${minimize} 250ms ease-out forwards;`)}
 `
 
-export const WinLose = styled.h1`
-  color: ${mainTheme.highlight};
+export const WinLose = styled.h1<{theme: ThemeColorProps}>`
+  color: ${({theme}) => theme.highlight};
   margin: 0;
   font-size: 15vw;
   padding-bottom: 3.5vh;
 
   ::before {
     content: '';
-    background-color: ${mainTheme.secondary};
+    background-color: ${({theme}) => theme.secondary};
     width: 35px;
     height: 35px;
     border-radius: 50%;
@@ -87,7 +87,7 @@ export const WinLose = styled.h1`
 
   ::after {
     content: '';
-    background-color: ${mainTheme.secondary};
+    background-color: ${({theme}) => theme.secondary};
     width: 35px;
     height: 35px;
     border-radius: 50%;
@@ -97,7 +97,7 @@ export const WinLose = styled.h1`
   }
 `
 
-export const Button = styled.button<{ top: string }>`
+export const Button = styled.button<{ top: string, theme: ThemeColorProps }>`
   position: fixed;
   top: ${(props) => (props.top)};
   left: 50%;
@@ -107,14 +107,14 @@ export const Button = styled.button<{ top: string }>`
   border-style: solid;
   border-width: 5px;
   border-radius: 30px;
-  border-color: ${mainTheme.primary};
-  background-color: ${mainTheme.background};
-  color: ${mainTheme.secondary};
+  border-color: ${({theme}) => theme.primary};
+  background-color: ${({theme}) => theme.background};
+  color: ${({theme}) => theme.secondary};
   font-size: 5vh;
   animation: ${showBtn} 250ms linear forwards;
 
   :hover {
-    border-color: ${mainTheme.highlight};
+    border-color: ${({theme}) => theme.highlight};
     transform: translateX(-50%) translateY(-50%) scale(1.1);
   }
 `

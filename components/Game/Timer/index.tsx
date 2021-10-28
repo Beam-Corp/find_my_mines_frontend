@@ -22,10 +22,9 @@ const TimerText = styled.div<{ size?: number }>`
 interface TimerProps {
   time: number
   isYourTurn: boolean
-  gameResult: string | undefined
 }
 
-const Timer: FC<TimerProps> = ({ time, isYourTurn, gameResult }) => {
+const Timer: FC<TimerProps> = ({ time, isYourTurn}) => {
   const { themeColor } = useThemeContext()
   const gameResumeDisplay = (
     <>
@@ -42,15 +41,15 @@ const Timer: FC<TimerProps> = ({ time, isYourTurn, gameResult }) => {
       )}
     </>
   )
-  const gameEndDisplay = (
-    <>
-      <TimerText>Game Over</TimerText>
-      <TimerText>--------------</TimerText>
-    </>
-  )
+  // const gameEndDisplay = (
+  //   <>
+  //     <TimerText>Game Over</TimerText>
+  //     <TimerText>--------------</TimerText>
+  //   </>
+  // )
   return (
     <TimerContainer themeColor={themeColor}>
-      {gameResult ? gameEndDisplay : gameResumeDisplay}
+      {gameResumeDisplay}
     </TimerContainer>
   )
 }

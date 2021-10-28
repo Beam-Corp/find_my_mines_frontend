@@ -26,20 +26,28 @@ const JoinRoom: NextPage = () => {
   )
   const onJoin = useCallback(() => {
     try {
+      setPlayer((prev) => {
+        const playerPrefix = prev.userId[0] + prev.userId[1]
+        if (playerPrefix === '2-' || playerPrefix === '1-') {
+          return { ...prev, userId: `2-${prev.userId.slice(2)}` }
+        }
+        return { ...prev, userId: `2-${prev.userId}` }
+      })
       socket.emit(RoomEvents.ON_JOIN, roomId)
     } catch (err) {
       //TODO: handle error
       alert('Cannot join this room')
       console.log(err)
     }
-  }, [roomId, socket])
+  }, [roomId, socket, setPlayer])
 
   useEffect(() => {
-    setPlayer((prev) => ({
-      ...prev,
-      alias: `2-${playerName}`,
-      userId: prev.userId ? `2-${prev.userId}` : '',
-    }))
+    setPlayer((prev) => {
+      return {
+        ...prev,
+        alias: playerName ? `2-${playerName}` : undefined,
+      }
+    })
   }, [playerName, setPlayer])
 
   useEffect(() => {

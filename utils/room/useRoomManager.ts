@@ -30,7 +30,6 @@ export const useRoomManager = (
     socket.emit(RoomEvents.ON_LEAVE, { roomId, username: currentPlayer })
     router.push('/')
   }, [currentPlayer, roomId, socket])
-
   useEffect(() => {
     socket.on(RoomEvents.LEAVE, removePlayer)
     return () => {

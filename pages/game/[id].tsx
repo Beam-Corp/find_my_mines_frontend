@@ -22,9 +22,8 @@ const GamePage: NextPage = () => {
   const [isRunning, setRunning] = useState<boolean>(false)
   const [initialGrid, setInitialGrid] = useState<number[][]>([])
   const [initialTurn, setInitialTurn] = useState<number>(0)
-
   const { players } = useRoomManager(
-    playerInfo.alias || playerInfo.userId,
+    playerInfo.alias ?? playerInfo.userId,
     id,
     socket
   )
@@ -48,7 +47,6 @@ const GamePage: NextPage = () => {
       socket.off(GameEvents.ON_STARTED, onGameStart)
     }
   }, [onGameStart, socket])
-
   return (
     <>
       {isRunning ? (

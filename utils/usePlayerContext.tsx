@@ -47,7 +47,11 @@ export const PlayerProvider = ({ ...props }) => {
   }, [])
   const value = {
     customization: player.customization,
-    playerInfo: { role: player.role, userId: player.userId },
+    playerInfo: {
+      role: player.role,
+      userId: player.userId,
+      alias: player.alias,
+    },
     setPlayer,
   }
   return (

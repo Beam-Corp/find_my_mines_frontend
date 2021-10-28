@@ -30,8 +30,17 @@ const CreateRoom: NextPage = () => {
 
   const [hostName, setHostName] = useState('')
   const onGetRoomId = useCallback(
-    (id: string) => router.push(`/game/${id}`),
-    [router]
+    (id: string) => {
+      setPlayer((prev) => {
+        const playerPrefix = prev.userId[0] + prev.userId[1]
+        if (playerPrefix === '2-' || playerPrefix === '1-') {
+          return { ...prev, userId: `1-${prev.userId.slice(2)}` }
+        }
+        return { ...prev, userId: `1-${prev.userId}` }
+      })
+      router.push(`/game/${id}`)
+    },
+    [router, setPlayer]
   )
   const onCreate = useCallback(() => {
     try {
@@ -42,13 +51,13 @@ const CreateRoom: NextPage = () => {
       console.log(err)
     }
   }, [socket])
-
   useEffect(() => {
-    setPlayer((prev) => ({
-      ...prev,
-      alias: `1-${hostName}`,
-      userId: prev.userId ? `1-${prev.userId}` : '',
-    }))
+    setPlayer((prev) => {
+      return {
+        ...prev,
+        alias: hostName ? `1-${hostName}` : undefined,
+      }
+    })
   }, [hostName, setPlayer])
 
   useEffect(() => {

@@ -20,7 +20,7 @@ const Admin: NextPage = () => {
     setCurrentPlayers(res.current)
   }
   useEffect(() => {
-    socket.emit(RoomEvents.ON_GET_PALYERS)
+    socket.emit(RoomEvents.ON_GET_PLAYERS)
   }, [socket])
   useEffect(() => {
     socket.on(RoomEvents.GET_PLAYERS, onGetPlayers)

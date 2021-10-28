@@ -5,6 +5,7 @@ export enum GameEvents {
   TIME_UP = 'time-up',
   END_GAME = 'end-game',
   SURRENDER = 'surrender',
+  RESTART = 'restart',
 
   // server to client
   ON_STARTED = 'on-started',
@@ -12,6 +13,7 @@ export enum GameEvents {
   ON_TIME_UP = 'on-time-up',
   ON_GAME_END = 'on-game-end',
   ON_SURRENDER = 'on-surrender',
+  ON_RESTART = 'on-restart',
 }
 
 export interface GameState {

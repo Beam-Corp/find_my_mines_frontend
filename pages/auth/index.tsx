@@ -10,29 +10,33 @@ import { Button } from '../../components/Button'
 import { DecoratedBox } from '../../components/Container'
 import { InlineInput } from '../../components/Inputs'
 import { client } from '../../utils/axiosClient'
+import { Player, usePlayerContext } from '../../utils/usePlayerContext'
 
 export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
 `
-export const Auth: NextPage = () => {
+const Auth: NextPage = () => {
   const router = useRouter()
+  const { setPlayerInfo, setPlayerCustom } = usePlayerContext()
   const [userId, setUserId] = useState('')
   const [password, setPassword] = useState('')
   const onLogin = useCallback(async () => {
     try {
-      const player = await client.post('/auth/login', {
+      const { data } = await client.post<Player>('/auth/login', {
         payload: {
           userId,
           password,
         },
       })
+      setPlayerInfo({ userId: data.userId, role: data.role || 'player' })
+      setPlayerCustom(data.customization)
       router.push('/')
     } catch (err) {
       alert('Something went wrong')
     }
-  }, [userId, password, router])
+  }, [userId, password, router, setPlayerCustom, setPlayerInfo])
   return (
     <DecoratedBox>
       <div>
@@ -56,3 +60,4 @@ export const Auth: NextPage = () => {
     </DecoratedBox>
   )
 }
+export default Auth

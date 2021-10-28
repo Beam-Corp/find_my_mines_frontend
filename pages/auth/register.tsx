@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react'
 
 import { NextPage } from 'next'
-import { ApiError } from 'next/dist/server/api-utils'
 import { useRouter } from 'next/router'
 
 import styled from 'styled-components'
@@ -24,7 +23,7 @@ const Register: NextPage = () => {
         password,
         customization: {} as Player,
       })
-      if (!isSuccessful.data) throw new ApiError(500, '')
+      if (!isSuccessful.data) throw new Error()
       router.push('/auth/login')
     } catch (err) {
       alert('something went wrong')
@@ -41,6 +40,7 @@ const Register: NextPage = () => {
         />
         <InlineInput
           label="PASSWORD"
+          type="password"
           name={'password'}
           value={password}
           onChange={(e) => setPassword(e.target.value)}

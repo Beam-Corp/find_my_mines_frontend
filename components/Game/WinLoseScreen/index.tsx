@@ -54,7 +54,7 @@ const WinLoseScreen: FC<WinLoseScreenProps> = ({
         break
       }
     }
-    return <WinLose>{gameResult}</WinLose>
+    return <WinLose theme={themeColor}>{gameResult}</WinLose>
   }
 
   return (

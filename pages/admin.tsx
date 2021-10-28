@@ -11,17 +11,22 @@ import { HeadText } from './room/create'
 
 interface GetPlayersResp {
   current: number
+  roomList: string[]
 }
 const Admin: NextPage = () => {
   const socket = useContext(SocketContext)
   const [currentPlayers, setCurrentPlayers] = useState<number>()
+  const [roomLists, setRoomLists] = useState<string[]>(['test'])
+
   const onGetPlayers = (res: GetPlayersResp) => {
     console.log(res)
     setCurrentPlayers(res.current)
+    setRoomLists(res.roomList)
   }
   useEffect(() => {
     socket.emit(RoomEvents.ON_GET_PLAYERS)
   }, [socket])
+
   useEffect(() => {
     socket.on(RoomEvents.GET_PLAYERS, onGetPlayers)
     return () => {
@@ -40,6 +45,9 @@ const Admin: NextPage = () => {
               ? 'loading...'
               : `${currentPlayers} players`}
           </HeadText>
+          {roomLists?.map((roomId, index) => (
+            <div key={`room-${index}`}>{roomId}</div>
+          ))}
         </RoomWrapper>
       </DecoratedBox>
     </>

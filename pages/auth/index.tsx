@@ -14,8 +14,12 @@ import { Player, usePlayerContext } from '../../utils/usePlayerContext'
 
 export const ButtonWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  & button {
+    margin-bottom: 20px;
+  }
 `
 const Auth: NextPage = () => {
   const router = useRouter()
@@ -54,8 +58,12 @@ const Auth: NextPage = () => {
         />
       </div>
       <ButtonWrapper>
-        <Button onClick={onLogin}>LOGIN</Button>
-        <Button onClick={() => router.push('/auth/register')}>SIGN UP</Button>
+        <Button onClick={onLogin} size="s">
+          LOGIN
+        </Button>
+        <Button onClick={() => router.push('/auth/register')} size="s">
+          SIGN UP
+        </Button>
       </ButtonWrapper>
     </DecoratedBox>
   )

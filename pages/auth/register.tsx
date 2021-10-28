@@ -19,9 +19,11 @@ const Register: NextPage = () => {
   const onSubmit = useCallback(async () => {
     try {
       const isSuccessful = await client.post<boolean>('/auth/register', {
-        userId,
-        password,
-        customization: {} as Player,
+        payload: {
+          userId,
+          password,
+          customization: {} as Player,
+        },
       })
       if (!isSuccessful.data) throw new Error()
       router.push('/auth/login')
@@ -48,7 +50,9 @@ const Register: NextPage = () => {
         {/* should also add customization inputs */}
       </div>
       <ButtonWrapper>
-        <Button onClick={onSubmit}>SUBMIT</Button>
+        <Button onClick={onSubmit} size="s">
+          SUBMIT
+        </Button>
       </ButtonWrapper>
     </DecoratedBox>
   )

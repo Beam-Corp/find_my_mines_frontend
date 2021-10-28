@@ -30,8 +30,6 @@ interface ActionButton {
 }
 
 const ActionButtons: FC<ActionButton> = ({ onSurrender }) => {
-  const surrenderModal = () => {}
-
   const handleClick = () => {
     // setGameResult("LOSE")
     onSurrender()

@@ -75,7 +75,6 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
 
   const [playerScore, setPlayerScore] = useState<number[]>([0, 0])
 
-  // const [gameOver, setGameOver] = useState<boolean>(false)
   const [mounted, setMounted] = useState<boolean>(false)
   const [clickNumber, setClickNumber] = useState<number>(0)
 
@@ -263,12 +262,6 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
 
   useEffect(() => {
     setMounted(true)
-    setTimeout(() => {
-      // setGameOver(true)
-    }, 2000)
-    setTimeout(() => {
-      // setGameOver(false)
-    }, 6000)
   }, [])
 
   return (
@@ -313,6 +306,7 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
           />
         )}
       </GameRow>
+      {!surrenderer && <ActionButtons onSurrender={surrender} />}
       <WinLoseScreen
         show={!!gameResult || !!surrenderer}
         win={gameResult ? gameResult[playerNumber - 1] : undefined}
@@ -322,7 +316,6 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
         playerNumber={playerNumber}
         surrenderer={surrenderer}
       />
-      <ActionButtons onSurrender={surrender} />
     </GameContainer>
   )
 }

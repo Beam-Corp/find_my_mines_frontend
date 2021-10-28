@@ -26,7 +26,7 @@ export const RoomButtonContainer = styled.div`
 const CreateRoom: NextPage = () => {
   const router = useRouter()
   const socket = useContext(SocketContext)
-  const { setPlayerInfo } = usePlayerContext()
+  const { setPlayer } = usePlayerContext()
 
   const [hostName, setHostName] = useState('')
   const onGetRoomId = useCallback(
@@ -44,8 +44,12 @@ const CreateRoom: NextPage = () => {
   }, [socket])
 
   useEffect(() => {
-    setPlayerInfo({ userId: `1-${hostName}` })
-  }, [hostName, setPlayerInfo])
+    setPlayer((prev) => ({
+      ...prev,
+      alias: `1-${hostName}`,
+      userId: prev.userId ? `1-${prev.userId}` : '',
+    }))
+  }, [hostName, setPlayer])
 
   useEffect(() => {
     socket.on(RoomEvents.CREATE, onGetRoomId)

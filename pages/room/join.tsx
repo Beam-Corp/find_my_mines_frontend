@@ -17,7 +17,7 @@ import { HeadText, RoomButtonContainer } from './create'
 const JoinRoom: NextPage = () => {
   const router = useRouter()
   const socket = useContext(SocketContext)
-  const { setPlayerInfo } = usePlayerContext()
+  const { setPlayer } = usePlayerContext()
   const [playerName, setPlayerName] = useState<string>('')
   const [roomId, setRoomId] = useState('')
   const onGetRoomId = useCallback(
@@ -35,8 +35,12 @@ const JoinRoom: NextPage = () => {
   }, [roomId, socket])
 
   useEffect(() => {
-    setPlayerInfo({ userId: `2-${playerName}` })
-  }, [playerName, setPlayerInfo])
+    setPlayer((prev) => ({
+      ...prev,
+      alias: `2-${playerName}`,
+      userId: prev.userId ? `2-${prev.userId}` : '',
+    }))
+  }, [playerName, setPlayer])
 
   useEffect(() => {
     socket.on(RoomEvents.JOIN, onGetRoomId)

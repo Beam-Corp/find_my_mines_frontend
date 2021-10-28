@@ -23,7 +23,11 @@ const GamePage: NextPage = () => {
   const [initialGrid, setInitialGrid] = useState<number[][]>([])
   const [initialTurn, setInitialTurn] = useState<number>(0)
 
-  const { players } = useRoomManager(playerInfo.userId, id, socket)
+  const { players } = useRoomManager(
+    playerInfo.alias || playerInfo.userId,
+    id,
+    socket
+  )
 
   const onGameStart = useCallback((payload: GameStartPayload) => {
     console.log('start game')

@@ -6,7 +6,6 @@ import { DecoratedBox, TextContainer } from '../components/Container'
 import { RoomEvents } from '../utils/room/room.event'
 import { SocketContext } from '../utils/socketUtils'
 import { mainTheme } from '../utils/themeConst'
-import { RoomWrapper } from './room/create'
 import { HeadText } from './room/create'
 
 interface GetPlayersResp {
@@ -39,16 +38,14 @@ const Admin: NextPage = () => {
         Concurrent Players
       </HeadText>
       <DecoratedBox>
-        <RoomWrapper>
-          <HeadText size={5} weight={800}>
-            {currentPlayers !== 0 && !currentPlayers
-              ? 'loading...'
-              : `${currentPlayers} players`}
-          </HeadText>
-          {roomLists?.map((roomId, index) => (
-            <div key={`room-${index}`}>{roomId}</div>
-          ))}
-        </RoomWrapper>
+        <HeadText size={5} weight={800}>
+          {currentPlayers !== 0 && !currentPlayers
+            ? 'loading...'
+            : `${currentPlayers} players`}
+        </HeadText>
+        {roomLists?.map((roomId, index) => (
+          <div key={`room-${index}`}>{roomId}</div>
+        ))}
       </DecoratedBox>
     </>
   )

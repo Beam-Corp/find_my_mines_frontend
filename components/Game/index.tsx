@@ -69,10 +69,10 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  const playerNumber = useMemo(
-    () => parseInt(playerInfo.userId.substring(0, 1)),
-    [playerInfo.userId]
-  )
+  const playerNumber = useMemo(() => {
+    const id = playerInfo.alias || playerInfo.userId
+    return parseInt(id.substring(0, 1))
+  }, [playerInfo.userId, playerInfo.alias])
 
   const [playerTurn, setPlayerTurn] = useState<number>(initialTurn)
 

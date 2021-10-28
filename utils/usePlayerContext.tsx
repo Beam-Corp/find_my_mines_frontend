@@ -11,6 +11,7 @@ interface Customization {
 }
 interface PlayerInfo {
   userId: string
+  alias?: string
   role?: string
 }
 export interface Player extends PlayerInfo {
@@ -19,8 +20,7 @@ export interface Player extends PlayerInfo {
 interface PlayerContextProps {
   customization: Customization
   playerInfo: PlayerInfo
-  setPlayerInfo: (i: PlayerInfo) => void
-  setPlayerCustom: (c: Customization) => void
+  setPlayer: React.Dispatch<React.SetStateAction<Player>>
 }
 
 const PlayerContext = createContext<PlayerContextProps>(
@@ -45,21 +45,10 @@ export const PlayerProvider = ({ ...props }) => {
       source.cancel()
     }
   }, [])
-  const setPlayerInfo = useCallback((i: PlayerInfo) => {
-    setPlayer((prev) => ({
-      ...prev,
-      userId: i.userId,
-      role: i.role || 'player',
-    }))
-  }, [])
-  const setPlayerCustom = useCallback((c: Customization) => {
-    setPlayer((prev) => ({ ...prev, customization: c }))
-  }, [])
   const value = {
     customization: player.customization,
     playerInfo: { role: player.role, userId: player.userId },
-    setPlayerInfo,
-    setPlayerCustom,
+    setPlayer,
   }
   return (
     <PlayerContext.Provider value={value} {...props}></PlayerContext.Provider>

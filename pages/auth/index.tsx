@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
@@ -23,7 +23,7 @@ export const ButtonWrapper = styled.div`
 `
 const Auth: NextPage = () => {
   const router = useRouter()
-  const { setPlayerInfo, setPlayerCustom } = usePlayerContext()
+  const { setPlayer } = usePlayerContext()
   const [userId, setUserId] = useState('')
   const [password, setPassword] = useState('')
   const onLogin = useCallback(async () => {
@@ -34,13 +34,12 @@ const Auth: NextPage = () => {
           password,
         },
       })
-      setPlayerInfo({ userId: data.userId, role: data.role || 'player' })
-      setPlayerCustom(data.customization)
+      setPlayer(data)
       router.push('/')
     } catch (err) {
       alert('Something went wrong')
     }
-  }, [userId, password, router, setPlayerCustom, setPlayerInfo])
+  }, [userId, password, router, setPlayer])
   return (
     <DecoratedBox>
       <div>

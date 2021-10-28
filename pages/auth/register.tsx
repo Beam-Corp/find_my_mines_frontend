@@ -26,7 +26,7 @@ const Register: NextPage = () => {
         },
       })
       if (!isSuccessful.data) throw new Error()
-      router.push('/auth/login')
+      router.push('/auth')
     } catch (err) {
       alert('something went wrong')
     }

@@ -1,4 +1,6 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
+
+import Link from 'next/link'
 
 import { useThemeContext } from '../../../useContext/useThemeContext'
 import {
@@ -14,7 +16,6 @@ interface WinLoseScreenProps {
   win: number | undefined
   mounted: boolean
   restartGame: () => void
-  toTitle: () => void
   surrenderer: number | undefined
   playerNumber: number
 }
@@ -24,11 +25,11 @@ const WinLoseScreen: FC<WinLoseScreenProps> = ({
   win,
   mounted,
   restartGame,
-  toTitle,
   surrenderer,
   playerNumber,
 }) => {
   const { themeColor } = useThemeContext()
+
   const GameResult = () => {
     if (surrenderer) {
       return (
@@ -68,9 +69,11 @@ const WinLoseScreen: FC<WinLoseScreenProps> = ({
         <Button theme={themeColor} onClick={restartGame} top={'70%'}>
           Restart
         </Button>
-        <Button theme={themeColor} onClick={toTitle} top={'82%'}>
-          Title
-        </Button>
+        <Link href="/" passHref>
+          <Button theme={themeColor} top={'82%'}>
+            Title
+          </Button>
+        </Link>
       </Container>
     </>
   )

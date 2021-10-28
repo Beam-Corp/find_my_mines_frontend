@@ -312,7 +312,6 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
         win={gameResult ? gameResult[playerNumber - 1] : undefined}
         mounted={mounted}
         restartGame={gameRestart}
-        toTitle={() => {}}
         playerNumber={playerNumber}
         surrenderer={surrenderer}
       />

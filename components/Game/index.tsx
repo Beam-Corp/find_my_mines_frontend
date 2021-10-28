@@ -273,20 +273,7 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
 
   return (
     <GameContainer>
-      <WinLoseScreen
-        show={!!gameResult || !!surrenderer}
-        win={gameResult ? gameResult[playerNumber - 1] : undefined}
-        mounted={mounted}
-        restartGame={gameRestart}
-        toTitle={() => {}}
-        playerNumber={playerNumber}
-        surrenderer={surrenderer}
-      />
-      <ActionButtons onSurrender={surrender} />
-      <Timer
-        time={time}
-        isYourTurn={playerTurn === playerNumber}
-      />
+      <Timer time={time} isYourTurn={playerTurn === playerNumber} />
       <GameRow>
         {isMobile ? (
           <div>
@@ -326,6 +313,16 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
           />
         )}
       </GameRow>
+      <WinLoseScreen
+        show={!!gameResult || !!surrenderer}
+        win={gameResult ? gameResult[playerNumber - 1] : undefined}
+        mounted={mounted}
+        restartGame={gameRestart}
+        toTitle={() => {}}
+        playerNumber={playerNumber}
+        surrenderer={surrenderer}
+      />
+      <ActionButtons onSurrender={surrender} />
     </GameContainer>
   )
 }

@@ -8,15 +8,23 @@ import styled from 'styled-components'
 import { Button } from '../../components/Button'
 import { DecoratedBox, TextContainer } from '../../components/Container'
 import { InlineInput, Input } from '../../components/Inputs'
+import { ThemeColorProps } from '../../dto/themeColor.dto'
 import { useThemeContext } from '../../useContext/useThemeContext'
 import { RoomEvents } from '../../utils/room/room.event'
 import { SocketContext } from '../../utils/socketUtils'
-import { mainTheme } from '../../utils/themeConst'
 import { usePlayerContext } from '../../utils/usePlayerContext'
 
-export const HeadText = styled(TextContainer)`
+export const RoomWrapper = styled.div`
+  margin: 20px 0 0 0;
+  min-width: 594px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+export const HeadText = styled(TextContainer)<{ themeColor: ThemeColorProps }>`
   padding-bottom: 20px;
-  color: ${mainTheme.primary};
+  color: ${({ themeColor }) => themeColor.primary};
 `
 export const RoomButtonContainer = styled.div`
   display: flex;
@@ -28,7 +36,8 @@ const CreateRoom: NextPage = () => {
   const router = useRouter()
   const socket = useContext(SocketContext)
   const { setPlayer } = usePlayerContext()
-  const theme = useThemeContext()
+  const { themeColor } = useThemeContext()
+
   const [hostName, setHostName] = useState('')
   const onGetRoomId = useCallback(
     (id: string) => {
@@ -73,7 +82,7 @@ const CreateRoom: NextPage = () => {
 
   return (
     <>
-      <HeadText size={9} weight={900}>
+      <HeadText size={9} weight={900} themeColor={themeColor}>
         Create Room
       </HeadText>
       <DecoratedBox>
@@ -87,10 +96,10 @@ const CreateRoom: NextPage = () => {
         </div>
         <RoomButtonContainer>
           <Button
-            themeColor={theme.themeColor}
             size="s"
-            color={mainTheme.primary}
+            color={themeColor.primary}
             onClick={onCreate}
+            themeColor={themeColor}
           >
             CREATE GAME ROOM
           </Button>

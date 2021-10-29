@@ -11,15 +11,14 @@ import { InlineInput } from '../../components/Inputs'
 import { useThemeContext } from '../../useContext/useThemeContext'
 import { RoomEvents } from '../../utils/room/room.event'
 import { SocketContext } from '../../utils/socketUtils'
-import { mainTheme } from '../../utils/themeConst'
 import { usePlayerContext } from '../../utils/usePlayerContext'
-import { HeadText, RoomButtonContainer } from './create'
+import { HeadText, RoomButtonContainer, RoomWrapper } from './create'
 
 const JoinRoom: NextPage = () => {
   const router = useRouter()
   const socket = useContext(SocketContext)
   const { setPlayer } = usePlayerContext()
-  const theme = useThemeContext()
+  const { themeColor } = useThemeContext()
   const [playerName, setPlayerName] = useState<string>('')
   const [roomId, setRoomId] = useState('')
   const onGetRoomId = useCallback(
@@ -64,7 +63,7 @@ const JoinRoom: NextPage = () => {
 
   return (
     <>
-      <HeadText size={9} weight={900}>
+      <HeadText size={9} weight={900} themeColor={themeColor}>
         Join Room
       </HeadText>
       <DecoratedBox>
@@ -85,7 +84,7 @@ const JoinRoom: NextPage = () => {
           </div>
         </>
         <RoomButtonContainer>
-          <Button themeColor={theme.themeColor} size="s" onClick={onJoin}>
+          <Button size="s" onClick={onJoin} themeColor={themeColor}>
             JOIN GAME ROOM
           </Button>
         </RoomButtonContainer>

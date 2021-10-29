@@ -129,6 +129,8 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
       setPlayerTurn(newPlayerTurn)
       setClickNumber(newClickNumber)
 
+      console.log('grid clicked')
+
       socket.emit(GameEvents.SELECT_BLOCK, {
         roomId: id,
         gridState: newGridStatus,
@@ -160,7 +162,8 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
 
   const onTimeUp = useCallback(() => {
     const newPlayerTurn = playerNumber === 1 ? 2 : 1
-    setPlayerTurn(newPlayerTurn)
+
+    console.log('on time up')
 
     socket.emit(GameEvents.TIME_UP, {
       roomId: id,
@@ -169,6 +172,8 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
       playerTurn: newPlayerTurn,
       clickNumber: clickNumber,
     })
+
+    setPlayerTurn(newPlayerTurn)
   }, [gridStatus, id, playerNumber, playerScore, socket, clickNumber])
 
   const onGameEnd = useCallback(() => {
@@ -204,6 +209,7 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
         setPlayerTurn(update.playerTurn)
         setGridStatus(update.gridState)
         setClickNumber(update.clickNumber)
+        console.log('on update from server')
       }
     },
     [playerNumber, playerTurn]
@@ -248,7 +254,10 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
   useEffect(() => {
     if (time === 0 && playerTurn === playerNumber) {
       if (timeoutRef.current) clearInterval(timeoutRef.current)
-      if (!(gameResult && gameResult.length)) onTimeUp()
+      if (!(gameResult && gameResult.length)) {
+        setTime(-1)
+        onTimeUp()
+      }
     }
   }, [time, onTimeUp, playerTurn, playerNumber, gameResult])
 

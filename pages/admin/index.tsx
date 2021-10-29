@@ -32,7 +32,7 @@ const MenuColumn = styled(Column)`
 const Admin: NextPage = () => {
   const socket = useContext(SocketContext)
   const [currentPlayerNumber, setCurrentPlayerNumber] = useState<number>()
-  const [roomLists, setRoomLists] = useState<string[]>(['test'])
+  const [roomLists, setRoomLists] = useState<string[]>([])
 
   const onGetPlayers = useCallback((res: GetPlayersResp) => {
     console.log(res)

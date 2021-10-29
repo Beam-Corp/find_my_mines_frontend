@@ -15,13 +15,6 @@ const DotlessBox = styled(Box)`
   height: 80vh;
 `
 
-// height: calc(75vh - 126px);
-
-// const DecoratedWrapper = styled(DecoratedBox)`
-//     height: 1000px !important;
-//     width: 50% !important;
-// `
-
 const ConcurrentRoomId: FC<ConcurrentRoomIdProps> = ({ roomLists }) => {
   const { themeColor } = useThemeContext()
   return (

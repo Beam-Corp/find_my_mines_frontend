@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import { Button } from '../../components/Button'
 import { DecoratedBox, TextContainer } from '../../components/Container'
 import { InlineInput, Input } from '../../components/Inputs'
+import { useThemeContext } from '../../useContext/useThemeContext'
 import { RoomEvents } from '../../utils/room/room.event'
 import { SocketContext } from '../../utils/socketUtils'
 import { mainTheme } from '../../utils/themeConst'
@@ -27,7 +28,7 @@ const CreateRoom: NextPage = () => {
   const router = useRouter()
   const socket = useContext(SocketContext)
   const { setPlayer } = usePlayerContext()
-
+  const theme = useThemeContext()
   const [hostName, setHostName] = useState('')
   const onGetRoomId = useCallback(
     (id: string) => {
@@ -85,7 +86,12 @@ const CreateRoom: NextPage = () => {
           />
         </div>
         <RoomButtonContainer>
-          <Button size="s" color={mainTheme.primary} onClick={onCreate}>
+          <Button
+            themeColor={theme.themeColor}
+            size="s"
+            color={mainTheme.primary}
+            onClick={onCreate}
+          >
             CREATE GAME ROOM
           </Button>
         </RoomButtonContainer>

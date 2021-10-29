@@ -8,12 +8,14 @@ import styled from 'styled-components'
 import { Button } from '../../components/Button'
 import { DecoratedBox } from '../../components/Container'
 import { InlineInput } from '../../components/Inputs'
+import { useThemeContext } from '../../useContext/useThemeContext'
 import { client } from '../../utils/axiosClient'
 import { Player } from '../../utils/usePlayerContext'
 import { ButtonWrapper } from './index'
 
 const Register: NextPage = () => {
   const router = useRouter()
+  const theme = useThemeContext()
   const [userId, setUserId] = useState('')
   const [password, setPassword] = useState('')
   const onSubmit = useCallback(async () => {
@@ -51,7 +53,7 @@ const Register: NextPage = () => {
         {/* should also add customization inputs */}
       </div>
       <ButtonWrapper>
-        <Button onClick={onSubmit} size="s">
+        <Button themeColor={theme.themeColor} onClick={onSubmit} size="s">
           SUBMIT
         </Button>
       </ButtonWrapper>

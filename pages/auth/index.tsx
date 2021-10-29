@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import { Button } from '../../components/Button'
 import { DecoratedBox } from '../../components/Container'
 import { InlineInput } from '../../components/Inputs'
+import { useThemeContext } from '../../useContext/useThemeContext'
 import { client } from '../../utils/axiosClient'
 import { Player, usePlayerContext } from '../../utils/usePlayerContext'
 
@@ -25,6 +26,7 @@ export const ButtonWrapper = styled.div`
 const Auth: NextPage = () => {
   const router = useRouter()
   const { setPlayer } = usePlayerContext()
+  const theme = useThemeContext()
   const [userId, setUserId] = useState('')
   const [password, setPassword] = useState('')
   const onLogin = useCallback(async () => {
@@ -60,10 +62,14 @@ const Auth: NextPage = () => {
         />
       </div>
       <ButtonWrapper>
-        <Button onClick={onLogin} size="s">
+        <Button themeColor={theme.themeColor} onClick={onLogin} size="s">
           LOGIN
         </Button>
-        <Button onClick={() => router.push('/auth/register')} size="s">
+        <Button
+          themeColor={theme.themeColor}
+          onClick={() => router.push('/auth/register')}
+          size="s"
+        >
           SIGN UP
         </Button>
       </ButtonWrapper>

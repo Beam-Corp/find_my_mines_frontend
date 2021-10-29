@@ -1,6 +1,7 @@
 import styled, { useTheme } from 'styled-components'
 
 import { ThemeColorProps } from '../dto/themeColor.dto'
+import { ThemeContext, useThemeContext } from '../useContext/useThemeContext'
 import { mainTheme } from '../utils/themeConst'
 
 export const Container = styled.div<{}>`
@@ -17,19 +18,19 @@ export const Container = styled.div<{}>`
   justify-content: center;
   align-items: center;
 `
-export const Box = styled.div`
+export const Box = styled.div<{ themeColor: ThemeColorProps }>`
   padding: 27px 21px;
-  border: 5px solid ${mainTheme.primary};
+  border: 5px solid ${({ themeColor }) => themeColor.primary};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   border-radius: 30px;
   background-color: transparent;
 `
-export const Dot = styled.div`
+export const Dot = styled.div<{ themeColor: ThemeColorProps }>`
   height: 36px;
   width: 36px;
-  background-color: ${mainTheme.secondary};
+  background-color: ${({ themeColor }) => themeColor.secondary};
   border-radius: 50%;
 `
 export const BoxWrapper = styled.div`
@@ -41,15 +42,15 @@ export const BoxWrapper = styled.div`
   align-items: center;
 `
 export const DecoratedBox: React.FunctionComponent = ({ children }) => {
-  const theme = useTheme()
+  const theme = useThemeContext()
   return (
-    <Box>
+    <Box themeColor={theme.themeColor}>
       <div style={{ width: '100%', display: 'flex' }}>
-        <Dot />
+        <Dot themeColor={theme.themeColor} />
       </div>
       <BoxWrapper>{children}</BoxWrapper>
       <div style={{ width: '100%', display: 'flex', justifyContent: 'end' }}>
-        <Dot />
+        <Dot themeColor={theme.themeColor} />
       </div>
     </Box>
   )

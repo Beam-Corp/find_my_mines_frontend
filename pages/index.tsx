@@ -4,7 +4,6 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 
-import TitlePage from '../components/Game/TitlePage'
 import { SocketContext } from '../utils/socketUtils'
 
 const Home: NextPage = () => {
@@ -44,7 +43,6 @@ const Home: NextPage = () => {
       </Head>
       {/* <Link href="/room/create"> Create new room </Link>
       <Link href="/room/join"> Join an existing room </Link> */}
-      <TitlePage />
 
       {/* <main className={styles.main}>
         <h1 className={styles.title}>Welcome to Beam Corp</h1>

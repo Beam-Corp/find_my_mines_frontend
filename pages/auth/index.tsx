@@ -17,6 +17,7 @@ export const ButtonWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 20px;
   & button {
     margin-bottom: 20px;
   }
@@ -47,11 +48,13 @@ const Auth: NextPage = () => {
           label="USER ID"
           name={'userId'}
           value={userId}
+          autoComplete="off"
           onChange={(e) => setUserId(e.target.value)}
         />
         <InlineInput
           label="PASSWORD"
           name={'password'}
+          type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />

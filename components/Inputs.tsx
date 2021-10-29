@@ -23,6 +23,7 @@ export const Input = styled.input`
 `
 const LabelContainer = styled(TextContainer)`
   color: ${mainTheme.primary};
+  min-width: 170px;
 `
 const InlineWrapper = styled.div`
   display: flex;

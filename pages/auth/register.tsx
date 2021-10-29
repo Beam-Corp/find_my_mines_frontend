@@ -38,6 +38,7 @@ const Register: NextPage = () => {
           label="USER ID"
           name={'userId'}
           value={userId}
+          autoComplete="off"
           onChange={(e) => setUserId(e.target.value)}
         />
         <InlineInput

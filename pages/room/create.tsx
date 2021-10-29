@@ -32,11 +32,14 @@ const CreateRoom: NextPage = () => {
   const onGetRoomId = useCallback(
     (id: string) => {
       setPlayer((prev) => {
-        const playerPrefix = prev.userId[0] + prev.userId[1]
-        if (playerPrefix === '2-' || playerPrefix === '1-') {
-          return { ...prev, userId: `1-${prev.userId.slice(2)}` }
+        if (!!prev.userId) {
+          const playerPrefix = prev.userId[0] + prev.userId[1]
+          if (playerPrefix === '2-' || playerPrefix === '1-') {
+            return { ...prev, userId: `1-${prev.userId.slice(2)}` }
+          }
+          return { ...prev, userId: `1-${prev.userId}` }
         }
-        return { ...prev, userId: `1-${prev.userId}` }
+        return prev
       })
       router.push(`/game/${id}`)
     },

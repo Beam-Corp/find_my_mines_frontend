@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { ThemeColorProps } from '../dto/themeColor.dto'
-import { mainTheme } from '../utils/themeConst'
+import { useThemeContext } from '../useContext/useThemeContext'
 
 interface DefaultButtonProps {
   onClick: () => void
@@ -37,3 +37,15 @@ export const Button = styled.button<{
     border-color: ${({ themeColor }) => themeColor.primary};
   }
 `
+export const DefaultButton: React.FunctionComponent<DefaultButtonProps> = ({
+  onClick,
+  children,
+  color,
+}) => {
+  const { themeColor } = useThemeContext()
+  return (
+    <Button color={color} onClick={onClick} themeColor={themeColor}>
+      {children}
+    </Button>
+  )
+}

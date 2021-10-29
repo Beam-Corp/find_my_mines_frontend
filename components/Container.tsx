@@ -4,7 +4,7 @@ import { ThemeColorProps } from '../dto/themeColor.dto'
 import { ThemeContext, useThemeContext } from '../useContext/useThemeContext'
 import { mainTheme } from '../utils/themeConst'
 
-export const Container = styled.div<{}>`
+export const Container = styled.div`
   min-height: 100vh;
   min-width: 100vw;
   height: 100%;
@@ -18,19 +18,19 @@ export const Container = styled.div<{}>`
   justify-content: center;
   align-items: center;
 `
-export const Box = styled.div<{ themeColor: ThemeColorProps }>`
+export const Box = styled.div<{themeColor: ThemeColorProps}>`
   padding: 27px 21px;
-  border: 5px solid ${({ themeColor }) => themeColor.primary};
+  border: 5px solid ${({themeColor}) => themeColor.primary};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   border-radius: 30px;
   background-color: transparent;
 `
-export const Dot = styled.div<{ themeColor: ThemeColorProps }>`
+export const Dot = styled.div<{themeColor: ThemeColorProps}>`
   height: 36px;
   width: 36px;
-  background-color: ${({ themeColor }) => themeColor.secondary};
+  background-color: ${({themeColor}) => themeColor.secondary};
   border-radius: 50%;
 `
 export const BoxWrapper = styled.div`
@@ -42,15 +42,15 @@ export const BoxWrapper = styled.div`
   align-items: center;
 `
 export const DecoratedBox: React.FunctionComponent = ({ children }) => {
-  const theme = useThemeContext()
+  const {themeColor} = useThemeContext()
   return (
-    <Box themeColor={theme.themeColor}>
+    <Box themeColor={themeColor}>
       <div style={{ width: '100%', display: 'flex' }}>
-        <Dot themeColor={theme.themeColor} />
+        <Dot themeColor={themeColor}/>
       </div>
       <BoxWrapper>{children}</BoxWrapper>
       <div style={{ width: '100%', display: 'flex', justifyContent: 'end' }}>
-        <Dot themeColor={theme.themeColor} />
+        <Dot themeColor={themeColor} />
       </div>
     </Box>
   )

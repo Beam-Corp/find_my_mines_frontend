@@ -33,22 +33,29 @@ const InlineWrapper = styled.div`
   align-items: center;
   margin-bottom: 23px;
 `
+
+const Label = styled.label<{ themeColor: ThemeColorProps }>`
+  color: ${({ themeColor }) => themeColor.primary};
+`
+
 export const InlineInput = ({
   name,
   label,
   ...rest
 }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) => {
-  const theme = useThemeContext()
+  const { themeColor } = useThemeContext()
   return (
     <InlineWrapper>
-      <LabelContainer size={3} weight={900} themeColor={theme.themeColor}>
-        <label htmlFor={name}>{label}</label>
+      <LabelContainer size={3} weight={900} color={themeColor.primary} themeColor={themeColor}>
+        <Label htmlFor={name} themeColor={themeColor}>
+          {label}
+        </Label>
       </LabelContainer>
       <Input
         name={name}
         {...rest}
         style={{ marginLeft: '10px' }}
-        themeColor={theme.themeColor}
+        themeColor={themeColor}
       />
     </InlineWrapper>
   )

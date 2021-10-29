@@ -37,6 +37,7 @@ const GamePage: NextPage = () => {
   }, [])
 
   const onEmitStart = useCallback(() => {
+    console.log(query.id)
     socket.emit(GameEvents.START, query.id)
   }, [socket, query])
 

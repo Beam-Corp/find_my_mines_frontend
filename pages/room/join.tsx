@@ -27,11 +27,14 @@ const JoinRoom: NextPage = () => {
   const onJoin = useCallback(() => {
     try {
       setPlayer((prev) => {
-        const playerPrefix = prev.userId[0] + prev.userId[1]
-        if (playerPrefix === '2-' || playerPrefix === '1-') {
-          return { ...prev, userId: `2-${prev.userId.slice(2)}` }
+        if (prev.userId) {
+          const playerPrefix = prev.userId[0] + prev.userId[1]
+          if (playerPrefix === '2-' || playerPrefix === '1-') {
+            return { ...prev, userId: `2-${prev.userId.slice(2)}` }
+          }
+          return { ...prev, userId: `2-${prev.userId}` }
         }
-        return { ...prev, userId: `2-${prev.userId}` }
+        return prev
       })
       socket.emit(RoomEvents.ON_JOIN, roomId)
     } catch (err) {

@@ -105,8 +105,8 @@ const GamePage: NextPage = () => {
   const onEmitStart = useCallback(() => {
     socket.emit(GameEvents.START, {
       roomId: query.id,
-      bombNumberPL: bombNumber,
-      gridSizePL: gridSize,
+      bombNumber: bombNumber,
+      gridSize: gridSize,
     })
   }, [socket, query, bombNumber, gridSize])
 

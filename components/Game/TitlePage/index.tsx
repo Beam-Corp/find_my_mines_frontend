@@ -15,6 +15,9 @@ const TitlePage = () => {
             <Link href='/room/join' passHref>
                 <TitleButton color={themeColor.primary} hoverColor={themeColor.secondary}>JOIN GAME ROOM</TitleButton>
             </Link>
+            <Link href='/auth' passHref>
+                <TitleButton color={themeColor.primary} hoverColor={themeColor.secondary}>LOGIN</TitleButton>
+            </Link>
             <RightLine centerColor={themeColor.secondary} sideColor={themeColor.primary}/>
         </TitleContainer>
     )

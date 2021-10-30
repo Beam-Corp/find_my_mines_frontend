@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 import Axios from 'axios'
 import styled from 'styled-components'
@@ -12,6 +13,7 @@ import { InlineInput } from '../../components/Inputs'
 import { useThemeContext } from '../../useContext/useThemeContext'
 import { client } from '../../utils/axiosClient'
 import { Player, usePlayerContext } from '../../utils/usePlayerContext'
+import { ReturnButtonContainer } from '../room/create'
 
 export const ButtonWrapper = styled.div`
   display: flex;
@@ -44,6 +46,14 @@ const Auth: NextPage = () => {
     }
   }, [userId, password, router, setPlayer])
   return (
+    <>
+    <ReturnButtonContainer>
+      <Link href='/' passHref>
+        <Button size="s" themeColor={theme.themeColor}>
+          RETURN TO TITLE
+        </Button>
+      </Link>
+    </ReturnButtonContainer>
     <DecoratedBox>
       <div>
         <InlineInput
@@ -74,6 +84,7 @@ const Auth: NextPage = () => {
         </Button>
       </ButtonWrapper>
     </DecoratedBox>
+    </>
   )
 }
 export default Auth

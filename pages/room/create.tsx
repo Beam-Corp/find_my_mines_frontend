@@ -92,7 +92,7 @@ const CreateRoom: NextPage = () => {
       
       <ReturnButtonContainer>
         <Link href='/' passHref>
-          <Button size="s" color={mainTheme.primary}>
+          <Button size="s" themeColor={theme.themeColor}>
             RETURN TO TITLE
           </Button>
         </Link>

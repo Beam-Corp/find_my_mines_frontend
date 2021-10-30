@@ -43,6 +43,7 @@ export const TitleText = styled(TextContainer)<{ color: string }>`
 
 export const TitleButton = styled.button<{ color: string, hoverColor: string}>`
     width: 25%;
+    min-width: 310px;
     height: 10%;
     border-style: solid;
     border-width: 5px;

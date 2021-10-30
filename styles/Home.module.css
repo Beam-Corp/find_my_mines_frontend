@@ -123,6 +123,30 @@
   position: inherit;
 }
 
+.clickable{
+  position: relative;
+  left: 2.9em;
+  bottom: 1em;
+  padding-inline-start: 3.5em;
+  /* padding-bottom:0.2em; */
+  color:#B537F2;
+  font-size: 40px;
+  font-weight: 900;
+  transition: color 0.5s;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+            supported by Chrome, Edge, Opera and Firefox */
+}
+
+.clickable:hover{
+  color:#00CFEE;
+  cursor: pointer;
+}
+
 }
 
 .slidecontainer {

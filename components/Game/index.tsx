@@ -41,7 +41,10 @@ const GameRow = styled(Row)`
 interface GameProps {
   initialGrid: number[][]
   initialTurn: number
+  initialTimer: number
   players: string[]
+  bombNumber: number
+  gridSize: number
 }
 
 const mockGrid = [
@@ -53,7 +56,7 @@ const mockGrid = [
   [0, 1, 0, 0, 0, 0],
 ]
 
-const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
+const Game: FC<GameProps> = ({ initialGrid, initialTurn, initialTimer, players, bombNumber, gridSize }) => {
   const socket = useContext(SocketContext)
   const { query } = useRouter()
   const id = useMemo(() => query.id, [query])
@@ -65,7 +68,7 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
 
   const { playerInfo } = usePlayerContext()
 
-  const [time, setTime] = useState<number>(5)
+  const [time, setTime] = useState<number>(initialTimer)
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
@@ -106,7 +109,7 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, players }) => {
       clearInterval(timeoutRef.current)
     }
 
-    setTime(5)
+    setTime(initialTimer)
     if (surrenderer || (gameResult && gameResult.length)) return
     return startTimer()
   }, [startTimer, gameResult, surrenderer])

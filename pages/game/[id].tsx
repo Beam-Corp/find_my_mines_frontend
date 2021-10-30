@@ -3,11 +3,71 @@ import React, { useCallback, useContext, useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/dist/client/router'
 
+import styled from 'styled-components'
+
+import { Button } from '../../components/Button'
+import { DecoratedBox, TextContainer } from '../../components/Container'
 import Game from '../../components/Game'
+import { InlineInput, Input, InlineInputSmall } from '../../components/Inputs'
+import { ThemeColorProps } from '../../dto/themeColor.dto'
+import styles from '../../styles/Home.module.css'
+import { useThemeContext } from '../../useContext/useThemeContext'
 import { GameEvents } from '../../utils/game/game.event'
 import { useRoomManager } from '../../utils/room/useRoomManager'
 import { SocketContext } from '../../utils/socketUtils'
+import { mainTheme } from '../../utils/themeConst'
 import { usePlayerContext } from '../../utils/usePlayerContext'
+
+export const RoomWrapper = styled.div`
+  margin: 20px 0 0 0;
+  min-width: 594px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+export const HeadText = styled(TextContainer)`
+  padding-bottom: 20px;
+  color: ${mainTheme.primary};
+`
+export const RoomButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+export const Clickable = styled.span<{
+  themeColor: ThemeColorProps
+}>`
+  position: relative;
+  left: 3.55em;
+  bottom: 1em;
+  padding-inline-start: 3.5em;
+  /* padding-bottom:0.2em; */
+  color: #b537f2;
+  font-size: 40px;
+  font-weight: 900;
+  transition: color 0.5s;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+              supported by Chrome, Edge, Opera and Firefox */
+  &:hover {
+    transition: 0.5s;
+    color: ${({ themeColor }) => themeColor.secondary};
+    border-color: ${({ themeColor }) => themeColor.secondary};
+    cursor: pointer;
+  }
+  &:not(:hover) {
+    transition: 0.5s;
+    color: ${({ themeColor }) => themeColor.primary};
+    border-color: ${({ themeColor }) => themeColor.primary};
+    cursor: none;
+  }
+`
 
 export interface GameStartPayload {
   gridState: number[][]
@@ -17,11 +77,17 @@ export interface GameStartPayload {
 const GamePage: NextPage = () => {
   const socket = useContext(SocketContext)
   const { playerInfo } = usePlayerContext()
+  const theme = useThemeContext()
   const { query } = useRouter()
   const id: string = query.id as string
   const [isRunning, setRunning] = useState<boolean>(false)
   const [initialGrid, setInitialGrid] = useState<number[][]>([])
   const [initialTurn, setInitialTurn] = useState<number>(0)
+
+  var [initialTimer, setInitialTimer] = useState<number>(10)
+  var [bombNumber, setBombNumberTemp] = useState<number>(12)
+  var [gridSize, setGridSize] = useState<number>(6)
+
   const { players } = useRoomManager(
     playerInfo.alias ?? playerInfo.userId,
     id,
@@ -37,9 +103,12 @@ const GamePage: NextPage = () => {
   }, [])
 
   const onEmitStart = useCallback(() => {
-    console.log(query.id)
-    socket.emit(GameEvents.START, query.id)
-  }, [socket, query])
+    socket.emit(GameEvents.START, {
+      roomId: query.id,
+      bombNumberPL: bombNumber,
+      gridSizePL: gridSize,
+    })
+  }, [socket, query, bombNumber, gridSize])
 
   useEffect(() => {
     socket.once(GameEvents.ON_STARTED, onGameStart)
@@ -48,6 +117,35 @@ const GamePage: NextPage = () => {
       socket.off(GameEvents.ON_STARTED, onGameStart)
     }
   }, [onGameStart, socket])
+
+  const increment = useCallback(
+    (state: string) => {
+      if (state == 'bombNumber' && bombNumber + 1 <= Math.pow(gridSize, 2))
+        setBombNumberTemp(++bombNumber)
+      else if (state == 'gridSize' && gridSize <= 5) setGridSize(++gridSize)
+      else if (state == 'initialTimer') setInitialTimer(++initialTimer)
+      else return
+    },
+    [bombNumber, gridSize, initialTimer]
+  )
+
+  const decrement = useCallback(
+    (state: string) => {
+      if (state == 'bombNumber' && bombNumber >= 1)
+        setBombNumberTemp(--bombNumber)
+      else if (
+        state == 'gridSize' &&
+        gridSize >= 3 &&
+        bombNumber <= Math.pow(gridSize - 1, 2)
+      )
+        setGridSize(--gridSize)
+      else if (state == 'initialTimer' && initialTimer >= 2)
+        setInitialTimer(--initialTimer)
+      else return
+    },
+    [bombNumber, gridSize, initialTimer]
+  )
+
   return (
     <>
       {isRunning ? (
@@ -55,9 +153,88 @@ const GamePage: NextPage = () => {
           players={players}
           initialGrid={initialGrid}
           initialTurn={initialTurn}
+          initialTimer={initialTimer}
+          bombNumber={bombNumber}
+          gridSize={gridSize}
         />
       ) : (
-        <button onClick={onEmitStart}>Start Game</button>
+        <>
+          <HeadText size={9} weight={900}>
+            Create Room
+          </HeadText>
+          <DecoratedBox>
+            <div>
+              <InlineInputSmall
+                name={'bomb'}
+                value={bombNumber}
+                onChange={(e) => setBombNumberTemp(e.target.valueAsNumber)}
+                label="BOMBS"
+              />
+              <Clickable
+                themeColor={theme.themeColor}
+                onClick={(e) => increment('bombNumber')}
+              >
+                +
+              </Clickable>
+              <Clickable
+                themeColor={theme.themeColor}
+                onClick={(e) => decrement('bombNumber')}
+              >
+                -
+              </Clickable>
+            </div>
+            <div>
+              <InlineInputSmall
+                name={'timer'}
+                value={initialTimer}
+                onChange={(e) => setInitialTimer(e.target.valueAsNumber)}
+                label="TIMER"
+              />
+              <Clickable
+                themeColor={theme.themeColor}
+                onClick={(e) => increment('initialTimer')}
+              >
+                +
+              </Clickable>
+              <Clickable
+                themeColor={theme.themeColor}
+                onClick={(e) => decrement('initialTimer')}
+              >
+                -
+              </Clickable>
+            </div>
+            <div>
+              <InlineInputSmall
+                name={'board'}
+                value={gridSize}
+                onChange={(e) => setGridSize(e.target.valueAsNumber)}
+                label="BOARD SIZE"
+              />
+              <Clickable
+                themeColor={theme.themeColor}
+                onClick={(e) => increment('gridSize')}
+              >
+                +
+              </Clickable>
+              <Clickable
+                themeColor={theme.themeColor}
+                onClick={(e) => decrement('gridSize')}
+              >
+                -
+              </Clickable>
+            </div>
+            <RoomButtonContainer>
+              <Button
+                themeColor={theme.themeColor}
+                size="s"
+                color={mainTheme.primary}
+                onClick={onEmitStart}
+              >
+                Start Game
+              </Button>
+            </RoomButtonContainer>
+          </DecoratedBox>
+        </>
       )}
     </>
   )

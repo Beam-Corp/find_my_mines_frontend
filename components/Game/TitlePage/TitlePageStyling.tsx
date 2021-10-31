@@ -54,6 +54,7 @@ export const TitleButton = styled.button<{ color: string, hoverColor: string}>`
     font-size: 3vh;
     font-weight: 700;
     margin: 1vh 0px;
+    transition: 500ms;
 
     :hover {
         border-color: ${(props) => (props.hoverColor)};

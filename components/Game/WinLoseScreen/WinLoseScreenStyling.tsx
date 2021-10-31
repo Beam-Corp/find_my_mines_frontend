@@ -2,7 +2,7 @@ import styled, { css, keyframes } from 'styled-components'
 
 import { ThemeColorProps } from '../../../dto/themeColor.dto'
 
-const enlarge = keyframes`
+export const enlarge = keyframes`
   0% {
     transform: translateX(-50%) translateY(-50%) scale(0.3);
     opacity: 0;
@@ -13,7 +13,7 @@ const enlarge = keyframes`
   }
 `
 
-const minimize = keyframes`
+export const minimize = keyframes`
   0% {
     transform: translateX(-50%) translateY(-50%) scale(1);
     opacity: 1;

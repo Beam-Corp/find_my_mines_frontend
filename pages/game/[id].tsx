@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import { Button } from '../../components/Button'
 import { DecoratedBox, TextContainer } from '../../components/Container'
 import Game from '../../components/Game'
+import WelcomeTutorial from '../../components/Game/WelcomeTutorial'
 import { InlineInput, Input, InlineInputSmall } from '../../components/Inputs'
 import { ThemeColorProps } from '../../dto/themeColor.dto'
 import styles from '../../styles/Home.module.css'
@@ -82,10 +83,12 @@ const GamePage: NextPage = () => {
   const [initialGrid, setInitialGrid] = useState<number[][]>([])
   const [initialTurn, setInitialTurn] = useState<number>(0)
 
-  var [initialTimer, setInitialTimer] = useState<number>(10)
-  var [bombNumber, setBombNumberTemp] = useState<number>(12)
-  var [gridSize, setGridSize] = useState<number>(6)
+  const [initialTimer, setInitialTimer] = useState<number>(10)
+  const [bombNumber, setBombNumberTemp] = useState<number>(12)
+  const [gridSize, setGridSize] = useState<number>(6)
 
+  const [openTutorial, setOpenTutorial] = useState<boolean>(false)
+  const [mounted, setMounted] = useState<boolean>(false)
   const { players } = useRoomManager(
     playerInfo.alias ?? playerInfo.userId,
     id,
@@ -107,6 +110,10 @@ const GamePage: NextPage = () => {
       gridSize: gridSize,
     })
   }, [socket, query, bombNumber, gridSize])
+
+  const onCloseTutorial = useCallback(() => {
+    setOpenTutorial(false)
+  }, [])
 
   useEffect(() => {
     socket.once(GameEvents.ON_STARTED, onGameStart)
@@ -143,9 +150,18 @@ const GamePage: NextPage = () => {
     },
     [bombNumber, gridSize, initialTimer]
   )
+  useEffect(() => {
+    setOpenTutorial(true)
+    setMounted(true)
+  }, [])
 
   return (
     <>
+      <WelcomeTutorial
+        show={openTutorial}
+        mounted={true}
+        clickOverlay={onCloseTutorial}
+      />
       {isRunning ? (
         <Game
           players={players}

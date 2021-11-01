@@ -80,7 +80,12 @@ export const InlineInput = ({
   const { themeColor } = useThemeContext()
   return (
     <InlineWrapper>
-      <LabelContainer size={3} weight={900} color={themeColor.primary} themeColor={themeColor}>
+      <LabelContainer
+        size={3}
+        weight={900}
+        color={themeColor.primary}
+        themeColor={themeColor}
+      >
         <Label htmlFor={name} themeColor={themeColor}>
           {label}
         </Label>
@@ -99,7 +104,7 @@ export const InlineInputSmall = ({
   name,
   label,
   value,
-  ...rest 
+  ...rest
 }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) => {
   const theme = useThemeContext()
   return (
@@ -107,9 +112,13 @@ export const InlineInputSmall = ({
       <LabelContainer2 size={3} weight={900} themeColor={theme.themeColor}>
         <label htmlFor={name}>{label}</label>
       </LabelContainer2>
-      <InputSmall name={name} value={value} {...rest} style={{ marginLeft: '160px', marginRight: '0px'}} themeColor={theme.themeColor} /> 
+      <InputSmall
+        name={name}
+        value={value}
+        {...rest}
+        style={{ marginLeft: '160px', marginRight: '0px' }}
+        themeColor={theme.themeColor}
+      />
     </InlineWrapper2>
-    
   )
 }
-

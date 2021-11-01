@@ -1,4 +1,4 @@
-export const genearateBlankGrid = (size: number) => {
+export const generateBlankGrid = (size: number) => {
   const newGrid: number[][] = []
   for (let i = 0; i < size; i++) {
     const newRow = []

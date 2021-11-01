@@ -17,6 +17,7 @@ import { useRoomManager } from '../../utils/room/useRoomManager'
 import { SocketContext } from '../../utils/socketUtils'
 import { mainTheme } from '../../utils/themeConst'
 import { usePlayerContext } from '../../utils/usePlayerContext'
+import { HeadText } from '../room/create'
 
 export const RoomWrapper = styled.div`
   margin: 20px 0 0 0;
@@ -26,10 +27,7 @@ export const RoomWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `
-export const HeadText = styled(TextContainer)`
-  padding-bottom: 20px;
-  color: ${mainTheme.primary};
-`
+
 export const RoomButtonContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -154,11 +152,13 @@ const GamePage: NextPage = () => {
           initialGrid={initialGrid}
           initialTurn={initialTurn}
           initialTimer={initialTimer}
+          bombNumber={bombNumber}
+          gridSize={gridSize}
         />
       ) : (
         <>
-          <HeadText size={9} weight={900}>
-            Create Room
+          <HeadText size={9} weight={900} themeColor={theme.themeColor}>
+            Room {query.id}
           </HeadText>
           <DecoratedBox>
             <div>

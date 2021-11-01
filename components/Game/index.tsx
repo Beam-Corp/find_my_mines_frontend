@@ -18,7 +18,7 @@ import {
   GameState,
   SurrenderState,
 } from '../../utils/game/game.event'
-import { genearateBlankGrid } from '../../utils/game/gameUtils'
+import { generateBlankGrid } from '../../utils/game/gameUtils'
 import { SocketContext } from '../../utils/socketUtils'
 import { mainTheme } from '../../utils/themeConst'
 import useWindowDimensions from '../../utils/useDimensions'
@@ -43,6 +43,8 @@ interface GameProps {
   initialTurn: number
   initialTimer: number
   players: string[]
+  gridSize: number
+  bombNumber: number
 }
 
 const mockGrid = [
@@ -59,6 +61,8 @@ const Game: FC<GameProps> = ({
   initialTurn,
   initialTimer,
   players,
+  gridSize,
+  bombNumber,
 }) => {
   const socket = useContext(SocketContext)
   const { query } = useRouter()
@@ -88,7 +92,7 @@ const Game: FC<GameProps> = ({
   const [clickNumber, setClickNumber] = useState<number>(0)
 
   const [gridStatus, setGridStatus] = useState<number[][]>(
-    genearateBlankGrid(6)
+    generateBlankGrid(initialGrid.length)
   )
 
   const [gameResult, setGameResult] = useState<number[]>()
@@ -192,21 +196,28 @@ const Game: FC<GameProps> = ({
 
   const gameRestart = useCallback(() => {
     setMounted(gameResult !== undefined)
-    socket.emit(GameEvents.RESTART, id)
-  }, [id, socket, gameResult])
+    socket.emit(GameEvents.RESTART, {
+      roomId: id,
+      bombNumber: bombNumber,
+      gridSize: gridSize,
+    })
+  }, [gameResult, socket, id, bombNumber, gridSize])
 
-  const onGameRestartFromServer = useCallback((update: GameState) => {
-    setPlayerScore(update.scoreState)
-    setPlayerTurn(update.playerTurn)
-    setInitialGrids(update.gridState)
-    setClickNumber(update.clickNumber)
-    setGridStatus(genearateBlankGrid(6))
-    setGameResult(undefined)
-    setSurrenderer(undefined)
-    setClickNumber(0)
-    setMounted(false)
-    console.log('on restarting game')
-  }, [])
+  const onGameRestartFromServer = useCallback(
+    (update: GameState) => {
+      setPlayerScore(update.scoreState)
+      setPlayerTurn(update.playerTurn)
+      setInitialGrids(update.gridState)
+      setClickNumber(update.clickNumber)
+      setGridStatus(generateBlankGrid(initialGrid.length))
+      setGameResult(undefined)
+      setSurrenderer(undefined)
+      setClickNumber(0)
+      setMounted(false)
+      console.log('on restarting game')
+    },
+    [initialGrid]
+  )
 
   const onUpdateFromServer = useCallback(
     (update: GameState) => {

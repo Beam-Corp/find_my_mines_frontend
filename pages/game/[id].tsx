@@ -154,8 +154,6 @@ const GamePage: NextPage = () => {
           initialGrid={initialGrid}
           initialTurn={initialTurn}
           initialTimer={initialTimer}
-          bombNumber={bombNumber}
-          gridSize={gridSize}
         />
       ) : (
         <>

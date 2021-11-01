@@ -43,8 +43,6 @@ interface GameProps {
   initialTurn: number
   initialTimer: number
   players: string[]
-  bombNumber: number
-  gridSize: number
 }
 
 const mockGrid = [
@@ -56,7 +54,12 @@ const mockGrid = [
   [0, 1, 0, 0, 0, 0],
 ]
 
-const Game: FC<GameProps> = ({ initialGrid, initialTurn, initialTimer, players, bombNumber, gridSize }) => {
+const Game: FC<GameProps> = ({
+  initialGrid,
+  initialTurn,
+  initialTimer,
+  players,
+}) => {
   const socket = useContext(SocketContext)
   const { query } = useRouter()
   const id = useMemo(() => query.id, [query])
@@ -112,7 +115,7 @@ const Game: FC<GameProps> = ({ initialGrid, initialTurn, initialTimer, players, 
     setTime(initialTimer)
     if (surrenderer || (gameResult && gameResult.length)) return
     return startTimer()
-  }, [startTimer, gameResult, surrenderer])
+  }, [startTimer, gameResult, surrenderer, initialTimer])
 
   const clickGrid = useCallback(
     (row: number, column: number) => {

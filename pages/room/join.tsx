@@ -13,12 +13,7 @@ import { useThemeContext } from '../../useContext/useThemeContext'
 import { RoomEvents } from '../../utils/room/room.event'
 import { SocketContext } from '../../utils/socketUtils'
 import { usePlayerContext } from '../../utils/usePlayerContext'
-import {
-  HeadText,
-  RoomButtonContainer,
-  RoomWrapper,
-  ReturnButtonContainer,
-} from './create'
+import { HeadText, RoomButtonContainer, ReturnButtonContainer } from './create'
 
 const JoinRoom: NextPage = () => {
   const router = useRouter()

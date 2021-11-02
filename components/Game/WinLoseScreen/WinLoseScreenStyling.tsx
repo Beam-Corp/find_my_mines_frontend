@@ -50,10 +50,9 @@ export const Container = styled.div<{ show: boolean; mounted: boolean }>`
 `
 
 export const Window = styled.div<{ show: boolean; theme: ThemeColorProps }>`
-  position: fixed;
-  top: 35%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
+  position: absolute;
+  top: 15%;
+  left: 27.5%;
   border-style: solid;
   border-width: 5px;
   border-radius: 30px;

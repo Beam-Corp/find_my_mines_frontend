@@ -1,6 +1,7 @@
 import styled, { css, keyframes } from 'styled-components'
 
 import { ThemeColorProps } from '../../../dto/themeColor.dto'
+import { mainTheme } from '../../../utils/themeConst'
 import { enlarge, minimize } from '../WinLoseScreen/WinLoseScreenStyling'
 
 const blink = keyframes`
@@ -20,8 +21,10 @@ export const WTOverlay = styled.div<{ show: boolean; mounted: boolean }>`
   z-index: 90;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
   background-color: #000000;
   display: ${(props) => (props.mounted ? 'initial' : 'none')};
   opacity: ${(props) => (props.show ? '0.5' : '0')};
@@ -41,6 +44,8 @@ export const WTContainer = styled.div<{ show: boolean; mounted: boolean }>`
 
   width: 100vw;
   height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
 
   opacity: ${(props) => (props.show ? '1' : '0')};
   /* pointer-events: ${(props) => (props.show ? 'auto' : 'none')}; */
@@ -129,6 +134,10 @@ export const WelcomeText = styled.h2<{ theme: ThemeColorProps }>`
   text-align: center;
   color: ${({ theme }) => theme.highlight};
   font-size: 80px;
+
+  @media screen and (max-width: ${mainTheme.breakpoint['md']}px) {
+    font-size: 56px;
+  }
 `
 
 export const HowToPlayText = styled.h2<{ theme: ThemeColorProps }>`
@@ -136,12 +145,19 @@ export const HowToPlayText = styled.h2<{ theme: ThemeColorProps }>`
   font-size: 48px;
   margin-top: 0;
   margin-bottom: 25px;
+
+  @media screen and (max-width: ${mainTheme.breakpoint['md']}px) {
+    font-size: 32px;
+  }
 `
 
 export const RuleText = styled.h3<{}>`
   color: white;
   font-size: 32px;
   margin: 10px 0;
+  @media screen and (max-width: ${mainTheme.breakpoint['md']}px) {
+    font-size: 24px;
+  }
 `
 
 export const BottomText = styled.h3<{ left: string; color: string }>`
@@ -150,6 +166,9 @@ export const BottomText = styled.h3<{ left: string; color: string }>`
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: ${({ left }) => left};
+  @media screen and (max-width: ${mainTheme.breakpoint['md']}px) {
+    font-size: 36px;
+  }
 `
 
 export const Bomb = styled.img<{}>`
@@ -166,4 +185,8 @@ export const ReturnText = styled.h4<{}>`
   text-align: center;
   animation: ${blink} 1600ms ease-in infinite;
   pointer-events: none;
+
+  @media screen and (max-width: ${mainTheme.breakpoint['md']}px) {
+    font-size: 24px;
+  }
 `

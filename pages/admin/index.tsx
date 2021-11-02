@@ -15,6 +15,8 @@ import ConcurrentPlayer from './concurrentPlayers'
 import ConcurrentRoomId from './concurrentRoomId'
 import ResetGame from './resetGame'
 
+import ChatBox from '../../components/Game/ChatBox'
+
 interface GetPlayersResp {
   current: number
   roomList: string[]
@@ -59,6 +61,7 @@ const Admin: NextPage = () => {
       <MenuColumn>
         <ConcurrentRoomId roomLists={roomLists} />
       </MenuColumn>
+      {/* <ChatBox /> */}
     </AdminContainer>
   )
 }

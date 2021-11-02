@@ -6,6 +6,7 @@ export enum GameEvents {
   END_GAME = 'end-game',
   SURRENDER = 'surrender',
   RESTART = 'restart',
+  SEND_MESSAGE = 'send-message',
 
   // server to client
   ON_STARTED = 'on-started',
@@ -14,6 +15,7 @@ export enum GameEvents {
   ON_GAME_END = 'on-game-end',
   ON_SURRENDER = 'on-surrender',
   ON_RESTART = 'on-restart',
+  ON_SEND_MESSAGE = 'on-send-message'
 }
 
 export interface GameState {
@@ -27,4 +29,10 @@ export interface GameState {
 export interface SurrenderState {
   roomId: string
   surrenderer: number
+}
+
+export interface SendMessagePayload {
+  roomId: string
+  playerNumber: number
+  message: string
 }

@@ -29,6 +29,7 @@ import Grid from './Grid'
 import PlayerPanel from './PlayerPanel'
 import Timer from './Timer'
 import WinLoseScreen from './WinLoseScreen'
+import ChatBox from './ChatBox'
 
 const GameContainer = styled(Column)`
   width: 100%;
@@ -81,6 +82,7 @@ const Game: FC<GameProps> = ({
 
   const playerNumber = useMemo(() => {
     const id = playerInfo.alias || playerInfo.userId
+    console.log('id:', id)
     return parseInt(id.substring(0, 1))
   }, [playerInfo.userId, playerInfo.alias])
 
@@ -335,6 +337,7 @@ const Game: FC<GameProps> = ({
           />
         )}
       </GameRow>
+      <ChatBox theOpponentName={players[1]} roomId={typeof(id) === 'string' ? id : ''} />
       {!surrenderer && <ActionButtons onSurrender={surrender} />}
       <WinLoseScreen
         show={!!gameResult || !!surrenderer}

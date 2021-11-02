@@ -138,15 +138,15 @@ const GamePage: NextPage = () => {
   const decrement = useCallback(
     (state: string) => {
       if (state == 'bombNumber' && bombNumber >= 1)
-        setBombNumberTemp(--bombNumber)
+        setBombNumberTemp((prev) => prev - 1)
       else if (
         state == 'gridSize' &&
         gridSize >= 3 &&
         bombNumber <= Math.pow(gridSize - 1, 2)
       )
-        setGridSize(--gridSize)
+        setGridSize((prev) => prev - 1)
       else if (state == 'initialTimer' && initialTimer >= 2)
-        setInitialTimer(--initialTimer)
+        setInitialTimer((prev) => prev - 1)
       else return
     },
     [bombNumber, gridSize, initialTimer]

@@ -158,11 +158,6 @@ const GamePage: NextPage = () => {
 
   return (
     <>
-      <WelcomeTutorial
-        show={openTutorial}
-        mounted={true}
-        clickOverlay={onCloseTutorial}
-      />
       {isRunning ? (
         <Game
           players={players}
@@ -251,6 +246,11 @@ const GamePage: NextPage = () => {
           </DecoratedBox>
         </>
       )}
+      <WelcomeTutorial
+        show={openTutorial}
+        mounted={mounted}
+        clickOverlay={onCloseTutorial}
+      />
     </>
   )
 }

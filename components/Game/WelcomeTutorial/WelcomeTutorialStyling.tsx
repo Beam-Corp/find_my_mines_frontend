@@ -17,6 +17,7 @@ const blink = keyframes`
 
 export const WTOverlay = styled.div<{ show: boolean; mounted: boolean }>`
   position: fixed;
+  z-index: 90;
   top: 0;
   left: 0;
   width: 100%;
@@ -30,25 +31,35 @@ export const WTOverlay = styled.div<{ show: boolean; mounted: boolean }>`
 `
 
 export const WTContainer = styled.div<{ show: boolean; mounted: boolean }>`
-  display: ${(props) => (props.mounted ? 'initial' : 'none')};
+  z-index: 999;
+  position: absolute;
+
+  display: ${(props) => (props.mounted ? 'flex' : 'none')};
+  flex-direction: column;
+
+  align-items: center;
+
+  width: 100vw;
+  height: 100vh;
+
   opacity: ${(props) => (props.show ? '1' : '0')};
-  pointer-events: ${(props) => (props.show ? 'auto' : 'none')};
+  /* pointer-events: ${(props) => (props.show ? 'auto' : 'none')}; */
+
+  pointer-events: none;
+
   transition: opacity 250ms linear;
   z-index: 1;
 `
 
 export const WTWindow = styled.div<{ show: boolean; theme: ThemeColorProps }>`
-  position: fixed;
-  top: 55%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
   border-style: solid;
   border-width: 5px;
   border-radius: 30px;
   border-color: ${({ theme }) => theme.primary};
   background-color: ${({ theme }) => theme.background};
-  width: 1200px;
-  height: 600px;
+
+  padding: 32px;
+
   opacity: 0;
   display: flex;
   flex-direction: column;
@@ -101,42 +112,44 @@ export const Div2 = styled.div`
 export const Div3 = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
   text-align: center;
-  margin-top: 20px;
+  vertical-align: middle;
 `
 
-export const WelcomeText = styled.h1<{ theme: ThemeColorProps }>`
-  position: fixed;
+export const WelcomeText = styled.h2<{ theme: ThemeColorProps }>`
+  /* position: fixed;
+  z-index: 100;
   top: 5%;
   left: 50%;
-  transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%); */
+  margin: 16px 0px;
   width: 100%;
   text-align: center;
   color: ${({ theme }) => theme.highlight};
-  font-size: 110px;
+  font-size: 80px;
 `
 
 export const HowToPlayText = styled.h2<{ theme: ThemeColorProps }>`
   color: ${({ theme }) => theme.primary};
-  font-size: 80px;
+  font-size: 48px;
   margin-top: 0;
   margin-bottom: 25px;
 `
 
 export const RuleText = styled.h3<{}>`
   color: white;
-  font-size: 40px;
+  font-size: 32px;
   margin: 10px 0;
 `
 
-export const BottomText = styled.h3<{ left: string, color: string }>`
+export const BottomText = styled.h3<{ left: string; color: string }>`
   color: ${({ color }) => color};
   font-size: 40px;
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: ${({ left }) => left};
-  padding-top: 10px;
 `
 
 export const Bomb = styled.img<{}>`
@@ -145,11 +158,8 @@ export const Bomb = styled.img<{}>`
 
 export const ReturnText = styled.h4<{}>`
   color: #ffffff;
-  font-size: 20px;
-  position: fixed;
-  top: 87%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
+  font-size: 32px;
+
   width: 100%;
   text-align: center;
   animation: ${blink} 1600ms ease-in infinite;

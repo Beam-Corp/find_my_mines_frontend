@@ -4,22 +4,22 @@ import { ThemeColorProps } from '../../../dto/themeColor.dto'
 
 export const enlarge = keyframes`
   0% {
-    transform: translateX(-50%) translateY(-50%) scale(0.3);
+    transform:  scale(0.3);
     opacity: 0;
   }
   100% {
-    transform: translateX(-50%) translateY(-50%) scale(1);
+    transform:  scale(1);
     opacity: 1;
   }
 `
 
 export const minimize = keyframes`
   0% {
-    transform: translateX(-50%) translateY(-50%) scale(1);
+    transform: scale(1);
     opacity: 1;
   }
   100% {
-    transform: translateX(-50%) translateY(-50%) scale(0.3);
+    transform: scale(0.3);
     opacity: 0;
   }
 `

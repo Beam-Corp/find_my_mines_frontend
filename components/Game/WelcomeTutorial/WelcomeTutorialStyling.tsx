@@ -167,7 +167,7 @@ export const BottomText = styled.h3<{ left: string; color: string }>`
   margin-bottom: 10px;
   margin-left: ${({ left }) => left};
   @media screen and (max-width: ${mainTheme.breakpoint['md']}px) {
-    font-size: 36px;
+    font-size: 24px;
   }
 `
 

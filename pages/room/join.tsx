@@ -18,7 +18,7 @@ import { HeadText, RoomButtonContainer, ReturnButtonContainer } from './create'
 const JoinRoom: NextPage = () => {
   const router = useRouter()
   const socket = useContext(SocketContext)
-  const { setPlayer } = usePlayerContext()
+  const { setPlayer, playerInfo } = usePlayerContext()
   const { themeColor } = useThemeContext()
   const [playerName, setPlayerName] = useState<string>('')
   const [roomId, setRoomId] = useState('')
@@ -29,14 +29,22 @@ const JoinRoom: NextPage = () => {
   const onJoin = useCallback(() => {
     try {
       setPlayer((prev) => {
-        if (prev.userId) {
+        if (!!prev.userId) {
           const playerPrefix = prev.userId[0] + prev.userId[1]
           if (playerPrefix === '2-' || playerPrefix === '1-') {
-            return { ...prev, userId: `2-${prev.userId.slice(2)}` }
+            return {
+              ...prev,
+              userId: `2-${prev.userId.slice(2)}`,
+              alias: playerName ? `2-${playerName}` : undefined,
+            }
           }
-          return { ...prev, userId: `2-${prev.userId}` }
+          return {
+            ...prev,
+            userId: `2-${prev.userId}`,
+            alias: playerName ? `2-${playerName}` : undefined,
+          }
         }
-        return prev
+        return { ...prev, alias: playerName ? `2-${playerName}` : '2-player' }
       })
       socket.emit(RoomEvents.ON_JOIN, roomId)
     } catch (err) {
@@ -44,17 +52,7 @@ const JoinRoom: NextPage = () => {
       alert('Cannot join this room')
       console.log(err)
     }
-  }, [roomId, socket, setPlayer])
-
-  useEffect(() => {
-    setPlayer((prev) => {
-      return {
-        ...prev,
-        alias: playerName ? `2-${playerName}` : '2-player',
-      }
-    })
-  }, [playerName, setPlayer])
-
+  }, [roomId, socket, setPlayer, playerName])
   useEffect(() => {
     socket.on(RoomEvents.JOIN, onGetRoomId)
     return () => {
@@ -80,19 +78,28 @@ const JoinRoom: NextPage = () => {
             <InlineInput
               name={'id'}
               value={roomId}
+              autoComplete="off"
+              required
               onChange={(e) => setRoomId(e.target.value)}
               label="ROOM ID"
             />
             <InlineInput
               name={'name'}
               value={playerName}
+              autoComplete="off"
+              required={!playerInfo.userId}
               onChange={(e) => setPlayerName(e.target.value)}
               label="PLAYER NAME"
             />
           </div>
         </>
         <RoomButtonContainer>
-          <Button size="s" onClick={onJoin} themeColor={themeColor}>
+          <Button
+            size="s"
+            onClick={onJoin}
+            themeColor={themeColor}
+            disabled={!roomId || (!playerName && !playerInfo.userId)}
+          >
             JOIN GAME ROOM
           </Button>
         </RoomButtonContainer>

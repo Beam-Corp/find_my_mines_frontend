@@ -36,6 +36,10 @@ export const Button = styled.button<{
     color: ${({ themeColor }) => themeColor.primary};
     border-color: ${({ themeColor }) => themeColor.primary};
   }
+  &:disabled {
+    color: grey;
+    border-color: grey;
+  }
 `
 export const DefaultButton: React.FunctionComponent<DefaultButtonProps> = ({
   onClick,

@@ -42,7 +42,7 @@ export const ReturnButtonContainer = styled.div`
 const CreateRoom: NextPage = () => {
   const router = useRouter()
   const socket = useContext(SocketContext)
-  const { setPlayer } = usePlayerContext()
+  const { setPlayer, playerInfo } = usePlayerContext()
   const { themeColor } = useThemeContext()
 
   const [hostName, setHostName] = useState('')
@@ -52,15 +52,23 @@ const CreateRoom: NextPage = () => {
         if (!!prev.userId) {
           const playerPrefix = prev.userId[0] + prev.userId[1]
           if (playerPrefix === '2-' || playerPrefix === '1-') {
-            return { ...prev, userId: `1-${prev.userId.slice(2)}` }
+            return {
+              ...prev,
+              userId: `1-${prev.userId.slice(2)}`,
+              alias: hostName ? `1-${hostName}` : undefined,
+            }
           }
-          return { ...prev, userId: `1-${prev.userId}` }
+          return {
+            ...prev,
+            userId: `1-${prev.userId}`,
+            alias: hostName ? `1-${hostName}` : undefined,
+          }
         }
-        return prev
+        return { ...prev, alias: hostName ? `1-${hostName}` : '1-player' }
       })
       router.push(`/game/${id}`)
     },
-    [router, setPlayer]
+    [router, setPlayer, hostName]
   )
   const onCreate = useCallback(() => {
     try {
@@ -71,15 +79,6 @@ const CreateRoom: NextPage = () => {
       console.log(err)
     }
   }, [socket])
-  useEffect(() => {
-    setPlayer((prev) => {
-      return {
-        ...prev,
-        alias: hostName ? `1-${hostName}` : '1-player',
-      }
-    })
-  }, [hostName, setPlayer])
-
   useEffect(() => {
     socket.on(RoomEvents.CREATE, onGetRoomId)
     return () => {
@@ -104,7 +103,9 @@ const CreateRoom: NextPage = () => {
           <InlineInput
             name={'host'}
             value={hostName}
+            autoComplete="off"
             onChange={(e) => setHostName(e.target.value)}
+            required={!playerInfo.userId}
             label="ROOM HOST"
           />
         </div>
@@ -114,6 +115,7 @@ const CreateRoom: NextPage = () => {
             color={themeColor.primary}
             onClick={onCreate}
             themeColor={themeColor}
+            disabled={!playerInfo.userId && !hostName}
           >
             CREATE GAME ROOM
           </Button>

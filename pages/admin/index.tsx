@@ -61,7 +61,6 @@ const Admin: NextPage = () => {
       <MenuColumn>
         <ConcurrentRoomId roomLists={roomLists} />
       </MenuColumn>
-      {/* <ChatBox /> */}
     </AdminContainer>
   )
 }

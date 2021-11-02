@@ -80,7 +80,6 @@ const ChatBox: FC<ChatBoxInterface> = ({ theOpponentName, roomId }) => {
   const socket = useContext(SocketContext)
   const playerNumber = useMemo(() => {
     const id = playerInfo.alias || playerInfo.userId
-    console.log('id:', id)
     return parseInt(id.substring(0, 1))
   }, [playerInfo.userId, playerInfo.alias])
 
@@ -100,7 +99,6 @@ const ChatBox: FC<ChatBoxInterface> = ({ theOpponentName, roomId }) => {
 
   const onUpdateFromServer = useCallback((update: MessagePayload[]) => {
     setAllMessages(update)
-    console.log(update)
   }, [])
 
   useEffect(() => {

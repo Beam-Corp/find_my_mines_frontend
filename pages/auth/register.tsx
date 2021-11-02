@@ -31,6 +31,9 @@ const Register: NextPage = () => {
       router.push('/auth')
     } catch (err) {
       alert('something went wrong')
+    } finally {
+      setUserId('')
+      setPassword('')
     }
   }, [password, userId, router])
   return (

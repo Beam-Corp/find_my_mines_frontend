@@ -75,7 +75,7 @@ const CreateRoom: NextPage = () => {
     setPlayer((prev) => {
       return {
         ...prev,
-        alias: hostName ? `1-${hostName}` : undefined,
+        alias: hostName ? `1-${hostName}` : '1-player',
       }
     })
   }, [hostName, setPlayer])

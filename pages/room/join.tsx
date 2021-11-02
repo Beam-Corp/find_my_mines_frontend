@@ -50,7 +50,7 @@ const JoinRoom: NextPage = () => {
     setPlayer((prev) => {
       return {
         ...prev,
-        alias: playerName ? `2-${playerName}` : undefined,
+        alias: playerName ? `2-${playerName}` : '2-player',
       }
     })
   }, [playerName, setPlayer])

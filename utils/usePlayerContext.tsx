@@ -21,16 +21,22 @@ interface PlayerContextProps {
   customization: Customization
   playerInfo: PlayerInfo
   setPlayer: React.Dispatch<React.SetStateAction<Player>>
+  onLogout: () => void
 }
-
+interface LogoutResponse {
+  success: boolean
+}
 const PlayerContext = createContext<PlayerContextProps>(
   {} as PlayerContextProps
 )
-
 export const usePlayerContext = () => useContext(PlayerContext)
 
 export const PlayerProvider = ({ ...props }) => {
   const [player, setPlayer] = useState<Player>({} as Player)
+  const onLogout = useCallback(async () => {
+    await client.post<LogoutResponse>('/auth/logout')
+    setPlayer({} as Player)
+  }, [])
   useEffect(() => {
     const source = Axios.CancelToken.source()
     client
@@ -53,6 +59,7 @@ export const PlayerProvider = ({ ...props }) => {
       alias: player.alias,
     },
     setPlayer,
+    onLogout,
   }
   return (
     <PlayerContext.Provider value={value} {...props}></PlayerContext.Provider>

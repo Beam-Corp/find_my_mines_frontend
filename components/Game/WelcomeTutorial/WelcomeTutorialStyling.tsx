@@ -26,6 +26,7 @@ export const WTOverlay = styled.div<{ show: boolean; mounted: boolean }>`
   opacity: ${(props) => (props.show ? '0.5' : '0')};
   pointer-events: ${(props) => (props.show ? 'auto' : 'none')};
   transition: opacity 300ms linear;
+  z-index: 1;
 `
 
 export const WTContainer = styled.div<{ show: boolean; mounted: boolean }>`
@@ -33,6 +34,7 @@ export const WTContainer = styled.div<{ show: boolean; mounted: boolean }>`
   opacity: ${(props) => (props.show ? '1' : '0')};
   pointer-events: ${(props) => (props.show ? 'auto' : 'none')};
   transition: opacity 250ms linear;
+  z-index: 1;
 `
 
 export const WTWindow = styled.div<{ show: boolean; theme: ThemeColorProps }>`

@@ -66,7 +66,7 @@ const JoinRoom: NextPage = () => {
     <>
       <ReturnButtonContainer>
         <Link href="/" passHref>
-          <Button size="s" themeColor={theme.themeColor}>
+          <Button size="s" themeColor={themeColor}>
             RETURN TO TITLE
           </Button>
         </Link>

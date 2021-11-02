@@ -58,7 +58,7 @@ export const WTWindow = styled.div<{ show: boolean; theme: ThemeColorProps }>`
   border-color: ${({ theme }) => theme.primary};
   background-color: ${({ theme }) => theme.background};
 
-  padding: 32px;
+  padding: 32px 40px;
 
   opacity: 0;
   display: flex;
@@ -159,6 +159,8 @@ export const Bomb = styled.img<{}>`
 export const ReturnText = styled.h4<{}>`
   color: #ffffff;
   font-size: 32px;
+
+  margin-top: 25px;
 
   width: 100%;
   text-align: center;

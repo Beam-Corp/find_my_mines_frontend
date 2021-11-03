@@ -1,15 +1,18 @@
-/** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
   i18n: {
     locales: ['en-US'],
     defaultLocale: 'en-US',
   },
-}
-
-module.exports = {
+  serverRuntimeConfig: {
+    // Will only be available on the server side
+  },
+  publicRuntimeConfig: {
+    // Will be available on both server and client
+    apiUrl: process.env.API_URL,
+  },
   webpack(config, options) {
-    const { isServer } = options;
+    const { isServer } = options
     config.module.rules.push({
       test: /\.(ogg|mp3|wav|mpe?g)$/i,
       exclude: config.exclude,
@@ -26,8 +29,8 @@ module.exports = {
           },
         },
       ],
-    });
+    })
 
-    return config;
+    return config
   },
-};
+}

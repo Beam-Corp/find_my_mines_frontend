@@ -15,23 +15,39 @@ import { GameEvents } from '../../../utils/game/game.event'
 import { SocketContext } from '../../../utils/socketUtils'
 import { usePlayerContext } from '../../../utils/usePlayerContext'
 import { Row } from '../../Container'
+import IconToggleButton from '../../IconToggleButton'
 
-const ChatBoxContainer = styled.div<{ themeColor: ThemeColorProps }>`
+const ChatBoxContainer = styled.div<{
+  isOpen: boolean
+  themeColor: ThemeColorProps
+}>`
   position: fixed;
+  right: 20px;
+  bottom: ${({ isOpen }) => (isOpen ? '0px' : 'calc(-30vh - 28px)')};
+
   width: 20vw;
   min-width: 250px;
   height: 30vh;
   min-height: 300px;
+
   border: 5px solid ${({ themeColor }) => themeColor.highlight};
   border-radius: 16px 16px 0 0;
+  border-bottom-width: 0px;
+
+  display: flex;
+  flex-direction: column;
+
   background: ${({ themeColor }) => themeColor.background};
   color: white;
-  right: 20px;
-  bottom: 0px;
+
+  transition: bottom 500ms;
 `
 
 const ChatInputContainer = styled(Row)`
   width: 100%;
+  height: 12%;
+
+  flex: 1;
 `
 
 const ChatInput = styled.input<{ themeColor: ThemeColorProps }>`
@@ -67,21 +83,23 @@ const SendButton = styled.button<{ themeColor: ThemeColorProps }>`
 
   color: white;
 `
-const Header = styled.div`
-  position: relative;
-  top: 0px;
-  margin-bottom: 8px;
-  height: 30px;
+const Header = styled.div<{ themeColor: ThemeColorProps }>`
+  border-bottom: 2px solid ${({ themeColor }) => themeColor.highlight};
+  height: 15%;
+  width: 100%;
   color: white;
   font-size: 30px;
-  padding: 0 5px 0 5px;
+  padding: 0 8px 0 8px;
+
+  display: flex;
+  justify-content: space-between;
 `
 
 const Content = styled.div<{
   themeColor: ThemeColorProps
 }>`
-  height: 228px;
-  max-height: 232px;
+  height: 70%;
+  max-height: 70%;
   margin: 0 4px 4px 0;
   padding: 0 5px 0 5px;
   overflow-y: scroll;
@@ -137,6 +155,8 @@ const ChatBox: FC<ChatBoxInterface> = ({ theOpponentName, roomId }) => {
   const [message, setMessage] = useState<string>('')
   const [allMessages, setAllMessages] = useState<MessagePayload[]>([])
 
+  const [isOpen, setOpen] = useState<boolean>(true)
+
   const onSend = useCallback(() => {
     const data = {
       roomId: roomId,
@@ -160,8 +180,14 @@ const ChatBox: FC<ChatBoxInterface> = ({ theOpponentName, roomId }) => {
   }, [onUpdateFromServer, socket])
 
   return (
-    <ChatBoxContainer themeColor={themeColor}>
-      <Header>CHAT BOX</Header>
+    <ChatBoxContainer themeColor={themeColor} isOpen={isOpen}>
+      <Header themeColor={themeColor}>
+        <div>CHAT BOX</div>
+        <IconToggleButton
+          imagePaths={['/arrowDown.svg', '/arrowUp.svg']}
+          handleToggle={() => setOpen(!isOpen)}
+        />
+      </Header>
       <Content themeColor={themeColor}>
         {!!allMessages.length &&
           allMessages.map((e, index) => {

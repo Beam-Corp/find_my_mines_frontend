@@ -59,6 +59,8 @@ const Message = styled.div<{
   themeColor: ThemeColorProps
 }>`
   padding-top: 10px;
+  width: 100%;
+  overflow-wrap: break-word;
   color: ${({ playerNumber, themeColor }) =>
     playerNumber === 1 ? themeColor.primary : themeColor.secondary};
 `

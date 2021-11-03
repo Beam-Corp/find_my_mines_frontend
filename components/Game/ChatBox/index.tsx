@@ -23,14 +23,14 @@ const ChatBoxContainer = styled.div<{ themeColor: ThemeColorProps }>`
   height: 30vh;
   min-height: 300px;
   border: 5px solid ${({ themeColor }) => themeColor.highlight};
+  border-radius: 16px 16px 0 0;
+  background: ${({ themeColor }) => themeColor.background};
   color: white;
   right: 20px;
   bottom: 0px;
 `
 
 const ChatInputContainer = styled(Row)`
-  position: absolute;
-  bottom: 0px;
   width: 100%;
 `
 
@@ -44,6 +44,7 @@ const SendButton = styled.button<{}>`
 const Header = styled.div`
   position: relative;
   top: 0px;
+  margin-bottom: 8px;
   height: 30px;
   color: white;
   font-size: 30px;
@@ -51,7 +52,10 @@ const Header = styled.div`
 `
 
 const Content = styled.div`
+  max-height: 232px;
   padding: 0 5px 0 5px;
+  overflow-y: scroll;
+  overflow-wrap: scroll;
 `
 
 const Message = styled.div<{

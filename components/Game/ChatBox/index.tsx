@@ -51,11 +51,29 @@ const Header = styled.div`
   padding: 0 5px 0 5px;
 `
 
-const Content = styled.div`
+const Content = styled.div<{
+  themeColor: ThemeColorProps
+}>`
   max-height: 232px;
+  margin: 0 4px 4px 0;
   padding: 0 5px 0 5px;
   overflow-y: scroll;
   overflow-wrap: scroll;
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: ${({ themeColor }) => themeColor.highlight};
+    border-radius: 999px;
+  }
 `
 
 const Message = styled.div<{
@@ -117,7 +135,7 @@ const ChatBox: FC<ChatBoxInterface> = ({ theOpponentName, roomId }) => {
   return (
     <ChatBoxContainer themeColor={themeColor}>
       <Header>CHAT BOX</Header>
-      <Content>
+      <Content themeColor={themeColor}>
         {!!allMessages.length &&
           allMessages.map((e, index) => {
             return (

@@ -84,7 +84,7 @@ const GamePage: NextPage = () => {
   const [initialTurn, setInitialTurn] = useState<number>(0)
 
   const [initialTimer, setInitialTimer] = useState<number>(10)
-  const [bombNumber, setBombNumberTemp] = useState<number>(12)
+  const [bombNumber, setBombNumberTemp] = useState<number>(11)
   const [gridSize, setGridSize] = useState<number>(6)
 
   const [openTutorial, setOpenTutorial] = useState<boolean>(false)

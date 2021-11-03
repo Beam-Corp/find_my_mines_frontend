@@ -34,12 +34,38 @@ const ChatInputContainer = styled(Row)`
   width: 100%;
 `
 
-const ChatInput = styled.input<{}>`
+const ChatInput = styled.input<{ themeColor: ThemeColorProps }>`
   width: 80%;
+  background: ${({ themeColor }) => themeColor.background};
+  border: 2px solid ${({ themeColor }) => themeColor.highlight};
+  border-radius: 0px;
+
+  color: white;
+
+  ::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgba(255, 255, 255, 0.7);
+    opacity: 1; /* Firefox */
+  }
+
+  :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  ::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: rgba(255, 255, 255, 0.7);
+  }
 `
 
-const SendButton = styled.button<{}>`
+const SendButton = styled.button<{ themeColor: ThemeColorProps }>`
   width: 20%;
+  background: ${({ themeColor }) => themeColor.background};
+  border: 2px solid ${({ themeColor }) => themeColor.highlight};
+  border-radius: 0px;
+
+  color: white;
 `
 const Header = styled.div`
   position: relative;
@@ -54,6 +80,7 @@ const Header = styled.div`
 const Content = styled.div<{
   themeColor: ThemeColorProps
 }>`
+  height: 228px;
   max-height: 232px;
   margin: 0 4px 4px 0;
   padding: 0 5px 0 5px;
@@ -80,7 +107,7 @@ const Message = styled.div<{
   playerNumber: number
   themeColor: ThemeColorProps
 }>`
-  padding-top: 10px;
+  padding: 5px 0px;
   width: 100%;
   overflow-wrap: break-word;
   color: ${({ playerNumber, themeColor }) =>
@@ -158,8 +185,11 @@ const ChatBox: FC<ChatBoxInterface> = ({ theOpponentName, roomId }) => {
           placeholder="type your message..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          themeColor={themeColor}
         />
-        <SendButton onClick={onSend}>Send</SendButton>
+        <SendButton onClick={onSend} themeColor={themeColor}>
+          Send
+        </SendButton>
       </ChatInputContainer>
     </ChatBoxContainer>
   )

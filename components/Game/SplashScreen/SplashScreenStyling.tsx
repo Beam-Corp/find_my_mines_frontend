@@ -57,29 +57,34 @@ export const Top = styled.div<{ theme: ThemeColorProps }>`
   ::before {
     content: '';
     background-color: ${(props) => (props.theme.secondary)};
-    width: 20px;
-    height: 20px;
+    width: 3vh;
+    min-width: 20px;
+    height: 3vh;
+    min-height: 20px;
     border-radius: 50%;
     position: absolute;
-    top: 3%;
-    left: 2%;
+    top: 2%;
+    left: 1%;
   }
 
   ::after {
     content: '';
     background-color: ${(props) => (props.theme.secondary)};
-    width: 20px;
-    height: 20px;
+    width: 3vh;
+    min-width: 20px;
+    height: 3vh;
+    min-height: 20px;
     border-radius: 50%;
     position: absolute;
-    top: 3%;
-    right: 2%;
+    top: 2%;
+    right: 1%;
 `
 
 export const Title = styled.h1<{ theme: ThemeColorProps }>`
   margin: 0;
   color: ${(props) => (props.theme.primary)};
   font-size: 8vh;
+
 `
 export const Logo = styled.img<{ show: boolean }>`
   height: 25vh;
@@ -92,22 +97,26 @@ export const Bottom = styled.div<{ theme: ThemeColorProps }>`
   ::before {
     content: '';
     background-color: ${(props) => (props.theme.secondary)};
-    width: 20px;
-    height: 20px;
+    width: 3vh;
+    min-width: 20px;
+    height: 3vh;
+    min-height: 20px;
     border-radius: 50%;
     position: absolute;
-    bottom: 3%;
-    left: 2%;
+    bottom: 2%;
+    left: 1%;
   }
 
   ::after {
     content: '';
     background-color: ${(props) => (props.theme.secondary)};
-    width: 20px;
-    height: 20px;
+    width: 3vh;
+    min-width: 20px;
+    height: 3vh;
+    min-height: 20px;
     border-radius: 50%;
     position: absolute;
-    bottom: 3%;
-    right: 2%;
+    bottom: 2%;
+    right: 1%;
   }
 `

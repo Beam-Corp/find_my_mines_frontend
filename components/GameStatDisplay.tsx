@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from 'react'
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react'
 
 import styled from 'styled-components'
 
@@ -49,6 +49,14 @@ const GameStatDisplay: FC<ControllerProps> = () => {
   const { themeColor } = useThemeContext()
   const { playerInfo } = usePlayerContext()
 
+  const userId = useMemo(
+    () =>
+      playerInfo.userId?.substring(1, 2) === '-'
+        ? playerInfo.userId?.substring(2)
+        : playerInfo.userId,
+    [playerInfo]
+  )
+
   const [hide, setHide] = useState<boolean>(false)
 
   const [stat, setStat] = useState<Statistics>({
@@ -58,9 +66,7 @@ const GameStatDisplay: FC<ControllerProps> = () => {
   })
 
   const getStats = useCallback(async () => {
-    const playerData = await client.get(
-      `/player/stats?userId=${playerInfo.userId}`
-    )
+    const playerData = await client.get(`/player/stats?userId=${userId}`)
     console.log(playerData.data)
     setStat(playerData.data.statistics)
   }, [playerInfo])
@@ -74,10 +80,12 @@ const GameStatDisplay: FC<ControllerProps> = () => {
   return (
     <>
       <ControllerContainer themeColor={themeColor} hide={hide}>
-        <TextContainer size={4}>{playerInfo?.userId}</TextContainer>
-        <TextContainer size={4}>
-          W/D/L: {stat.winCount}/{stat.drawCount}/{stat.loseCount}
-        </TextContainer>
+        <div>
+          <TextContainer size={4}>{userId}</TextContainer>
+          <TextContainer size={4}>
+            W/D/L: {stat.winCount}/{stat.drawCount}/{stat.loseCount}
+          </TextContainer>
+        </div>
         <IconToggleButton
           imagePaths={['/arrowLeft.svg', '/arrowRight.svg']}
           handleToggle={() => setHide(!hide)}

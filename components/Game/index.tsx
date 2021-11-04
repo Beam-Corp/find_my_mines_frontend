@@ -192,22 +192,12 @@ const Game: FC<GameProps> = ({
   }, [gridStatus, id, playerNumber, playerScore, socket, clickNumber])
 
   const onGameEnd = useCallback(() => {
-    if (playerInfo.userId) {
-      console.log('on update stat after game ends')
-      socket.emit(GameEvents.UPDATE_STATS, {
-        roomId: id,
-        userId: playerInfo.userId,
-        scoreState: playerScore,
-        playerNumber: playerNumber,
-        surrendererNumber: surrenderer ?? 0,
-      })
-    }
     if (playerScore[0] !== playerScore[1]) {
       setGameResult(playerScore[0] > playerScore[1] ? [1, 0] : [0, 1])
       return
     }
     setGameResult([2, 2])
-  }, [playerScore, socket, id, playerInfo, playerNumber, surrenderer])
+  }, [playerScore])
 
   const gameRestart = useCallback(
     ({ fromAdmin = false }) => {
@@ -256,9 +246,20 @@ const Game: FC<GameProps> = ({
         setGridStatus(update.gridState)
         setClickNumber(update.clickNumber)
         console.log('on update from server')
+
+        if (playerInfo.userId && update.clickNumber === gridNumber) {
+          console.log('on update stat after game ends')
+          socket.emit(GameEvents.UPDATE_STATS, {
+            roomId: id,
+            userId: playerInfo.userId,
+            scoreState: update.scoreState,
+            playerNumber: playerNumber,
+            surrendererNumber: 0,
+          })
+        }
       }
     },
-    [playerNumber, playerTurn]
+    [playerNumber, playerTurn, gridNumber, playerInfo, id]
   )
 
   const onSurrenderFromServer = useCallback(

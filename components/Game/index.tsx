@@ -193,6 +193,7 @@ const Game: FC<GameProps> = ({
 
   const onGameEnd = useCallback(() => {
     if (playerInfo.userId) {
+      console.log('on update stat after game ends')
       socket.emit(GameEvents.UPDATE_STATS, {
         roomId: id,
         userId: playerInfo.userId,
@@ -262,7 +263,7 @@ const Game: FC<GameProps> = ({
 
   const onSurrenderFromServer = useCallback(
     (surrender: SurrenderState) => {
-      if (playerInfo.userId) {
+      if (playerInfo.userId && surrender.surrenderer) {
         socket.emit(GameEvents.UPDATE_STATS, {
           roomId: id,
           userId: playerInfo.userId,

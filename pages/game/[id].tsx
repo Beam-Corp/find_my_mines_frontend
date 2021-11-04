@@ -184,76 +184,84 @@ const GamePage: NextPage = () => {
             Room {query.id}
           </HeadText>
           <DecoratedBox>
-            <div>
-              <InlineInputSmall
-                name={'bomb'}
-                value={bombNumber}
-                onChange={(e) => setBombNumberTemp(e.target.valueAsNumber)}
-                label="BOMBS"
-              />
-              <Clickable
-                themeColor={theme.themeColor}
-                onClick={(e) => increment('bombNumber')}
-              >
-                +
-              </Clickable>
-              <Clickable
-                themeColor={theme.themeColor}
-                onClick={(e) => decrement('bombNumber')}
-              >
-                -
-              </Clickable>
-            </div>
-            <div>
-              <InlineInputSmall
-                name={'timer'}
-                value={initialTimer}
-                onChange={(e) => setInitialTimer(e.target.valueAsNumber)}
-                label="TIMER"
-              />
-              <Clickable
-                themeColor={theme.themeColor}
-                onClick={(e) => increment('initialTimer')}
-              >
-                +
-              </Clickable>
-              <Clickable
-                themeColor={theme.themeColor}
-                onClick={(e) => decrement('initialTimer')}
-              >
-                -
-              </Clickable>
-            </div>
-            <div>
-              <InlineInputSmall
-                name={'board'}
-                value={gridSize}
-                onChange={(e) => setGridSize(e.target.valueAsNumber)}
-                label="BOARD SIZE"
-              />
-              <Clickable
-                themeColor={theme.themeColor}
-                onClick={(e) => increment('gridSize')}
-              >
-                +
-              </Clickable>
-              <Clickable
-                themeColor={theme.themeColor}
-                onClick={(e) => decrement('gridSize')}
-              >
-                -
-              </Clickable>
-            </div>
-            <RoomButtonContainer>
-              <Button
-                themeColor={theme.themeColor}
-                size="s"
-                color={mainTheme.primary}
-                onClick={onEmitStart}
-              >
-                Start Game
-              </Button>
-            </RoomButtonContainer>
+            {(playerInfo.alias ?? playerInfo.userId)[0] === '1' ? (
+              <>
+                <div>
+                  <InlineInputSmall
+                    name={'bomb'}
+                    value={bombNumber}
+                    onChange={(e) => setBombNumberTemp(e.target.valueAsNumber)}
+                    label="BOMBS"
+                  />
+                  <Clickable
+                    themeColor={theme.themeColor}
+                    onClick={(e) => increment('bombNumber')}
+                  >
+                    +
+                  </Clickable>
+                  <Clickable
+                    themeColor={theme.themeColor}
+                    onClick={(e) => decrement('bombNumber')}
+                  >
+                    -
+                  </Clickable>
+                </div>
+                <div>
+                  <InlineInputSmall
+                    name={'timer'}
+                    value={initialTimer}
+                    onChange={(e) => setInitialTimer(e.target.valueAsNumber)}
+                    label="TIMER"
+                  />
+                  <Clickable
+                    themeColor={theme.themeColor}
+                    onClick={(e) => increment('initialTimer')}
+                  >
+                    +
+                  </Clickable>
+                  <Clickable
+                    themeColor={theme.themeColor}
+                    onClick={(e) => decrement('initialTimer')}
+                  >
+                    -
+                  </Clickable>
+                </div>
+                <div>
+                  <InlineInputSmall
+                    name={'board'}
+                    value={gridSize}
+                    onChange={(e) => setGridSize(e.target.valueAsNumber)}
+                    label="BOARD SIZE"
+                  />
+                  <Clickable
+                    themeColor={theme.themeColor}
+                    onClick={(e) => increment('gridSize')}
+                  >
+                    +
+                  </Clickable>
+                  <Clickable
+                    themeColor={theme.themeColor}
+                    onClick={(e) => decrement('gridSize')}
+                  >
+                    -
+                  </Clickable>
+                </div>
+                <RoomButtonContainer>
+                  <Button
+                    themeColor={theme.themeColor}
+                    size="s"
+                    color={mainTheme.primary}
+                    onClick={onEmitStart}
+                  >
+                    Start Game
+                  </Button>
+                </RoomButtonContainer>
+              </>
+            ) : (
+              <HeadText size={5} weight={700} themeColor={theme.themeColor}>
+                Wait for the host to start
+              </HeadText>
+            )}
           </DecoratedBox>
         </>
       )}

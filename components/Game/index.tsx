@@ -199,17 +199,27 @@ const Game: FC<GameProps> = ({
     setGameResult([2, 2])
   }, [playerScore])
 
-  const gameRestart = useCallback(() => {
-    setMounted(gameResult !== undefined)
-    socket.emit(GameEvents.RESTART, {
-      roomId: id,
-      bombNumber: bombNumber,
-      gridSize: gridSize,
-    })
-  }, [gameResult, socket, id, bombNumber, gridSize])
+  const gameRestart = useCallback(
+    ({ fromAdmin = false }) => {
+      setMounted(gameResult !== undefined)
+
+      let nextPlayerTurn
+      if (surrenderer) nextPlayerTurn = surrenderer === 1 ? 2 : 1
+      else if (fromAdmin) nextPlayerTurn = null
+      else nextPlayerTurn = playerScore[0] > playerScore[1] ? 1 : 2
+
+      socket.emit(GameEvents.RESTART, {
+        roomId: id,
+        bombNumber: bombNumber,
+        gridSize: gridSize,
+        nextPlayerTurn,
+      })
+    },
+    [gameResult, socket, id, bombNumber, gridSize, surrenderer, playerScore]
+  )
 
   const onGameRestartFromAdmin = useCallback(() => {
-    if (playerNumber === 1) gameRestart()
+    if (playerNumber === 1) gameRestart({ fromAdmin: true })
   }, [gameRestart])
 
   const onGameRestartFromServer = useCallback(

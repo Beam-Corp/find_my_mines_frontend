@@ -15,7 +15,7 @@ interface WinLoseScreenProps {
   show: boolean
   win: number | undefined
   mounted: boolean
-  restartGame?: () => void
+  restartGame?: ({ fromAdmin }: any) => void
   surrenderer: number | undefined
   playerNumber: number
   playerList: string[]

@@ -15,7 +15,7 @@ interface WinLoseScreenProps {
   show: boolean
   win: number | undefined
   mounted: boolean
-  restartGame: () => void
+  restartGame?: () => void
   surrenderer: number | undefined
   playerNumber: number
 }
@@ -34,7 +34,9 @@ const WinLoseScreen: FC<WinLoseScreenProps> = ({
     if (surrenderer) {
       return (
         <WinLose theme={themeColor}>
-          {playerNumber === surrenderer
+          {surrenderer === 2
+            ? 'The Opponent Has Disconnected'
+            : playerNumber === surrenderer
             ? 'You Have Surrendered'
             : 'The Opponent Has Surrendered'}
         </WinLose>
@@ -66,9 +68,11 @@ const WinLoseScreen: FC<WinLoseScreenProps> = ({
           {/* <WinLose>{win === 2 ? 'DRAW' : !!win ? 'WIN' : 'LOSE'}</WinLose> */}
           <GameResult />
         </Window>
-        <Button theme={themeColor} onClick={restartGame} top={'70%'}>
-          Restart
-        </Button>
+        {restartGame && (
+          <Button theme={themeColor} onClick={restartGame} top={'70%'}>
+            Restart
+          </Button>
+        )}
         <Link href="/" passHref>
           <Button theme={themeColor} top={'82%'}>
             Title

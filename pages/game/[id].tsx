@@ -9,6 +9,7 @@ import { Button } from '../../components/Button'
 import { DecoratedBox, TextContainer } from '../../components/Container'
 import Game from '../../components/Game'
 import WelcomeTutorial from '../../components/Game/WelcomeTutorial'
+import WinLoseScreen from '../../components/Game/WinLoseScreen'
 import { InlineInput, Input, InlineInputSmall } from '../../components/Inputs'
 import { ThemeColorProps } from '../../dto/themeColor.dto'
 import styles from '../../styles/Home.module.css'
@@ -89,12 +90,11 @@ const GamePage: NextPage = () => {
 
   const [openTutorial, setOpenTutorial] = useState<boolean>(false)
   const [mounted, setMounted] = useState<boolean>(false)
-  const { players } = useRoomManager(
+  const { players, isOpponentLeft } = useRoomManager(
     playerInfo.alias ?? playerInfo.userId,
     id,
     socket
   )
-
   const onGameStart = useCallback((payload: GameStartPayload) => {
     console.log('start game')
 
@@ -159,14 +159,23 @@ const GamePage: NextPage = () => {
   return (
     <>
       {isRunning ? (
-        <Game
-          players={players}
-          initialGrid={initialGrid}
-          initialTurn={initialTurn}
-          initialTimer={initialTimer}
-          bombNumber={bombNumber}
-          gridSize={gridSize}
-        />
+        <>
+          <Game
+            players={players}
+            initialGrid={initialGrid}
+            initialTurn={initialTurn}
+            initialTimer={initialTimer}
+            bombNumber={bombNumber}
+            gridSize={gridSize}
+          />
+          <WinLoseScreen
+            show={isOpponentLeft}
+            mounted={isOpponentLeft}
+            win={1}
+            playerNumber={0}
+            surrenderer={2}
+          />
+        </>
       ) : (
         <>
           <HeadText size={9} weight={900} themeColor={theme.themeColor}>

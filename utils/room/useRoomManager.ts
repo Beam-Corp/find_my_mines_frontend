@@ -13,6 +13,7 @@ export const useRoomManager = (
   socket: Socket
 ) => {
   const [players, setPlayers] = useState<string[]>([currentPlayer])
+  const [isOpponentLeft,setIsOpponentLeft] = useState(false);
   const addPlayer = useCallback(
     (name: string) => {
       setPlayers((prev) => {
@@ -23,19 +24,20 @@ export const useRoomManager = (
     },
     [setPlayers]
   )
-  const removePlayer = useCallback((name: string) => {
+  const onOpponentLeave = useCallback((name: string) => {
     setPlayers((prev) => prev.filter((n) => n !== name))
+    setIsOpponentLeft(true);
   }, [])
   const onDisconnect = useCallback(() => {
     socket.emit(RoomEvents.ON_LEAVE, { roomId, username: currentPlayer })
     router.push('/')
   }, [currentPlayer, roomId, socket])
   useEffect(() => {
-    socket.on(RoomEvents.LEAVE, removePlayer)
+    socket.on(RoomEvents.LEAVE, onOpponentLeave)
     return () => {
-      socket.off(RoomEvents.LEAVE, removePlayer)
+      socket.off(RoomEvents.LEAVE, onOpponentLeave)
     }
-  }, [socket, players, removePlayer])
+  }, [socket, players, onOpponentLeave])
 
   useEffect(() => {
     if (players.length < 2) socket.on(RoomEvents.INTRODUCE, addPlayer)
@@ -47,5 +49,5 @@ export const useRoomManager = (
   useEffect(() => {
     socket.emit(RoomEvents.INTRODUCE, { roomId, username: currentPlayer })
   }, [players, socket, roomId, currentPlayer])
-  return { players, onDisconnect }
+  return { players, onDisconnect, isOpponentLeft}
 }

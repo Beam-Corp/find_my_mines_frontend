@@ -79,6 +79,7 @@ const CreateRoom: NextPage = () => {
     try {
       socket.emit(RoomEvents.ON_CREATE)
     } catch (err) {
+      setSplash(false)
       //TODO: handle error
       alert('Cannot join this room')
       console.log(err)

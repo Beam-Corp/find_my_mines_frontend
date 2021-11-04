@@ -173,7 +173,9 @@ const GamePage: NextPage = () => {
             mounted={isOpponentLeft}
             win={1}
             playerNumber={0}
-            surrenderer={2}
+            playerList={players}
+            playerScore={[0, 0]}
+            surrenderer={3}
           />
         </>
       ) : (

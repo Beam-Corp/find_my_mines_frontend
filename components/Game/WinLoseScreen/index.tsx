@@ -40,11 +40,22 @@ const WinLoseScreen: FC<WinLoseScreenProps> = ({
     if (surrenderer) {
       return (
         <WinLose theme={themeColor}>
-          {surrenderer === 2
-            ? 'The Opponent Has Disconnected'
-            : playerNumber === surrenderer
-            ? 'You Have Surrendered'
-            : 'The Opponent Has Surrendered'}
+          {surrenderer === 3 && 'The Opponent Has Disconnected'}
+          {playerNumber === surrenderer ? (
+            <>
+              You Have Surrendered <br /> Winner:{' '}
+              {playerList[(playerIndex + 1) % 2]}
+              <br /> Score: {playerScore[playerIndex]} -
+              {playerScore[(playerIndex + 1) % 2]}
+            </>
+          ) : (
+            <>
+              Opponent Has Surrendered
+              <br /> Winner: {playerList[playerIndex]}
+              <br /> Score: {playerScore[playerIndex]} -
+              {playerScore[(playerIndex + 1) % 2]}
+            </>
+          )}
         </WinLose>
       )
     }

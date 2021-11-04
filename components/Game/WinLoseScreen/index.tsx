@@ -99,7 +99,7 @@ const WinLoseScreen: FC<WinLoseScreenProps> = ({
           {/* <WinLose>{win === 2 ? 'DRAW' : !!win ? 'WIN' : 'LOSE'}</WinLose> */}
           <GameResult />
         </Window>
-        {restartGame && (
+        {restartGame && playerNumber === 1 && (
           <Button theme={themeColor} onClick={restartGame} top={'70%'}>
             Restart
           </Button>

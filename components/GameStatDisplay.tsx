@@ -16,6 +16,7 @@ const ControllerContainer = styled(Row)<{
   themeColor: ThemeColorProps
 }>`
   position: absolute;
+  z-index: 999;
 
   display: flex;
   justify-content: space-around;
@@ -58,7 +59,7 @@ const GameStatDisplay: FC<ControllerProps> = () => {
 
   const getStats = useCallback(async () => {
     const playerData = await client.get(
-      `/player/stats?userId=${playerInfo.userId.substring(2)}`
+      `/player/stats?userId=${playerInfo.userId}`
     )
     console.log(playerData.data)
     setStat(playerData.data.statistics)
@@ -73,9 +74,7 @@ const GameStatDisplay: FC<ControllerProps> = () => {
   return (
     <>
       <ControllerContainer themeColor={themeColor} hide={hide}>
-        <TextContainer size={4}>
-          {playerInfo?.userId?.substring(2)}
-        </TextContainer>
+        <TextContainer size={4}>{playerInfo?.userId}</TextContainer>
         <TextContainer size={4}>
           W/D/L: {stat.winCount}/{stat.drawCount}/{stat.loseCount}
         </TextContainer>

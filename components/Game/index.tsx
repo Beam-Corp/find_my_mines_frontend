@@ -31,8 +31,6 @@ import PlayerPanel from './PlayerPanel'
 import Timer from './Timer'
 import WinLoseScreen from './WinLoseScreen'
 
-import SplashScreen from './SplashScreen'
-
 const GameContainer = styled(Column)`
   width: 100%;
 `

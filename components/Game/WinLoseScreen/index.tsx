@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useMemo } from 'react'
 
 import Link from 'next/link'
 
@@ -34,6 +34,8 @@ const WinLoseScreen: FC<WinLoseScreenProps> = ({
 }) => {
   const { themeColor } = useThemeContext()
 
+  const playerIndex = useMemo(() => playerNumber - 1, [playerNumber])
+
   const GameResult = () => {
     if (surrenderer) {
       return (
@@ -56,12 +58,12 @@ const WinLoseScreen: FC<WinLoseScreenProps> = ({
       }
       case 1: {
         gameResult = 'YOU WIN'
-        winner = playerList[playerNumber - 1]
+        winner = playerList[playerIndex]
         break
       }
       case 0: {
         gameResult = 'YOU LOSE'
-        winner = playerList[(playerNumber - 1 + 1) % 2]
+        winner = playerList[(playerIndex + 1) % 2]
         break
       }
     }
@@ -72,8 +74,7 @@ const WinLoseScreen: FC<WinLoseScreenProps> = ({
         <br />
         Winner: {winner}
         <br />
-        Score: {playerScore[playerNumber - 1]}-
-        {playerScore[(playerNumber - 1 + 1) % 2]}
+        Score: {playerScore[playerIndex]}-{playerScore[(playerIndex + 1) % 2]}
       </WinLose>
     )
   }

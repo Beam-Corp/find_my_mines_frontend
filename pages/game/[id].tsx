@@ -252,6 +252,7 @@ const GamePage: NextPage = () => {
                     size="s"
                     color={mainTheme.primary}
                     onClick={onEmitStart}
+                    disabled={players.length !== 2}
                   >
                     Start Game
                   </Button>

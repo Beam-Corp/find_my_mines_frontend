@@ -42,11 +42,7 @@ const ResetGame: FC<ResetGameProps> = ({ roomList }) => {
       return setErrorStatus(ErrorStatus.notFound)
     }
     setErrorStatus(undefined)
-    socket.emit(GameEvents.RESTART, {
-      roomId: roomId,
-      bombNumber: 11,
-      gridSize: 6,
-    })
+    socket.emit(GameEvents.ADMIN_RESTART, roomId)
   }, [
     roomId,
     socket,

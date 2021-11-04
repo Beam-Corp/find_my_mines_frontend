@@ -103,7 +103,10 @@ const Game: FC<GameProps> = ({
 
   const [initialGrids, setInitialGrids] = useState<number[][]>(initialGrid)
 
-  const gridNumber = gridStatus.length * gridStatus[0].length
+  const gridNumber = useMemo(
+    () => gridStatus.length * gridStatus.length,
+    [gridStatus]
+  )
 
   const startTimer = useCallback(() => {
     const timeout = setInterval(() => {
@@ -205,13 +208,17 @@ const Game: FC<GameProps> = ({
     })
   }, [gameResult, socket, id, bombNumber, gridSize])
 
+  const onGameRestartFromAdmin = useCallback(() => {
+    if (playerNumber === 1) gameRestart()
+  }, [gameRestart])
+
   const onGameRestartFromServer = useCallback(
     (update: GameState) => {
       setPlayerScore(update.scoreState)
       setPlayerTurn(update.playerTurn)
-      setInitialGrids(update.gridState)
       setClickNumber(update.clickNumber)
-      setGridStatus(generateBlankGrid(initialGrid.length))
+      setGridStatus(generateBlankGrid(update.gridState.length))
+      setInitialGrids(update.gridState)
       setGameResult(undefined)
       setSurrenderer(undefined)
       setClickNumber(0)
@@ -257,11 +264,13 @@ const Game: FC<GameProps> = ({
     socket.on(GameEvents.ON_TIME_UP, onUpdateFromServer)
     socket.on(GameEvents.ON_SURRENDER, onSurrenderFromServer)
     socket.on(GameEvents.ON_RESTART, onGameRestartFromServer)
+    socket.on(GameEvents.ON_ADMIN_RESTART, onGameRestartFromAdmin)
     return () => {
       socket.off(GameEvents.ON_SELECTED, onUpdateFromServer)
       socket.off(GameEvents.ON_TIME_UP, onUpdateFromServer)
       socket.off(GameEvents.ON_SURRENDER, onSurrenderFromServer)
       socket.off(GameEvents.ON_RESTART, onGameRestartFromServer)
+      socket.off(GameEvents.ON_ADMIN_RESTART, onGameRestartFromAdmin)
     }
   }, [
     onUpdateFromServer,

@@ -72,6 +72,7 @@ export const Clickable = styled.span<{
 export interface GameStartPayload {
   gridState: number[][]
   playerTurn: number
+  initialTimer: number
 }
 
 const GamePage: NextPage = () => {
@@ -100,6 +101,7 @@ const GamePage: NextPage = () => {
 
     setInitialGrid(payload.gridState)
     setInitialTurn(payload.playerTurn)
+    setInitialTimer(payload.initialTimer)
     setRunning(true)
   }, [])
 
@@ -108,8 +110,9 @@ const GamePage: NextPage = () => {
       roomId: query.id,
       bombNumber: bombNumber,
       gridSize: gridSize,
+      initialTimer: initialTimer,
     })
-  }, [socket, query, bombNumber, gridSize])
+  }, [socket, query, bombNumber, gridSize, initialTimer])
 
   const onCloseTutorial = useCallback(() => {
     setOpenTutorial(false)

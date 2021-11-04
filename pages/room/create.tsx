@@ -14,6 +14,7 @@ import { useThemeContext } from '../../useContext/useThemeContext'
 import { RoomEvents } from '../../utils/room/room.event'
 import { SocketContext } from '../../utils/socketUtils'
 import { usePlayerContext } from '../../utils/usePlayerContext'
+import SplashScreen from '../../components/Game/SplashScreen'
 
 export const RoomWrapper = styled.div`
   margin: 20px 0 0 0;
@@ -46,8 +47,11 @@ const CreateRoom: NextPage = () => {
   const { themeColor } = useThemeContext()
 
   const [hostName, setHostName] = useState('')
+  const [splash, setSplash] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
   const onGetRoomId = useCallback(
-    (id: string) => {
+    async (id: string) => {
       setPlayer((prev) => {
         if (!!prev.userId) {
           const playerPrefix = prev.userId[0] + prev.userId[1]
@@ -71,6 +75,7 @@ const CreateRoom: NextPage = () => {
     [router, setPlayer, hostName]
   )
   const onCreate = useCallback(() => {
+    setSplash(true)
     try {
       socket.emit(RoomEvents.ON_CREATE)
     } catch (err) {
@@ -79,6 +84,10 @@ const CreateRoom: NextPage = () => {
       console.log(err)
     }
   }, [socket])
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
   useEffect(() => {
     socket.on(RoomEvents.CREATE, onGetRoomId)
     return () => {
@@ -88,6 +97,7 @@ const CreateRoom: NextPage = () => {
 
   return (
     <>
+      <SplashScreen show={splash} mounted={mounted} />
       <ReturnButtonContainer>
         <Link href="/" passHref>
           <Button size="s" themeColor={themeColor}>

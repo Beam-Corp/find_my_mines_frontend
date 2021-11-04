@@ -14,6 +14,7 @@ import { RoomEvents } from '../../utils/room/room.event'
 import { SocketContext } from '../../utils/socketUtils'
 import { usePlayerContext } from '../../utils/usePlayerContext'
 import { HeadText, RoomButtonContainer, ReturnButtonContainer } from './create'
+import SplashScreen from '../../components/Game/SplashScreen'
 
 const JoinRoom: NextPage = () => {
   const router = useRouter()
@@ -22,11 +23,15 @@ const JoinRoom: NextPage = () => {
   const { themeColor } = useThemeContext()
   const [playerName, setPlayerName] = useState<string>('')
   const [roomId, setRoomId] = useState('')
+  const [splash, setSplash] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
   const onGetRoomId = useCallback(
     (id: string) => router.push(`/game/${id}`),
     [router]
   )
   const onJoin = useCallback(() => {
+    setSplash(true)
     try {
       setPlayer((prev) => {
         if (!!prev.userId) {
@@ -53,6 +58,10 @@ const JoinRoom: NextPage = () => {
       console.log(err)
     }
   }, [roomId, socket, setPlayer, playerName])
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
   useEffect(() => {
     socket.on(RoomEvents.JOIN, onGetRoomId)
     return () => {
@@ -62,6 +71,7 @@ const JoinRoom: NextPage = () => {
 
   return (
     <>
+      <SplashScreen show={splash} mounted={mounted} />
       <ReturnButtonContainer>
         <Link href="/" passHref>
           <Button size="s" themeColor={themeColor}>

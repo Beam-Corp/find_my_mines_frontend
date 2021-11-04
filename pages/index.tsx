@@ -1,13 +1,12 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
+import SplashScreen from '../components/Game/SplashScreen'
 import TitlePage from '../components/Game/TitlePage'
 import GameStatDisplay from '../components/GameStatDisplay'
-
 import { SocketContext } from '../utils/socketUtils'
-import SplashScreen from '../components/Game/SplashScreen'
 
 const Home: NextPage = () => {
   return (

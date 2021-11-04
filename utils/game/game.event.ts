@@ -8,6 +8,7 @@ export enum GameEvents {
   RESTART = 'restart',
   ADMIN_RESTART = 'admin-restart',
   SEND_MESSAGE = 'send-message',
+  UPDATE_STATS = 'update-stats',
 
   // server to client
   ON_STARTED = 'on-started',

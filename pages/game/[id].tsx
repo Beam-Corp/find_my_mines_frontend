@@ -184,7 +184,10 @@ const GamePage: NextPage = () => {
             Room {query.id}
           </HeadText>
           <DecoratedBox>
-            {(playerInfo.alias ?? playerInfo.userId)[0] === '1' ? (
+            {(playerInfo.alias
+              ? playerInfo.alias
+              : playerInfo.userId
+            )?.substring(0, 1) === '1' ? (
               <>
                 <div>
                   <InlineInputSmall

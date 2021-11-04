@@ -25,11 +25,11 @@ import useWindowDimensions from '../../utils/useDimensions'
 import { usePlayerContext } from '../../utils/usePlayerContext'
 import { Row, Column } from '../Container'
 import ActionButtons from './ActionButtons'
+import ChatBox from './ChatBox'
 import Grid from './Grid'
 import PlayerPanel from './PlayerPanel'
 import Timer from './Timer'
 import WinLoseScreen from './WinLoseScreen'
-import ChatBox from './ChatBox'
 
 const GameContainer = styled(Column)`
   width: 100%;
@@ -337,7 +337,10 @@ const Game: FC<GameProps> = ({
           />
         )}
       </GameRow>
-      <ChatBox theOpponentName={players[1]} roomId={typeof(id) === 'string' ? id : ''} />
+      <ChatBox
+        theOpponentName={players[playerNumber % 2]}
+        roomId={typeof id === 'string' ? id : ''}
+      />
       {!surrenderer && <ActionButtons onSurrender={surrender} />}
       <WinLoseScreen
         show={!!gameResult || !!surrenderer}

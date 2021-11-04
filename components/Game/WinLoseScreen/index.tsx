@@ -43,8 +43,8 @@ const WinLoseScreen: FC<WinLoseScreenProps> = ({
           {surrenderer === 3 && 'The Opponent Has Disconnected'}
           {playerNumber === surrenderer ? (
             <>
-              You Have Surrendered <br /> Winner:{' '}
-              {playerList[(playerIndex + 1) % 2]}
+              You Have Surrendered
+              <br /> Winner: {playerList[(playerIndex + 1) % 2]}
               <br /> Score: {playerScore[playerIndex]} -
               {playerScore[(playerIndex + 1) % 2]}
             </>

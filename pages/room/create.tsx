@@ -51,7 +51,7 @@ const CreateRoom: NextPage = () => {
   const [mounted, setMounted] = useState(false)
 
   const onGetRoomId = useCallback(
-    async (id: string) => {
+    (id: string) => {
       setPlayer((prev) => {
         if (!!prev.userId) {
           const playerPrefix = prev.userId[0] + prev.userId[1]

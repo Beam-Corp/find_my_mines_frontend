@@ -90,11 +90,8 @@ const Game: FC<GameProps> = ({
 
   const [playerScore, setPlayerScore] = useState<number[]>([0, 0])
 
-
   const [mounted, setMounted] = useState<boolean>(false)
   const [clickNumber, setClickNumber] = useState<number>(0)
-
-  // const [gameOver, setGameOver] = useState<boolean>(false)
 
   const [gridStatus, setGridStatus] = useState<number[][]>(
     generateBlankGrid(initialGrid.length)
@@ -110,7 +107,7 @@ const Game: FC<GameProps> = ({
     () => gridStatus.length * gridStatus.length,
     [gridStatus]
   )
-  
+
   const [splash, setSplash] = useState<boolean>(true)
 
   const startTimer = useCallback(() => {
@@ -341,7 +338,6 @@ const Game: FC<GameProps> = ({
 
   return (
     <GameContainer>
-      {/* <WinLoseScreen show={gameOver} win={true} mounted={mounted} restartGame={() => {}} toTitle={() => {}}/> */}
       <Timer time={time} isYourTurn={playerTurn === playerNumber} />
       <GameRow>
         {isMobile ? (

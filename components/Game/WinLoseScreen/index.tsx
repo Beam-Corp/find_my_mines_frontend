@@ -18,6 +18,8 @@ interface WinLoseScreenProps {
   restartGame?: () => void
   surrenderer: number | undefined
   playerNumber: number
+  playerList: string[]
+  playerScore: number[]
 }
 
 const WinLoseScreen: FC<WinLoseScreenProps> = ({
@@ -27,6 +29,8 @@ const WinLoseScreen: FC<WinLoseScreenProps> = ({
   restartGame,
   surrenderer,
   playerNumber,
+  playerList,
+  playerScore,
 }) => {
   const { themeColor } = useThemeContext()
 
@@ -43,21 +47,35 @@ const WinLoseScreen: FC<WinLoseScreenProps> = ({
       )
     }
     let gameResult
+    let winner
     switch (win) {
       case 2: {
         gameResult = 'DRAW'
+        winner = 'None'
         break
       }
       case 1: {
         gameResult = 'YOU WIN'
+        winner = playerList[playerNumber - 1]
         break
       }
       case 0: {
         gameResult = 'YOU LOSE'
+        winner = playerList[(playerNumber - 1 + 1) % 2]
         break
       }
     }
-    return <WinLose theme={themeColor}>{gameResult}</WinLose>
+
+    return (
+      <WinLose theme={themeColor}>
+        {gameResult}
+        <br />
+        Winner: {winner}
+        <br />
+        Score: {playerScore[playerNumber - 1]}-
+        {playerScore[(playerNumber - 1 + 1) % 2]}
+      </WinLose>
+    )
   }
 
   return (

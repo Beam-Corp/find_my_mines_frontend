@@ -345,6 +345,8 @@ const Game: FC<GameProps> = ({
         mounted={mounted}
         restartGame={gameRestart}
         playerNumber={playerNumber}
+        playerList={players}
+        playerScore={playerScore}
         surrenderer={surrenderer}
       />
     </GameContainer>

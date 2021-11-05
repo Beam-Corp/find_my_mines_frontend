@@ -38,7 +38,7 @@ const Admin: NextPage = () => {
 
   const onGetPlayers = useCallback((res: GetPlayersResp) => {
     console.log(res)
-    setCurrentPlayerNumber(res.current - 2) // minus 2 because of admin's connection
+    setCurrentPlayerNumber(res.current - 1) // minus 1 because of admin's connection
     setRoomLists(res.roomList)
   },[])
   useEffect(() => {
